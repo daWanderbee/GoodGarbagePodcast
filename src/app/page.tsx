@@ -1,12 +1,15 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import Image from "next/image";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { Hero } from "@/components/Hero";
 import { LatestEpisode } from "@/components/LatestEpisode";
+import { ScrollingMarquee } from "@/components/ScrollingMarquee";
+import { AboutPodcast } from "@/components/AboutPodcast";
 import { PlatformLinks } from "@/components/PlatformLinks";
-import { Button } from "@/components/ui/Button";
+import { CollaborationCTA } from "@/components/CollaborationCTA";
+import { Newsletter } from "@/components/Newsletter";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -31,27 +34,37 @@ export default function Home() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Section 2: Latest Episode (0.3 - 1.0)
-  const latestOpacity = useTransform(smoothScroll, [0.3, 0.5, 0.9, 1.0], [0, 1, 1, 1]);
-  const latestScale = useTransform(smoothScroll, [0.3, 0.5], [0.95, 1]);
-
   return (
-    <div className="bg-background">
-      <div ref={containerRef} className="relative h-[350vh]">
-        {/* Hero Section Component */}
+    <div className="bg-background relative">
+      {/* 1. Hero Container: Tightened scroll-jacking height for a seamless transition */}
+      <div ref={containerRef} className="relative h-[150vh]">
         <Hero
           rawScroll={rawScroll}
           smoothScroll={smoothScroll}
           isMobile={isMobile}
         />
-
-        {/* Latest Episode Section Component */}
-        <LatestEpisode 
-          opacity={latestOpacity}
-          scale={latestScale}
-          smoothScroll={smoothScroll}
-        />
       </div>
+
+      {/* 2. Latest Episode Section (Normal Vertical Flow) */}
+      <LatestEpisode />
+
+      {/* 3. Scrolling Marquee Section (Normal Flow) */}
+      <ScrollingMarquee />
+
+      {/* 4. Platform Links Section Component (Standard Scroll) */}
+      <PlatformLinks />
+
+      {/* 5. About the Podcast Section */}
+      <AboutPodcast />
+
+      {/* 6. Collaboration CTA Section */}
+      <CollaborationCTA />
+
+      {/* 7. Newsletter Section */}
+      <Newsletter />
+
+      {/* 8. Simple Footer Section */}
+      <Footer />
 
       {/* Scroll Progress Indicator (Right Side) */}
       <div className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 h-40 w-[2px] bg-black/10 z-[100] overflow-hidden rounded-full">
@@ -60,9 +73,6 @@ export default function Home() {
           className="w-full h-full bg-black origin-top"
         />
       </div>
-
-      {/* Platform Links Section Component (Standard Scroll) */}
-      <PlatformLinks />
     </div>
   );
 }

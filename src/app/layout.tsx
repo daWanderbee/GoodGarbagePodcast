@@ -29,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${lustria.variable} ${lato.variable}`}>
-      <body className="antialiased font-sans">
+    <html lang="en" className={`${lustria.variable} ${lato.variable}`} suppressHydrationWarning>
+      <body className="antialiased font-sans relative">
         <div className="grain-overlay" />
         <Navbar />
         {children}

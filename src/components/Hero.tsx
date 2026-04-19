@@ -11,132 +11,122 @@ interface HeroProps {
 }
 
 export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
-  // Tree Animation (Using smoothScroll for inertia)
-  const treeScale = useTransform(smoothScroll, [0, 0.8], [1, 12]);
-  const treeOpacity = useTransform(smoothScroll, [0.5, 0.7], [1, 0]);
-  const treeLeftX = useTransform(smoothScroll, [0, 0.8], ["0%", "-30%"]);
-  const treeRightX = useTransform(smoothScroll, [0, 0.8], ["0%", "30%"]);
-  const treeY = useTransform(smoothScroll, [0, 0.8], ["0%", "-20%"]);
+  // Tree Animation (Reduced scale and tighter movement)
+  const treeScale = useTransform(smoothScroll, [0, 1.0], [1, 2.8]);
+  const treeOpacity = useTransform(smoothScroll, [0.8, 1.0], [1, 0]);
+  const treeLeftX = useTransform(smoothScroll, [0, 1.0], ["0%", "-20%"]);
+  const treeRightX = useTransform(smoothScroll, [0, 1.0], ["0%", "20%"]);
+  const treeY = useTransform(smoothScroll, [0, 1.0], ["0%", "-15%"]);
 
-  // Bush Animation (Using smoothScroll for inertia)
-  const bushScale = useTransform(smoothScroll, [0, 0.8], [1, 15]);
-  const bushOpacity = useTransform(smoothScroll, [0.5, 0.7], [1, 0]);
+  // Bush Animation (Reduced scale)
+  const bushScale = useTransform(smoothScroll, [0, 1.0], [1, 3.5]);
+  const bushOpacity = useTransform(smoothScroll, [0.8, 1.0], [1, 0]);
 
-  // Background Animation (Using smoothScroll for inertia)
-  const bgScale = useTransform(smoothScroll, [0, 0.8], [1, 2]);
-  const bgOpacity = useTransform(smoothScroll, [0.5, 0.7], [1, 0]);
+  // Background Animation
+  const bgScale = useTransform(smoothScroll, [0, 1.0], [1, 1.4]);
+  const bgOpacity = useTransform(smoothScroll, [0.8, 1.0], [1, 0]);
 
-  // Text Animation (Now using smoothScroll for consistent inertia)
-  const textScale = useTransform(smoothScroll, [0, 0.6], [1, 2]);
-  const textOpacity = useTransform(smoothScroll, [0, 0.4, 0.6], [1, 1, 0]);
-  const textY = 0; // Removed offset to ensure perfect vertical centering on all devices
+  // Text Animation
+  const textScale = useTransform(smoothScroll, [0, 0.8], [1, 1.5]);
+  const textOpacity = useTransform(smoothScroll, [0, 0.6, 1.0], [1, 1, 0]);
 
   return (
-    <div className="sticky top-0 h-screen w-full overflow-hidden">
-      {/* Background Layer */}
+    <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#B0DDD0]">
+      {/* Background Layer (90% Sky) */}
       <motion.div
         style={{ scale: bgScale, opacity: bgOpacity }}
         className="absolute inset-0 z-0"
       >
         <Image
-          src="/images/hero/bg.png"
-          alt="Misty Forest Background"
+          src="/images/hero/bg_mint.png"
+          alt="Mint Aesthetic Sky"
           fill
-          className="object-cover opacity-80"
+          sizes="100vw"
+          className="object-cover"
+          priority
         />
       </motion.div>
 
       {/* Center Content: GOOD GARBAGE PODCAST */}
+      {/* Center Content: Centered Flex Group */}
       <motion.div
         style={{
           scale: textScale,
           opacity: textOpacity,
-          y: textY
         }}
-        className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4"
+        className="absolute inset-0 z-20 flex items-center justify-center px-4 md:px-12"
       >
-        <div className="p-main-world__logo__inner -inview -stable flex flex-col items-center">
-          <h1 className="text-4xl md:text-7xl font-serif text-black tracking-tighter leading-none mb-4 drop-shadow-sm">
-            Good Garbage <br />
-            <span className="opacity-70">Podcast</span>
-          </h1>
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-8 gap-y-2 mt-2">
-            <div className="flex items-center gap-2">
-              <span className="font-sans text-black font-black text-sm uppercase tracking-widest">50+ Episodes</span>
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-4 max-w-7xl">
+          {/* Text Container - Centered on Heading Pivot */}
+          <div className="p-main-world__logo__inner -inview -stable flex flex-col items-center lg:items-start text-center lg:text-left relative">
+            {/* Mobile/Tablet Host Image (Pivoted above heading) */}
+            <div className="lg:hidden absolute bottom-full left-1/2 -translate-x-1/2 w-36 h-36 md:w-56 md:h-56 mb-12">
+              <Image
+                src="/images/hero/host_mobile.png"
+                alt="Podcast Host"
+                width={250}
+                height={250}
+                className="w-full h-full object-contain filter drop-shadow-xl"
+                priority
+              />
             </div>
-            <div className="flex items-center gap-2">
-              <span className="font-sans text-black font-black text-sm uppercase tracking-widest">1000+ Listeners</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-sans text-black font-black text-sm uppercase tracking-widest">35+ Guests</span>
+
+            <h1 className="text-[10vw] lg:text-[6vw] font-serif text-black tracking-tighter leading-[0.85] drop-shadow-sm">
+              Good Garbage <br />
+              <span className="opacity-70 italic">Talk</span>
+            </h1>
+
+            {/* Mobile/Tablet Byline (Pivoted below heading) */}
+            <div className="lg:static absolute top-[105%] left-0 w-full flex flex-col items-center lg:items-start lg:mt-6">
+              <div className="flex flex-wrap items-center lg:items-start justify-center lg:justify-start gap-y-2 mb-0 lg:mb-10 w-full max-w-xl">
+                <span className="font-serif leading-[1.4] text-black/80 font-normal text-[2.5vw] md:text-[1.8vw] lg:text-[1.1vw] tracking-tight">
+                  Here at the good garbage podcast we are making the world brighter with the power of garbage. This podcast is a celebration of all things garbage and the people who make it happen.
+                </span>
+              </div>
+
+              <div className="lg:self-start mt-0">
+                <PodcastButton episodeName="A Fresh Start" size="sm" />
+              </div>
             </div>
           </div>
 
-          <PodcastButton episodeName="The Hidden Value of Waste" />
+          {/* Host Face Art (Fluid Sizing) - Brining closer */}
+          <div className="hidden lg:block w-[24vw] h-[24vw] relative shrink-0">
+            <Image
+              src="/images/hero/host.png"
+              alt="Podcast Host"
+              width={600}
+              height={600}
+              className="w-full h-full object-contain filter drop-shadow-2xl"
+              priority
+            />
+          </div>
         </div>
       </motion.div>
 
-      {/* Mid-ground: Trees (Left & Right) */}
-      <div className="absolute inset-0 z-30 pointer-events-none">
-        <div className="relative w-full h-full">
-          <motion.div
-            style={{
-              scale: treeScale,
-              opacity: treeOpacity,
-              x: isMobile ? treeLeftX : 0,
-              y: isMobile ? treeY : 0
-            }}
-            className="absolute left-[-99%] md:left-[-70%] lg:left-[-25%] top-[-90px] h-[120%] w-auto"
-          >
-            <Image
-              src="/images/hero/treeLeft.png"
-              alt="Tree Left"
-              width={800}
-              height={1080}
-              className="h-full w-auto object-contain object-left"
-            />
-          </motion.div>
-          <motion.div
-            style={{
-              scale: treeScale,
-              opacity: treeOpacity,
-              x: isMobile ? treeRightX : 0,
-              y: isMobile ? treeY : 0
-            }}
-            className="absolute right-[-99%] md:right-[-70%] lg:right-[-25%] top-[-90px] h-[120%] w-auto"
-          >
-            <Image
-              src="/images/hero/treeRight.png"
-              alt="Tree Right"
-              width={800}
-              height={1080}
-              className="h-full w-auto object-contain object-right"
-            />
-          </motion.div>
-        </div>
-      </div>
 
-      {/* Foreground: Bushes (Left & Right) */}
+
+      {/* Foreground: Bushes (Pinned to Corners) */}
       <motion.div
         style={{ scale: bushScale, opacity: bushOpacity }}
-        className="absolute inset-0 z-40 pointer-events-none"
+        className="absolute inset-0 z-40 pointer-events-none flex justify-between items-end p-0"
       >
-        <div className="relative w-full h-full">
-          <Image
-            src="/images/hero/BushLeft.png"
-            alt="Bush Left"
-            width={1000}
-            height={500}
-            className="absolute left-[-15%] bottom-[-20%] w-[60%] h-auto object-contain object-bottom-left"
-          />
-          <Image
-            src="/images/hero/BushRight.png"
-            alt="Bush Right"
-            width={1000}
-            height={500}
-            className="absolute right-[-15%] bottom-[-20%] w-[60%] h-auto object-contain object-bottom-right"
-          />
-        </div>
+        <Image
+          src="/images/hero/BushLeft.png"
+          alt="Bush Left"
+          width={600}
+          height={300}
+          className="w-[35%] h-auto object-contain object-bottom-left"
+          priority
+        />
+        <Image
+          src="/images/hero/BushRight.png"
+          alt="Bush Right"
+          width={600}
+          height={300}
+          className="w-[35%] h-auto object-contain object-bottom-right"
+          priority
+        />
       </motion.div>
 
       {/* Scroll Indicator */}

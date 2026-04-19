@@ -1,83 +1,88 @@
 "use client";
 
-import { motion, useTransform, MotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "./ui/Button";
 
-interface LatestEpisodeProps {
-  opacity: MotionValue<number>;
-  scale: MotionValue<number>;
-  smoothScroll: MotionValue<number>;
-}
-
-export function LatestEpisode({ opacity, scale, smoothScroll }: LatestEpisodeProps) {
+export function LatestEpisode() {
   return (
-    <motion.div 
-      style={{ 
-        opacity, 
-        scale,
-        pointerEvents: useTransform(smoothScroll, (v) => (v > 0.3 && v < 0.7) ? "auto" : "none")
-      }}
-      className="sticky top-0 h-screen w-full z-50 bg-background flex items-center justify-center p-6 md:p-12 overflow-hidden"
-    >
-      <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-24 items-center mt-12 md:mt-0">
-        
+    <section className="relative w-full py-24 md:py-32 bg-background flex items-center justify-center p-6 md:p-12 overflow-hidden">
+      <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+
         {/* Left Side: Large Title and Featured Image */}
-        <div className="space-y-4 md:space-y-8">
+        <div className="space-y-8 md:space-y-12">
           <div className="relative">
-            <h2 className="text-3xl md:text-8xl font-serif text-black leading-[0.9] tracking-tighter">
+            <h2 className="text-4xl md:text-8xl font-serif text-black leading-[0.9] tracking-tighter">
               Latest <br /> <span className="opacity-40 italic">Episode</span>
             </h2>
           </div>
-          
-          <motion.div 
-            initial={{ x: -20, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            className="relative aspect-video lg:aspect-[4/3] rounded-2xl overflow-hidden shadow-xl group max-h-[25vh] lg:max-h-none"
+
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="relative aspect-video lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group"
           >
-            <Image 
+            <Image
               src="/images/episodes/latest.png"
               alt="Latest Episode Thumbnail"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover group-hover:scale-105 transition-transform duration-700"
             />
           </motion.div>
         </div>
 
         {/* Right Side: Content and CTA */}
-        <div className="space-y-6 lg:pt-12">
-          <div className="space-y-2 md:space-y-4">
-            <span className="text-[9px] uppercase font-black tracking-[0.3em] text-accent">Feature Section</span>
-            <h3 className="text-2xl md:text-5xl font-serif text-black leading-tight">The Hidden Value <br /> of Waste</h3>
-            <p className="text-xs md:text-lg text-black/70 leading-relaxed max-w-lg">
-              Exploring how discarded materials can be transformed into high-value resources.
+        <div className="space-y-8 lg:pt-24">
+          <div className="space-y-4 md:space-y-6">
+            <div className="inline-block px-3 py-1 rounded-full border border-black/10 text-[10px] uppercase font-black tracking-widest text-[#1C7767]">
+              New Release
+            </div>
+            <h3 className="text-3xl md:text-6xl font-serif text-black leading-tight tracking-tight">
+              The Hidden Value <br /> of <span className="italic opacity-60">Waste</span>
+            </h3>
+            <p className="text-sm md:text-xl text-black/70 leading-relaxed max-w-lg font-sans">
+              Exploring how discarded materials can be transformed into high-value resources and sustainable creative solutions.
             </p>
           </div>
 
-          <div className="space-y-4 md:space-y-6 pt-4 border-t border-black/5">
-            <div className="flex items-center gap-8 md:gap-12">
+          <div className="space-y-6 pt-8 border-t border-black/10">
+            <div className="flex items-center gap-12 md:gap-16">
               <div>
-                <p className="text-[8px] uppercase font-bold text-black/40 mb-1">Guest</p>
-                <p className="text-[11px] md:text-[13px] font-black text-black">Dr. Sarah Jenkins</p>
+                <p className="text-[10px] uppercase font-bold text-black/40 mb-2 tracking-widest">Guest</p>
+                <p className="text-sm md:text-lg font-black text-black">Dr. Sarah Jenkins</p>
               </div>
               <div>
-                <p className="text-[8px] uppercase font-bold text-black/40 mb-1">Duration</p>
-                <p className="text-[11px] md:text-[13px] font-black text-black">45 mins</p>
+                <p className="text-[10px] uppercase font-bold text-black/40 mb-2 tracking-widest">Duration</p>
+                <p className="text-sm md:text-lg font-black text-black">45 mins</p>
               </div>
             </div>
 
-            <div className="pt-2">
-              <Button variant="accent" className="!px-8 !h-11 md:!h-14 group !text-[10px] md:!text-sm">
+            <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <Button 
+                variant="accent" 
+                className="!px-10 !h-14 md:!h-16 !text-xs md:!text-sm uppercase tracking-widest shadow-xl hover:shadow-2xl transition-all"
+              >
                 Play Episode
-                <div className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center bg-white/20 rounded-full ml-3">
-                  <div className="w-0 h-0 border-l-[6px] md:border-l-[8px] border-l-white border-y-[4px] md:border-y-[5px] border-y-transparent ml-1" />
-                </div>
+                <span className="ml-3">▶</span>
               </Button>
+              
+              <Link href="/episodes">
+                <Button 
+                  variant="outline" 
+                  className="!px-10 !h-14 md:!h-16 !text-xs md:!text-sm border-black/20 hover:bg-black/5 uppercase tracking-widest"
+                >
+                  View All Episodes
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
 
       </div>
-    </motion.div>
+    </section>
   );
 }
