@@ -26,32 +26,32 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="bg-[#B0DDD0] pt-20 pb-10 px-6 md:px-12 border-t border-black/5">
+    <footer className="bg-[#d4eedf] pt-20 pb-10 px-6 md:px-12 border-t border-[#038f90]/5">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-24 mb-20">
           {/* Logo Section */}
           <div className="space-y-6">
             <Link href="/" className="group inline-block">
-              <span className="font-serif text-2xl md:text-3xl tracking-tighter text-black">
+              <span className="font-serif text-2xl md:text-3xl tracking-tighter text-[#038f90]">
                 Good <span className="opacity-60 group-hover:opacity-100 transition-opacity underline decoration-1 underline-offset-4">Garbage</span>
               </span>
             </Link>
-            <p className="text-sm text-black/60 max-w-xs font-sans leading-relaxed">
+            <p className="text-sm text-[#038f90]/60 max-w-xs font-sans leading-relaxed">
               Exploring the beauty in the discarded and the value in the "messy" side of sustainability.
             </p>
-            <div className="flex items-center gap-4 text-black/40">
-              <Link href="#" className="hover:text-black transition-colors"><Instagram size={20} /></Link>
-              <Link href="#" className="hover:text-black transition-colors"><Twitter size={20} /></Link>
+            <div className="flex items-center gap-4 text-[#038f90]/40">
+              <Link href="#" className="hover:text-[#038f90] transition-colors"><Instagram size={20} /></Link>
+              <Link href="#" className="hover:text-[#038f90] transition-colors"><Twitter size={20} /></Link>
             </div>
           </div>
 
           {/* Podcast Links */}
           <div className="space-y-6">
-            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-black opacity-40">Podcast Channels</h4>
+            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-[#038f90] opacity-40">Podcast Channels</h4>
             <ul className="space-y-3">
               {footerLinks.podcast.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-black font-black hover:opacity-60 transition-opacity">
+                  <Link href={link.href} className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-[#038f90] font-black hover:opacity-60 transition-opacity">
                     <span className="opacity-40">{link.icon}</span>
                     {link.name}
                   </Link>
@@ -62,11 +62,11 @@ export function Footer() {
 
           {/* Company Links */}
           <div className="space-y-6">
-            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-black opacity-40">Company</h4>
+            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-[#038f90] opacity-40">Company</h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-[11px] uppercase tracking-widest text-black font-black hover:opacity-60 transition-opacity block">
+                  <Link href={link.href} className="text-[11px] uppercase tracking-widest text-[#038f90] font-black hover:opacity-60 transition-opacity block">
                     {link.name}
                   </Link>
                 </li>
@@ -76,11 +76,11 @@ export function Footer() {
 
           {/* Resource Links */}
           <div className="space-y-6">
-            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-black opacity-40">Resources</h4>
+            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-[#038f90] opacity-40">Resources</h4>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-[11px] uppercase tracking-widest text-black font-black hover:opacity-60 transition-opacity block">
+                  <Link href={link.href} className="text-[11px] uppercase tracking-widest text-[#038f90] font-black hover:opacity-60 transition-opacity block">
                     {link.name}
                   </Link>
                 </li>
@@ -91,11 +91,11 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-4 text-[9px] uppercase tracking-[0.2em] font-bold text-black/40">
+        <div className="pt-8 border-t border-[#038f90]/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[9px] uppercase tracking-[0.2em] font-bold text-[#038f90]/40">
           <p>© 2024 Good Garbage Podcast. All rights reserved.</p>
           <div className="flex items-center gap-8">
-            <Link href="#" className="hover:text-black transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-black transition-colors">Terms of Service</Link>
+            <Link href="#" className="hover:text-[#038f90] transition-colors">Privacy Policy</Link>
+            <Link href="#" className="hover:text-[#038f90] transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

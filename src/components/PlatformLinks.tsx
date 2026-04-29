@@ -21,7 +21,7 @@ const platforms = [
 
 export function PlatformLinks() {
   return (
-    <div className="relative w-full bg-[#0A2F28] py-24 md:py-32 overflow-visible">
+    <div className="relative w-full bg-[#1a4d34] py-24 md:py-32 overflow-visible">
       {/* LANDSCAPE DECORATION: Rooted to the bottom 'white' horizon */}
       <DecorationBush className="bottom-0 right-[15%] translate-y-[80%] w-10 md:w-20 rotate-[5deg] z-40 opacity-70" />
 
@@ -38,7 +38,7 @@ export function PlatformLinks() {
       </div>
 
       <div className="max-w-6xl w-full mx-auto flex flex-col items-center text-center space-y-12 relative z-10 px-6">
-        <h2 className="text-2xl md:text-3xl font-serif tracking-tighter text-white">
+        <h2 className="text-2xl md:text-3xl font-serif tracking-tighter text-[#d4eedf]">
           Listen on <span className="opacity-40 italic ml-2 text-white/70">Platforms</span>
         </h2>
 
@@ -55,7 +55,7 @@ export function PlatformLinks() {
                 {platform.icon}
               </div>
               <div className="space-y-0.5">
-                <p className="text-[10px] md:text-[11px] font-bold text-white tracking-wide">{platform.name}</p>
+                <p className="text-[10px] md:text-[11px] font-bold text-[#d4eedf] tracking-wide">{platform.name}</p>
               </div>
             </motion.a>
           ))}
