@@ -6,7 +6,7 @@
   --color-secondary: #636b58;
   --color-accent: #0d6e4e;
   --color-muted: #dedad2;
-  
+
   --font-serif: var(--font-lustria), serif;
   --font-sans: var(--font-lato), sans-serif;
 }
@@ -16,7 +16,8 @@
   --foreground: #038f90;
 }
 
-html, body {
+html,
+body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
@@ -26,7 +27,12 @@ html, body {
   width: 100%;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-serif);
 }
 
@@ -50,4 +56,23 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-
+/* Hero episode marquee (Concept A) */
+@keyframes marquee-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee-drift 40s linear infinite;
+}
+.marquee-mask:hover .marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}

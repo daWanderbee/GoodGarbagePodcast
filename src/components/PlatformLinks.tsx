@@ -4,8 +4,7 @@ import { motion, useTransform, MotionValue } from "framer-motion";
 import Image from "next/image";
 import { Youtube, Music, Podcast, Play } from "lucide-react";
 import { Button } from "./ui/Button";
-import { DecorationTree } from "./ui/DecorationTree";
-import { DecorationBush } from "./ui/DecorationBush";
+
 
 interface PlatformLinksProps {
   opacity: MotionValue<number>;
@@ -22,8 +21,7 @@ const platforms = [
 export function PlatformLinks() {
   return (
     <div className="relative w-full bg-[#1a4d34] py-24 md:py-32 overflow-visible">
-      {/* LANDSCAPE DECORATION: Rooted to the bottom 'white' horizon */}
-      <DecorationBush className="bottom-0 right-[15%] translate-y-[80%] w-10 md:w-20 rotate-[5deg] z-40 opacity-70" />
+
 
 
       {/* Watercolor Texture Overlay */}

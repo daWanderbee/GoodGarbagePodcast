@@ -2,22 +2,12 @@
 
 import { motion } from "framer-motion";
 import { Button } from "./ui/Button";
-import { DecorationTreeTwo } from "./ui/DecorationTreeTwo";
-import { DecorationBush } from "./ui/DecorationBush";
 
 export function Newsletter() {
   return (
     <section className="py-24 md:py-32 bg-[#d4eedf] relative overflow-visible z-20">
-      {/* 1. Soft Bubbly Wave Divider (Transition from Previous Section) */}
-      <div className="absolute top-0 left-0 w-full -translate-y-[98%] pointer-events-none">
-        <svg viewBox="0 0 1440 140" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-          <path d="M0 140L60 128.3C120 116.7 240 93.3 360 81.7C480 70 600 70 720 81.7C840 93.3 960 116.7 1080 122.5C1200 128.3 1320 116.7 1380 110.8L1440 105V140H1380C1320 140 1200 140 1080 140C960 140 840 140 720 140C600 140 480 140 360 140C240 140 120 140 60 140H0V140Z" fill="#d4eedf" />
-        </svg>
-      </div>
 
-      {/* 2. BOTANICAL ELEMENTS: Clustered species at the far left edge */}
-      <DecorationTreeTwo className="top-0 left-[2%] -translate-y-[95%] w-14 md:w-28 z-50 rotate-[-5deg]" />
-      <DecorationBush className="top-0 left-[8%] -translate-y-[85%] w-10 md:w-20 z-40 rotate-[5deg] opacity-70" />
+
 
 
 

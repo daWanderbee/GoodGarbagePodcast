@@ -26,7 +26,7 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="bg-[#d4eedf] pt-20 pb-10 px-6 md:px-12 border-t border-[#038f90]/5">
+    <footer className="bg-[#d4eedf] relative pt-16 pb-10 px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-24 mb-20">
           {/* Logo Section */}

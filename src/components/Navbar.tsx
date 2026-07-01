@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import Link from "next/link";
+import { X, Leaf } from "lucide-react";
 import { Button } from "./ui/Button";
 
 const navLinks = [
@@ -16,6 +17,7 @@ const navLinks = [
 export function Navbar() {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 50) {
@@ -25,11 +27,20 @@ export function Navbar() {
     }
   });
 
+  // Lock body scroll while the drawer is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   const textColorClass = isScrolled ? "text-black" : "text-white";
   const borderColorClass = isScrolled ? "border-black" : "border-white";
   const bgIconClass = isScrolled ? "bg-black" : "bg-white";
 
   return (
+    <>
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -67,12 +78,76 @@ export function Navbar() {
         </Button>
         
         {/* Mobile/Tablet Menu Icon - Visible on all screens below xl */}
-        <button className="xl:hidden flex flex-col gap-1 p-2 shrink-0">
+        <button
+          onClick={() => setMenuOpen(true)}
+          aria-label="Open menu"
+          className="xl:hidden flex flex-col gap-1 p-2 shrink-0"
+        >
           <div className={`w-5 h-[2px] transition-colors duration-300 ${bgIconClass}`} />
           <div className={`w-5 h-[2px] opacity-60 transition-colors duration-300 ${bgIconClass}`} />
           <div className={`w-5 h-[2px] opacity-40 transition-colors duration-300 ${bgIconClass}`} />
         </button>
       </div>
     </motion.nav>
+
+    {/* Glass mobile drawer */}
+    <AnimatePresence>
+      {menuOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMenuOpen(false)}
+            className="fixed inset-0 z-[110] bg-black/30 backdrop-blur-sm xl:hidden pointer-events-auto"
+          />
+          <motion.aside
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 260, damping: 30 }}
+            className="fixed top-0 right-0 z-[120] h-full w-[80%] max-w-xs xl:hidden pointer-events-auto bg-[#038f90]/55 backdrop-blur-2xl border-l border-white/20 shadow-2xl flex flex-col"
+          >
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/15">
+              <span className="font-serif text-lg tracking-tighter text-white">
+                Good <span className="opacity-60">Garbage</span>
+              </span>
+              <button onClick={() => setMenuOpen(false)} aria-label="Close menu" className="text-white/80 hover:text-white p-1">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <nav className="flex flex-col px-6 py-8 gap-1">
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 + i * 0.05 }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="block py-3 font-serif text-2xl text-white/90 hover:text-white hover:translate-x-1 transition-all"
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
+              ))}
+            </nav>
+
+            <div className="mt-auto px-6 py-8 border-t border-white/15">
+              <Button variant="glass" className="w-full !text-white border-white/40 !h-12 !text-xs uppercase tracking-widest shadow-xl">
+                Listen Now
+              </Button>
+              <p className="mt-5 flex items-center gap-2 text-[10px] uppercase font-bold tracking-[0.25em] text-white/50">
+                <Leaf className="w-3.5 h-3.5" /> A podcast by Pakka
+              </p>
+            </div>
+          </motion.aside>
+        </>
+      )}
+    </AnimatePresence>
+    </>
   );
 }
