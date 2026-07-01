@@ -83,12 +83,12 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         {/* Text Section: Indented to align with other sections, overlapping image on desktop */}
         <div className="relative z-20 flex flex-col items-center lg:items-start text-center lg:text-left -mt-4 lg:mt-0 pt-3 pb-24 md:pt-10 md:pb-32 lg:py-0 w-full lg:max-w-3xl">
           {/* Brand Heading */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-white tracking-tighter leading-[0.95] mb-3 lg:mb-8 drop-shadow-2xl">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-black tracking-tighter leading-[0.95] mb-3 lg:mb-8">
             Good Garbage <br />
-            <span className="opacity-70 italic text-white/80">Podcast</span>
+            <span className="opacity-80 italic text-black/80">Podcast</span>
           </h1>
 
-          <p className="max-w-xl font-serif leading-[1.5] text-white/90 font-normal text-sm sm:text-base md:text-lg lg:text-xl tracking-normal mb-4 lg:mb-8 px-4 lg:px-0 drop-shadow-md">
+          <p className="max-w-xl font-serif leading-[1.5] text-black/90 font-medium text-sm sm:text-base md:text-lg lg:text-xl tracking-normal mb-4 lg:mb-8 px-4 lg:px-0">
             Conversations on turning what the world throws away into what brings it back to life — biomaterials, composting, and the people regenerating our planet.
           </p>
 
@@ -103,10 +103,10 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
             <div className="marquee-track flex w-max items-center gap-6">
               {[...EPISODE_TITLES, ...EPISODE_TITLES].map((title, i) => (
                 <span key={i} className="flex shrink-0 items-center gap-6">
-                  <span className="whitespace-nowrap font-sans text-[11px] md:text-xs font-bold uppercase tracking-[0.15em] text-white/70">
+                  <span className="whitespace-nowrap font-sans text-[11px] md:text-xs font-bold uppercase tracking-[0.15em] text-black/80">
                     {title}
                   </span>
-                  <Leaf className="w-3 h-3 shrink-0 text-white/40" />
+                  <Leaf className="w-3 h-3 shrink-0 text-black/50" />
                 </span>
               ))}
             </div>
