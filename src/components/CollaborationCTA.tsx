@@ -5,9 +5,15 @@ import Link from "next/link";
 import { Button } from "./ui/Button";
 
 
+import { DecorationBush } from "./ui/DecorationBush";
+import { DecorationTree } from "./ui/DecorationTree";
+import { DecorationTreeTwo } from "./ui/DecorationTreeTwo";
+
 export function CollaborationCTA() {
   return (
-    <section className="pt-24 md:pt-32 pb-0 bg-primary relative overflow-hidden z-20">
+    <section className="pt-24 md:pt-32 pb-0 bg-primary relative overflow-visible z-20">
+      <DecorationBush className="right-6 md:right-20 -top-8 w-16 h-16 md:w-20 md:h-20 opacity-80 pointer-events-none" />
+      <DecorationTree className="left-6 md:left-16 -top-10 w-14 h-24 md:w-16 md:h-32 opacity-75 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-6 md:px-12 pb-16 md:pb-24 relative z-10 flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-24">
         <motion.div
           initial={{ opacity: 0, x: -30 }}

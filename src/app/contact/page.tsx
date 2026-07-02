@@ -6,6 +6,9 @@ import { Mail, Globe, Instagram, Youtube, Leaf, type LucideIcon } from "lucide-r
 import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/Button";
+import { DecorationBush } from "@/components/ui/DecorationBush";
+import { DecorationTree } from "@/components/ui/DecorationTree";
+import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
 
 const roles = ["I'd like to be a guest", "Partner with us", "Become a sponsor", "Buy Pakka products", "Something else"];
 
@@ -30,8 +33,11 @@ export default function ContactPage() {
       </div>
 
       {/* 1. Join as guest / partner */}
-      <section className="px-6 md:px-12 py-16 md:py-24">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-24 items-start">
+      <section className="px-6 md:px-12 py-16 md:py-24 relative overflow-visible">
+        <DecorationBush className="right-6 md:right-16 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80 pointer-events-none" />
+        <DecorationTree className="left-4 md:left-12 bottom-4 w-12 h-24 md:w-16 md:h-32 opacity-75 pointer-events-none" />
+        <DecorationTreeTwo className="right-10 md:right-24 bottom-10 w-14 h-20 md:w-16 md:h-24 opacity-80 pointer-events-none" />
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-24 items-start relative z-10">
           <div className="space-y-5">
             <span className="text-[10px] uppercase font-black tracking-[0.4em] text-[#038f90]/60">Get Involved</span>
             <h2 className="text-3xl md:text-5xl font-serif text-[#038f90] leading-[1.0] tracking-tighter">

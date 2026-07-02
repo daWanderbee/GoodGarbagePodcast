@@ -102,11 +102,11 @@ export default function AboutPage() {
               className="relative aspect-[4/5] rounded-[36px] overflow-hidden bg-white shadow-xl ring-1 ring-[#038f90]/15 p-4 flex items-center justify-center group"
             >
               <Image
-                src="/images/episodes/latest.png"
+                src="/images/composter.webp"
                 alt="Regenerative Illustration"
                 fill
                 sizes="(max-width: 768px) 45vw, 300px"
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                className="object-contain p-2 transition-transform duration-700 group-hover:scale-105"
               />
               <span className="absolute bottom-3 left-3 bg-[#038f90] text-white text-[9px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
                 Growth Arc

@@ -129,6 +129,8 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
           </div>
 
         </div>
+
+
       </div>
 
       {/* DESKTOP: grounded parallax landscape that rises + zooms on scroll */}
