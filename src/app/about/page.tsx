@@ -62,8 +62,10 @@ export default function AboutPage() {
       </div>
 
       {/* 2. Mission Section with Curvy Multi-Image Collage */}
-      <section className="px-6 md:px-12 py-16 md:py-24 relative z-10">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_1.1fr] gap-12 lg:gap-20 items-center">
+      <section className="px-6 md:px-12 py-16 md:py-24 relative z-10 overflow-visible">
+        <DecorationBush className="right-6 md:right-16 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80" />
+        <DecorationTreeTwo className="left-4 md:left-12 bottom-4 w-14 h-20 md:w-16 md:h-24 opacity-75" />
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_1.1fr] gap-12 lg:gap-20 items-center relative z-10">
           <div className="space-y-6">
             <span className="inline-block px-3.5 py-1.5 rounded-full bg-[#636b58]/15 text-[#636b58] font-sans text-[10px] font-black uppercase tracking-[0.25em]">
               Our Core Belief
@@ -100,11 +102,11 @@ export default function AboutPage() {
               className="relative aspect-[4/5] rounded-[36px] overflow-hidden bg-white shadow-xl ring-1 ring-[#038f90]/15 p-4 flex items-center justify-center group"
             >
               <Image
-                src="/images/about_art.png"
+                src="/images/episodes/latest.png"
                 alt="Regenerative Illustration"
                 fill
                 sizes="(max-width: 768px) 45vw, 300px"
-                className="object-contain p-3 transition-transform duration-700 group-hover:scale-105"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <span className="absolute bottom-3 left-3 bg-[#038f90] text-white text-[9px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
                 Growth Arc

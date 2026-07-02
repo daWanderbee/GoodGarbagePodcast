@@ -92,8 +92,10 @@ export default function EpisodesPage() {
       </section>
 
       {/* Episode listing */}
-      <section className="px-6 md:px-12 py-16 md:py-24 relative z-20">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-6 md:px-12 py-16 md:py-24 relative z-20 overflow-visible">
+        <DecorationTreeTwo className="right-4 md:right-12 top-10 w-14 h-20 md:w-16 md:h-24 opacity-80" />
+        <DecorationBush className="left-4 md:left-10 bottom-8 w-14 h-14 md:w-18 md:h-18 opacity-80" />
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex items-center justify-between mb-10">
             <div className="flex items-center gap-2.5">
               <Leaf className="w-4 h-4 text-[#0d6e4e]" />

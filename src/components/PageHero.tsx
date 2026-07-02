@@ -19,9 +19,9 @@ export function PageHero({ eyebrow, title, accent, subtitle }: PageHeroProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="flex items-center justify-center lg:justify-start gap-2 mb-5 text-black/80"
+          className="flex items-center justify-center lg:justify-start gap-2 mb-5 text-white/85"
         >
-          <Leaf className="w-4 h-4" />
+          <Leaf className="w-4 h-4 text-[#d4eedf]" />
           <span className="uppercase text-[10px] md:text-[11px] tracking-[0.3em] font-bold font-sans">{eyebrow}</span>
         </motion.div>
 
@@ -29,10 +29,10 @@ export function PageHero({ eyebrow, title, accent, subtitle }: PageHeroProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.05 }}
-          className="text-4xl md:text-7xl font-serif text-black tracking-tighter leading-[0.95]"
+          className="text-4xl md:text-7xl font-serif text-white tracking-tighter leading-[0.95]"
         >
           {title}
-          {accent && <span className="italic text-black/75"> {accent}</span>}
+          {accent && <span className="italic text-[#d4eedf]"> {accent}</span>}
         </motion.h1>
 
         {subtitle && (
@@ -40,7 +40,7 @@ export function PageHero({ eyebrow, title, accent, subtitle }: PageHeroProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="mt-6 max-w-2xl mx-auto lg:mx-0 font-serif text-base md:text-xl leading-[1.6] text-black/90 font-medium"
+            className="mt-6 max-w-2xl mx-auto lg:mx-0 font-serif text-base md:text-xl leading-[1.6] text-white/90"
           >
             {subtitle}
           </motion.p>

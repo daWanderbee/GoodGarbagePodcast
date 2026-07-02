@@ -162,14 +162,14 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
           className="absolute bottom-[20px] right-[-4%] w-[25%] origin-bottom drop-shadow-xl -scale-x-100"
         />
 
-        {/* SUGARCANE — small bundle at each bottom corner (covers the big canes' base) */}
+        {/* SUGARCANE — small bundle at each bottom corner grouped closely away from double-stacking */}
         <motion.img
           src="/images/hero/parallax/FG_cane_r.png"
           alt=""
           style={{ y: pv(yCane), scale: pv(sCane) }}
           animate={prefersReduced ? undefined : { rotate: [1, -1, 1] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[-10px] left-[0%] w-[15%] origin-bottom drop-shadow-lg"
+          className="absolute bottom-[-10px] left-[8%] w-[12%] origin-bottom drop-shadow-lg"
         />
         <motion.img
           src="/images/hero/parallax/FG_cane_r.png"
@@ -177,22 +177,41 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
           style={{ y: pv(yCane), scale: pv(sCane) }}
           animate={prefersReduced ? undefined : { rotate: [-1, 1, -1] }}
           transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[-10px] right-[0%] w-[16%] origin-bottom drop-shadow-lg -scale-x-100"
+          className="absolute bottom-[-10px] right-[8%] w-[12%] origin-bottom drop-shadow-lg -scale-x-100"
         />
 
-        {/* Sustainable props overlapping the sugarcane bases */}
-        <motion.img
-          src="/images/hero/parallax/planting_kit.png"
-          alt=""
-          style={{ y: pv(yMid), scale: pv(sMid) }}
-          className="absolute bottom-[34px] left-[-1%] w-[12%] origin-bottom drop-shadow-md"
-        />
+        {/* Sustainable props grouped comfortably without clutter */}
         <motion.img
           src="/images/hero/parallax/bagasse.png"
           alt=""
           style={{ y: pv(yMid), scale: pv(sMid) }}
           className="absolute bottom-[40px] left-[18%] w-[9%] origin-bottom drop-shadow-md"
         />
+
+        {/* Mushroom cluster on the left ground */}
+        <motion.img
+          src="/images/hero/parallax/mushroom.png"
+          alt=""
+          style={{ y: pv(yMid), scale: pv(sMid) }}
+          className="absolute bottom-[34px] left-[27%] w-[9%] origin-bottom drop-shadow-md"
+        />
+
+        {/* Hemp plant, right of centre */}
+        <motion.img
+          src="/images/hero/parallax/hemp.png"
+          alt=""
+          style={{ y: pv(yMid), scale: pv(sMid) }}
+          className="absolute bottom-[34px] right-[26%] w-[8%] origin-bottom drop-shadow-md"
+        />
+
+        {/* Seaweed near the right sugarcane */}
+        <motion.img
+          src="/images/hero/parallax/seaweed.png"
+          alt=""
+          style={{ y: pv(yMid), scale: pv(sMid) }}
+          className="absolute bottom-[36px] right-[18%] w-[7%] origin-bottom drop-shadow-md"
+        />
+
         {/* Canopy vines draping from the top-right */}
         <motion.img
           src="/images/hero/treeRight.png"

@@ -75,14 +75,14 @@ export function AboutPodcast() {
             style={{ x: imageX, rotate: imageRotate, scale: imageScale }}
             className="relative aspect-square lg:aspect-[3/4] order-1 lg:order-2 flex items-center justify-center lg:scale-110"
           >
-            <div className="relative h-full w-full">
+            <div className="relative h-full w-full rounded-[36px] overflow-hidden shadow-2xl ring-1 ring-[#038f90]/15">
               <Image
-                src="/images/about_art.png"
+                src="/images/episodes/latest.png"
                 alt="About the Podcast Art"
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 60vw"
-                className="object-contain"
+                className="object-cover"
               />
             </div>
           </motion.div>

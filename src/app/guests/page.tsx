@@ -6,6 +6,9 @@ import { ArrowUpRight, Sparkles } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
 import { CollaborationCTA } from "@/components/CollaborationCTA";
+import { DecorationBush } from "@/components/ui/DecorationBush";
+import { DecorationTree } from "@/components/ui/DecorationTree";
+import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
 import { EPISODES, Episode } from "@/lib/episodes";
 
 function initials(name: string) {
@@ -92,8 +95,10 @@ export default function GuestsPage() {
       </div>
 
       {/* Zone 2: Biomaterials & Science Pioneers against Mint Background (#d4eedf) */}
-      <section className="px-6 md:px-12 py-16 md:py-24 bg-[#d4eedf] relative z-10">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-6 md:px-12 py-16 md:py-24 bg-[#d4eedf] relative z-10 overflow-visible">
+        <DecorationBush className="right-4 md:right-12 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80" />
+        <DecorationTree className="left-4 md:left-10 bottom-2 w-12 h-24 md:w-16 md:h-32 opacity-75" />
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-12 text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#038f90]/10 text-[#038f90] font-sans text-[10px] font-black uppercase tracking-[0.25em] mb-3">
               <Sparkles className="w-3.5 h-3.5" /> Biomaterials & Science Pioneers
@@ -119,8 +124,10 @@ export default function GuestsPage() {
       </div>
 
       {/* Zone 3: Systems & Policy Founders against Cream Background (#f2ede4) */}
-      <section className="px-6 md:px-12 pt-16 pb-24 md:pb-32 bg-[#f2ede4] relative z-10">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-6 md:px-12 pt-16 pb-24 md:pb-32 bg-[#f2ede4] relative z-10 overflow-visible">
+        <DecorationTreeTwo className="right-6 md:right-16 top-6 w-14 h-20 md:w-18 md:h-28 opacity-80" />
+        <DecorationBush className="left-6 md:left-14 bottom-4 w-14 h-14 md:w-16 md:h-16 opacity-80" />
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-12 text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#b06a2c]/10 text-[#b06a2c] font-sans text-[10px] font-black uppercase tracking-[0.25em] mb-3">
               <Sparkles className="w-3.5 h-3.5" /> Systems & Policy Founders
