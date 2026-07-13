@@ -39,10 +39,13 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
   const yCanopy = useTransform(smoothScroll, [0, 0.16], [0, -25]);
   const sCanopy = useTransform(smoothScroll, [0, 0.16], [1, 1.12]);
   const sceneOpacity = useTransform(smoothScroll, [0.1, 0.17], [1, 0]);
+  // Mobile sugarcane parallax: grows and lifts gently as the page scrolls over the pinned hero.
+  const yCaneMobile = useTransform(smoothScroll, [0, 0.16], [0, -24]);
+  const sCaneMobile = useTransform(smoothScroll, [0, 0.16], [1, 1.4]);
   const pv = (mv: MotionValue<number>) => (prefersReduced ? undefined : mv);
 
   return (
-    <div className="relative lg:sticky lg:top-0 min-h-screen lg:h-screen w-full overflow-x-hidden bg-[#038f90]">
+    <div className="relative h-screen w-full overflow-hidden bg-[#038f90]">
       {/* Backdrop: soft Ghibli-style mint sky + distant countryside */}
       <div className="absolute inset-0 z-0">
         <img src="/images/hero/bg_mint.png" alt="" className="absolute inset-0 h-full w-full object-cover object-bottom" />
@@ -55,6 +58,23 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         className="hidden lg:block absolute inset-y-0 left-0 w-[58%] z-[8] pointer-events-none"
         style={{ background: "linear-gradient(to right, rgba(3,143,144,0) 0%, rgba(3,143,144,0.45) 20%, rgba(3,143,144,0.35) 55%, transparent 100%)" }}
       />
+
+      {/* MOBILE + TABLET: sugarcane rooted at the bottom, parallax-rising + growing on scroll */}
+      <motion.div
+        style={{ y: pv(yCaneMobile), scale: pv(sCaneMobile) }}
+        className="lg:hidden pointer-events-none absolute bottom-0 inset-x-0 z-[6] origin-bottom"
+      >
+        <img
+          src="/images/hero/parallax/FG_cane_l.png"
+          alt=""
+          className="absolute bottom-0 left-[-10%] w-[58%] sm:w-[46%] h-auto drop-shadow-lg"
+        />
+        <img
+          src="/images/hero/parallax/FG_cane_l.png"
+          alt=""
+          className="absolute bottom-0 right-[-10%] w-[58%] sm:w-[46%] h-auto -scale-x-100 drop-shadow-lg"
+        />
+      </motion.div>
 
       {/* Modern Hero Content Container - Overlapping Layout with Site-Wide Alignment */}
       <div className="relative z-10 lg:h-full w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center px-6 md:px-12 overflow-visible">
@@ -77,15 +97,23 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
             className="absolute top-0 left-0 w-[34%] sm:w-[28%] h-auto -scale-x-100 opacity-90"
           />
         </div>
+
         {/* navbar spacer on mobile */}
         <div className="lg:hidden h-[26vh] sm:h-[24vh] w-full" />
 
         {/* Text Section: Indented to align with other sections, overlapping image on desktop */}
         <div className="relative z-20 flex flex-col items-center lg:items-start text-center lg:text-left -mt-4 lg:mt-0 pt-3 pb-24 md:pt-10 md:pb-32 lg:py-0 w-full lg:max-w-3xl">
           {/* Brand Heading */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-black tracking-tighter leading-[0.95] mb-3 lg:mb-8">
-            Good Garbage <br />
-            <span className="opacity-80 italic text-black/80">Podcast</span>
+          <h1 className="mb-3 lg:mb-8">
+            <Image
+              src="/images/logo.png"
+              alt="Good Garbage Podcast"
+              width={525}
+              height={214}
+              priority
+              sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 480px"
+              className="w-64 sm:w-80 md:w-96 lg:w-[30rem] h-auto lg:brightness-0 lg:invert drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]"
+            />
           </h1>
 
           <p className="max-w-xl font-serif leading-[1.5] text-black/90 font-medium text-sm sm:text-base md:text-lg lg:text-xl tracking-normal mb-4 lg:mb-8 px-4 lg:px-0">
@@ -114,17 +142,17 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 lg:gap-6">
             <PodcastButton episodeName="A Fresh Start" size={isMobile ? "sm" : "lg"} className="min-w-[200px] lg:min-w-[280px] !h-14 lg:!h-16 shadow-2xl" />
-            <Button variant="glass" className="!text-white border-white/40 backdrop-blur-md min-w-[200px] lg:min-w-[280px] !h-14 lg:!h-16 !py-0 flex items-center justify-center shadow-2xl">
+            <Button variant="glass" className="!text-black lg:!text-white border-black/40 lg:border-white/40 backdrop-blur-md min-w-[200px] lg:min-w-[280px] !h-14 lg:!h-16 !py-0 flex items-center justify-center shadow-2xl">
               View Archive
             </Button>
           </div>
 
           {/* Trust strip */}
-          <div className="mt-5 lg:mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-1.5 font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white/60">
+          <div className="mt-5 lg:mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-1.5 font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-black/70 lg:text-white/60">
             <span>Sponsored by Pakka</span>
-            <span className="w-1 h-1 rounded-full bg-white/40" />
+            <span className="w-1 h-1 rounded-full bg-black/40 lg:bg-white/40" />
             <span>49 Episodes</span>
-            <span className="w-1 h-1 rounded-full bg-white/40" />
+            <span className="w-1 h-1 rounded-full bg-black/40 lg:bg-white/40" />
             <span>Spotify · Apple · YouTube</span>
           </div>
 
@@ -142,6 +170,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         <motion.img
           src="/images/hero/parallax/05_people.png"
           alt="Children planting a tree"
+          loading="lazy"
           style={{ y: pv(yMid), scale: pv(sMid) }}
           className="absolute bottom-[16px] left-[54%] w-[15%] origin-bottom drop-shadow-md"
         />
@@ -150,6 +179,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         <motion.img
           src="/images/hero/parallax/FG_cane_l.png"
           alt=""
+          loading="lazy"
           style={{ y: pv(yCane), scale: pv(sCane) }}
           animate={prefersReduced ? undefined : { rotate: [-1.4, 1.4, -1.4] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
@@ -158,6 +188,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         <motion.img
           src="/images/hero/parallax/FG_cane_l.png"
           alt=""
+          loading="lazy"
           style={{ y: pv(yCane), scale: pv(sCane) }}
           animate={prefersReduced ? undefined : { rotate: [1.4, -1.4, 1.4] }}
           transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
@@ -168,6 +199,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         <motion.img
           src="/images/hero/parallax/FG_cane_r.png"
           alt=""
+          loading="lazy"
           style={{ y: pv(yCane), scale: pv(sCane) }}
           animate={prefersReduced ? undefined : { rotate: [1, -1, 1] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
@@ -176,6 +208,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         <motion.img
           src="/images/hero/parallax/FG_cane_r.png"
           alt=""
+          loading="lazy"
           style={{ y: pv(yCane), scale: pv(sCane) }}
           animate={prefersReduced ? undefined : { rotate: [-1, 1, -1] }}
           transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
@@ -186,6 +219,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         <motion.img
           src="/images/hero/parallax/bagasse.png"
           alt=""
+          loading="lazy"
           style={{ y: pv(yMid), scale: pv(sMid) }}
           className="absolute bottom-[40px] left-[18%] w-[9%] origin-bottom drop-shadow-md"
         />
@@ -194,6 +228,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         <motion.img
           src="/images/hero/parallax/mushroom.png"
           alt=""
+          loading="lazy"
           style={{ y: pv(yMid), scale: pv(sMid) }}
           className="absolute bottom-[34px] left-[27%] w-[9%] origin-bottom drop-shadow-md"
         />
@@ -202,6 +237,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         <motion.img
           src="/images/hero/parallax/hemp.png"
           alt=""
+          loading="lazy"
           style={{ y: pv(yMid), scale: pv(sMid) }}
           className="absolute bottom-[34px] right-[26%] w-[8%] origin-bottom drop-shadow-md"
         />
@@ -210,6 +246,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         <motion.img
           src="/images/hero/parallax/seaweed.png"
           alt=""
+          loading="lazy"
           style={{ y: pv(yMid), scale: pv(sMid) }}
           className="absolute bottom-[36px] right-[18%] w-[7%] origin-bottom drop-shadow-md"
         />
@@ -218,6 +255,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         <motion.img
           src="/images/hero/treeRight.png"
           alt=""
+          loading="lazy"
           style={{ y: pv(yCanopy), scale: pv(sCanopy) }}
           animate={prefersReduced ? undefined : { rotate: [0, 1, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}

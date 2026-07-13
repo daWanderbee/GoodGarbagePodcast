@@ -22,8 +22,6 @@ export function PlatformLinks() {
   return (
     <div className="relative w-full bg-[#1a4d34] py-24 md:py-32 overflow-visible">
 
-
-
       {/* Watercolor Texture Overlay */}
       <div className="absolute inset-0 opacity-40 pointer-events-none mix-blend-soft-light">
         <Image

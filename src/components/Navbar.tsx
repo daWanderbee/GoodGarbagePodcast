@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { X, Leaf } from "lucide-react";
 import { Button } from "./ui/Button";
 
@@ -16,7 +18,10 @@ const navLinks = [
 
 export function Navbar() {
   const { scrollY } = useScroll();
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  // Hide the nav logo only over the home hero (top of page); the hero shows its own logo.
+  const hideLogo = pathname === "/" && !isScrolled;
   const [menuOpen, setMenuOpen] = useState(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -47,11 +52,20 @@ export function Navbar() {
       transition={{ duration: 0.8, ease: "easeOut" }}
       className={`fixed top-0 inset-x-0 z-[100] px-4 md:px-8 lg:px-10 py-4 flex items-center justify-between pointer-events-none transition-colors duration-300 font-bold ${textColorClass}`}
     >
-      {/* Logo */}
-      <Link href="/" className="group pointer-events-auto shrink-0 flex items-center">
-        <span className="font-serif text-lg md:text-xl tracking-tighter">
-          Good <span className="opacity-60 group-hover:opacity-100 transition-opacity">Garbage</span>
-        </span>
+      {/* Logo — hidden over the hero (top of page), shown once scrolled */}
+      <Link
+        href="/"
+        aria-hidden={hideLogo}
+        className={`group pointer-events-auto shrink-0 flex items-center transition-opacity duration-300 ${hideLogo ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+      >
+        <Image
+          src="/images/logo.png"
+          alt="Good Garbage Podcast"
+          width={525}
+          height={214}
+          priority
+          className={`h-7 md:h-9 w-auto transition-all duration-300 ${isScrolled ? "brightness-0" : "brightness-0 invert"}`}
+        />
       </Link>
 
       {/* Menu Links - Using xl for safer horizontal space */}
@@ -109,9 +123,13 @@ export function Navbar() {
             className="fixed top-0 right-0 z-[120] h-full w-[80%] max-w-xs xl:hidden pointer-events-auto bg-[#038f90]/55 backdrop-blur-2xl border-l border-white/20 shadow-2xl flex flex-col"
           >
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/15">
-              <span className="font-serif text-lg tracking-tighter text-white">
-                Good <span className="opacity-60">Garbage</span>
-              </span>
+              <Image
+                src="/images/logo.png"
+                alt="Good Garbage Podcast"
+                width={525}
+                height={214}
+                className="h-7 w-auto brightness-0 invert"
+              />
               <button onClick={() => setMenuOpen(false)} aria-label="Close menu" className="text-white/80 hover:text-white p-1">
                 <X className="w-6 h-6" />
               </button>

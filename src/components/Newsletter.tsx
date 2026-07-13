@@ -3,18 +3,9 @@
 import { motion } from "framer-motion";
 import { Button } from "./ui/Button";
 
-import { DecorationBush } from "./ui/DecorationBush";
-import { DecorationTree } from "./ui/DecorationTree";
-import { DecorationTreeTwo } from "./ui/DecorationTreeTwo";
-
 export function Newsletter() {
   return (
-    <section className="py-24 md:py-32 bg-[#d4eedf] relative overflow-visible z-20">
-      <DecorationBush className="right-4 md:right-16 -top-10 w-16 h-16 md:w-20 md:h-20 opacity-80 pointer-events-none" />
-      <DecorationTree className="left-4 md:left-12 -top-12 w-14 h-24 md:w-16 md:h-32 opacity-80 pointer-events-none" />
-      <DecorationTreeTwo className="right-10 md:right-32 bottom-2 w-14 h-20 md:w-18 md:h-24 opacity-80 pointer-events-none" />
-      <DecorationBush className="left-10 md:left-28 bottom-4 w-14 h-14 md:w-16 md:h-16 opacity-80 pointer-events-none" />
-
+    <section className="py-24 md:py-32 bg-[#d4eedf] relative overflow-hidden z-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-24">
           <div className="max-w-xl space-y-4 text-center lg:text-left">

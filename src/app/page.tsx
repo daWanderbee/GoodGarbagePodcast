@@ -31,8 +31,8 @@ export default function Home() {
 
   return (
     <div className="bg-background relative">
-      {/* 1. Hero Layer: in normal flow on mobile/tablet, fixed slide-over on desktop */}
-      <div className="relative lg:fixed lg:inset-0 lg:h-screen w-full z-0 lg:pointer-events-none">
+      {/* 1. Hero Layer: fixed slide-over on every breakpoint — content scrolls up over it */}
+      <div className="fixed inset-0 h-screen w-full z-0 lg:pointer-events-none">
         <Hero
           rawScroll={rawScroll}
           smoothScroll={smoothScroll}
@@ -40,8 +40,8 @@ export default function Home() {
         />
       </div>
 
-      {/* 2. Content Stack: flows after the hero on mobile, slides over it on desktop */}
-      <div className="relative z-10 mt-0 lg:mt-[100vh]">
+      {/* 2. Content Stack: starts one screen down, then slides over the fixed Hero */}
+      <div className="relative z-10 mt-[100vh]">
         {/* The sections now slide directly over the fixed Hero */}
         <LatestEpisode />
         <ScrollingMarquee />
