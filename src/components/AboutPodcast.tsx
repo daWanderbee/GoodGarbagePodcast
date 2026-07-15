@@ -44,29 +44,33 @@ export function AboutPodcast() {
                 Proudly sponsored by <span className="font-bold text-accent">Pakka</span>, we explore how discarded materials and &quot;messy&quot; ideas can be transformed into high-value resources. From global climate experts to grassroots activists, our guests share stories that inspire a cleaner, more creative future.
               </p>
               <div className="flex items-center gap-3 pt-2">
-                <div className="w-10 h-10 rounded-full bg-background overflow-hidden flex-shrink-0">
+                <div className="w-11 h-11 rounded-full bg-background overflow-hidden flex-shrink-0 border-2 border-[#038f90]/30 shadow-md">
                   <Image
                     src="/images/hero/host_mobile.png"
-                    alt="Host"
-                    width={40}
-                    height={40}
+                    alt="Ved Krishna - Host"
+                    width={44}
+                    height={44}
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div>
-                  <p className="text-xs font-black text-black">A friendly voice on sustainability</p>
-                  <p className="text-[9px] uppercase font-bold text-black/40 tracking-wider">Host &amp; Guide</p>
+                  <p className="text-sm font-black text-[#038f90]">Ved Krishna &amp; Production Team</p>
+                  <p className="text-[10px] uppercase font-bold text-black/50 tracking-wider">Host, Producers &amp; Pakka Innovators</p>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-row items-center gap-2 md:gap-3 pt-4">
-              <Button variant="accent" className="!px-4 md:!px-6 !h-10 md:!h-12 !text-[9px] md:!text-xs shrink-0">
-                Visit Pakka.com
-              </Button>
-              <Button variant="outline" className="!px-4 md:!px-6 !h-10 md:!h-12 border-black/10 hover:bg-black/5 bg-transparent !text-[9px] md:!text-xs shrink-0 whitespace-nowrap">
-                Meet the Host
-              </Button>
+            <div className="flex flex-row flex-wrap items-center gap-2.5 md:gap-3 pt-4">
+              <a href="https://pakka.com" target="_blank" rel="noopener noreferrer">
+                <Button variant="accent" className="!px-5 md:!px-6 !h-11 md:!h-12 !text-[10px] md:!text-xs shrink-0 font-bold shadow-md">
+                  Visit Pakka.com ↗
+                </Button>
+              </a>
+              <a href="/about">
+                <Button variant="outline" className="!px-5 md:!px-6 !h-11 md:!h-12 border-[#038f90]/30 hover:bg-[#038f90]/5 bg-transparent !text-[10px] md:!text-xs shrink-0 whitespace-nowrap font-bold text-[#038f90]">
+                  Meet our Team &amp; Host →
+                </Button>
+              </a>
             </div>
           </div>
 
@@ -89,10 +93,10 @@ export function AboutPodcast() {
         </div>
       </div>
 
-      {/* Wave bridging Cream into Teal Collaboration CTA */}
-      <div className="w-full block leading-none bg-[#f2ede4]">
-        <svg className="w-full h-12 md:h-20 block" viewBox="0 0 1440 80" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,35 C360,75 720,15 1080,55 C1260,70 1360,25 1440,40 L1440,80 L0,80 Z" fill="#038f90" />
+      {/* Wave bridging Cream into Dark Green Platform Links */}
+      <div className="absolute bottom-0 left-0 w-full translate-y-[99%] pointer-events-none z-[30]">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto block">
+          <path d="M0 0C240 45 480 45 720 25C960 5 1200 45 1440 0H0Z" fill="#f2ede4" />
         </svg>
       </div>
     </section>

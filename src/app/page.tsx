@@ -45,9 +45,9 @@ export default function Home() {
         {/* The sections now slide directly over the fixed Hero */}
         <LatestEpisode />
         <ScrollingMarquee />
-        <PlatformLinks />
-        <AboutPodcast />
         <CollaborationCTA />
+        <AboutPodcast />
+        <PlatformLinks />
         <Newsletter />
         <Footer />
       </div>
@@ -64,7 +64,7 @@ export default function Home() {
 
         <div className="relative h-48 w-[3px] bg-[#038f90]/5 backdrop-blur-sm rounded-full overflow-hidden border border-[#038f90]/5">
           {/* Static Track Background */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#038f90]/5 to-transparent" />
+          <div className="absolute inset-0 bg-[#038f90]/10" />
           
           {/* Animated Liquid Progress Fill */}
           <motion.div 

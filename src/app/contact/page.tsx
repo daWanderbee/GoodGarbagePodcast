@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Mail, Globe, Instagram, Youtube, Leaf, type LucideIcon } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
@@ -10,11 +11,89 @@ import { DecorationBush } from "@/components/ui/DecorationBush";
 import { DecorationTree } from "@/components/ui/DecorationTree";
 import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
 
-const roles = ["I'd like to be a guest", "Partner with us", "Become a sponsor", "Buy Pakka products", "Something else"];
+const TALK_OPTIONS = [
+  { value: "Product Dev", label: "Product Dev — Circular packaging & biomaterials" },
+  { value: "Funding", label: "Funding — Strategic investment & grants" },
+  { value: "Guest", label: "Guest — Share your story on the podcast" },
+  { value: "Sponsorship", label: "Sponsorship — Brand alignment & co-creation" },
+  { value: "Technology", label: "Technology — Regenerative systems & R&D" },
+  { value: "Other", label: "Other — Custom ideas & partnerships" },
+];
+
+function ContactFormInner() {
+  const [sent, setSent] = useState(false);
+  const searchParams = useSearchParams();
+  const topicParam = searchParams?.get("topic") || "";
+  const [selectedTopic, setSelectedTopic] = useState<string>("");
+
+  useEffect(() => {
+    if (topicParam && TALK_OPTIONS.some((o) => o.value === topicParam)) {
+      setSelectedTopic(topicParam);
+    }
+  }, [topicParam]);
+
+  if (sent) {
+    return (
+      <div className="py-16 text-center">
+        <div className="w-12 h-12 rounded-full bg-[#0d6e4e]/10 text-[#0d6e4e] flex items-center justify-center mx-auto mb-4">
+          <Leaf className="w-6 h-6" />
+        </div>
+        <h3 className="font-serif text-2xl text-[#038f90]">Thanks — message received.</h3>
+        <p className="mt-2 text-sm text-black/60">We'll get back to you soon. In the meantime, browse the archive.</p>
+        <Link href="/episodes" className="mt-6 inline-block text-[#0d6e4e] font-bold text-sm">Explore episodes →</Link>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Field label="Full name" name="name" placeholder="Your name" required />
+        <Field label="Email" name="email" type="email" placeholder="you@email.com" required />
+      </div>
+      <label className="block">
+        <span className="block mb-1.5 text-[10px] uppercase font-black tracking-[0.2em] text-[#038f90]/60">Why do you want to talk?</span>
+        <select
+          required
+          name="topic"
+          value={selectedTopic}
+          onChange={(e) => setSelectedTopic(e.target.value)}
+          className="w-full rounded-xl bg-[#f2ede4] px-4 py-3 text-sm text-[#038f90] font-sans focus:outline-none focus:ring-2 focus:ring-[#038f90]/20"
+        >
+          <option value="" disabled>Select why you want to talk…</option>
+          {TALK_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="block">
+        <span className="block mb-1.5 text-[10px] uppercase font-black tracking-[0.2em] text-[#038f90]/60">Message</span>
+        <textarea
+          required
+          rows={4}
+          name="message"
+          placeholder="Tell us about you or your idea…"
+          className="w-full rounded-xl bg-[#f2ede4] px-4 py-3 text-sm text-[#038f90] font-sans focus:outline-none focus:ring-2 focus:ring-[#038f90]/20 resize-none placeholder:text-[#038f90]/30"
+        />
+      </label>
+      <Button variant="accent" className="w-full bg-[#038f90] !text-white !h-14 !text-xs uppercase tracking-widest shadow-lg">
+        Send Message
+      </Button>
+    </form>
+  );
+}
+
+function ContactForm() {
+  return (
+    <Suspense fallback={<div className="py-20 text-center text-sm text-[#038f90]/60 font-bold">Loading form…</div>}>
+      <ContactFormInner />
+    </Suspense>
+  );
+}
 
 export default function ContactPage() {
-  const [sent, setSent] = useState(false);
-
   return (
     <main className="bg-[#f2ede4] min-h-screen">
       <div className="relative">
@@ -24,16 +103,10 @@ export default function ContactPage() {
           accent="garbage"
           subtitle="Join us as a guest, partner on a project, or connect with Pakka. We're always looking for people building a brighter future."
         />
-        {/* Irregular Fluid Swell below Hero */}
-        <div className="w-full -mt-2 relative z-10 pointer-events-none leading-none">
-          <svg viewBox="0 0 1440 55" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto block">
-            <path d="M0 -5H1440V30C1250 12 980 48 720 28C460 8 220 45 0 25V-5Z" fill="#038f90" />
-          </svg>
-        </div>
       </div>
 
-      {/* 1. Join as guest / partner */}
-      <section className="px-6 md:px-12 py-16 md:py-24 relative overflow-visible">
+      {/* 1. Join as guest / partner overlapping over PageHero */}
+      <section className="px-6 md:px-12 py-16 md:py-24 bg-[#f2ede4] rounded-t-[36px] md:rounded-t-[64px] -mt-10 md:-mt-16 relative z-30 shadow-2xl overflow-visible">
         <DecorationBush className="right-6 md:right-16 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80 pointer-events-none" />
         <DecorationTree className="left-4 md:left-12 bottom-4 w-12 h-24 md:w-16 md:h-32 opacity-75 pointer-events-none" />
         <DecorationTreeTwo className="right-10 md:right-24 bottom-10 w-14 h-20 md:w-16 md:h-24 opacity-80 pointer-events-none" />
@@ -41,10 +114,10 @@ export default function ContactPage() {
           <div className="space-y-5">
             <span className="text-[10px] uppercase font-black tracking-[0.4em] text-[#038f90]/60">Get Involved</span>
             <h2 className="text-3xl md:text-5xl font-serif text-[#038f90] leading-[1.0] tracking-tighter">
-              Join us as a guest <br /> or <span className="italic opacity-50">partner with us</span>
+              Why do you want <br /> to <span className="italic opacity-70">talk with us?</span>
             </h2>
             <p className="text-base text-black/70 leading-relaxed max-w-md">
-              Share your story with our community of sustainability enthusiasts, founders, and investors. Tell us a little about you and we'll be in touch.
+              Whether you are working on product development, seeking funding, applying to be a guest, or proposing a sponsorship or technology partnership, our team is ready to connect.
             </p>
             <div className="flex items-center gap-2 pt-2 text-[#038f90]/60 text-sm">
               <Mail className="w-4 h-4" /> hello@goodgarbagepodcast.com
@@ -52,46 +125,7 @@ export default function ContactPage() {
           </div>
 
           <div className="rounded-3xl bg-white p-6 md:p-8 shadow-xl ring-1 ring-[#038f90]/10">
-            {sent ? (
-              <div className="py-16 text-center">
-                <div className="w-12 h-12 rounded-full bg-[#0d6e4e]/10 text-[#0d6e4e] flex items-center justify-center mx-auto mb-4">
-                  <Leaf className="w-6 h-6" />
-                </div>
-                <h3 className="font-serif text-2xl text-[#038f90]">Thanks — message received.</h3>
-                <p className="mt-2 text-sm text-black/60">We'll get back to you soon. In the meantime, browse the archive.</p>
-                <Link href="/episodes" className="mt-6 inline-block text-[#0d6e4e] font-bold text-sm">Explore episodes →</Link>
-              </div>
-            ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field label="Full name" name="name" placeholder="Your name" required />
-                  <Field label="Email" name="email" type="email" placeholder="you@email.com" required />
-                </div>
-                <label className="block">
-                  <span className="block mb-1.5 text-[10px] uppercase font-black tracking-[0.2em] text-[#038f90]/60">I'm reaching out to…</span>
-                  <select
-                    required
-                    defaultValue=""
-                    className="w-full rounded-xl bg-[#f2ede4] px-4 py-3 text-sm text-[#038f90] font-sans focus:outline-none focus:ring-2 focus:ring-[#038f90]/20"
-                  >
-                    <option value="" disabled>Select an option</option>
-                    {roles.map((r) => <option key={r} value={r}>{r}</option>)}
-                  </select>
-                </label>
-                <label className="block">
-                  <span className="block mb-1.5 text-[10px] uppercase font-black tracking-[0.2em] text-[#038f90]/60">Message</span>
-                  <textarea
-                    required
-                    rows={4}
-                    placeholder="Tell us about you or your idea…"
-                    className="w-full rounded-xl bg-[#f2ede4] px-4 py-3 text-sm text-[#038f90] font-sans focus:outline-none focus:ring-2 focus:ring-[#038f90]/20 resize-none placeholder:text-[#038f90]/30"
-                  />
-                </label>
-                <Button variant="accent" className="w-full bg-[#038f90] !text-white !h-14 !text-xs uppercase tracking-widest shadow-lg">
-                  Send Message
-                </Button>
-              </form>
-            )}
+            <ContactForm />
           </div>
         </div>
       </section>
@@ -107,9 +141,9 @@ export default function ContactPage() {
       <section className="px-6 md:px-12 py-16 md:py-24 bg-[#038f90] relative z-10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
           <div className="space-y-5">
-            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-white/20 bg-white/5 text-white text-[10px] uppercase font-black tracking-widest">
+            <span className="flex items-center gap-2 text-[11px] uppercase font-black tracking-[0.3em] text-[#aeddd9] mb-2">
               <Leaf className="w-3.5 h-3.5" /> The Sponsor
-            </div>
+            </span>
             <h2 className="text-3xl md:text-5xl font-serif text-white tracking-tighter leading-[1.0]">
               Connect with <span className="italic text-white/70">Pakka Limited</span>
             </h2>

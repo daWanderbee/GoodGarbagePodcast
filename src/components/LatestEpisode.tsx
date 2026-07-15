@@ -38,9 +38,9 @@ export function LatestEpisode() {
         {/* Right Side: Content and CTA */}
         <div className="space-y-8 lg:pt-24">
           <div className="space-y-4 md:space-y-6">
-            <div className="inline-block px-3 py-1 rounded-full border border-[#038f90]/20 text-[10px] uppercase font-black tracking-widest bg-[#038f90]/5">
+            <span className="text-[11px] uppercase font-black tracking-[0.3em] text-[#038f90]/70 block">
               New Release
-            </div>
+            </span>
             <h3 className="text-3xl md:text-6xl font-serif leading-tight tracking-tight text-[#038f90]">
               The Hidden Value <br /> of <span className="italic opacity-60">Waste</span>
             </h3>

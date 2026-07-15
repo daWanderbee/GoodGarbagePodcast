@@ -58,6 +58,12 @@ export function PlatformLinks() {
         </div>
       </div>
 
+      {/* Wave bridging Dark Green into Mint Newsletter */}
+      <div className="absolute bottom-0 left-0 w-full translate-y-[99%] pointer-events-none z-[20]">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto block">
+          <path d="M0 0C240 45 480 45 720 25C960 5 1200 45 1440 0H0Z" fill="#1a4d34" />
+        </svg>
+      </div>
     </div>
   );
 }

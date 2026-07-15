@@ -33,7 +33,7 @@ export function LatestPodcastCard({ className = "" }: LatestPodcastCardProps) {
           sizes="330px"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
+        <div className="absolute inset-0 bg-black/25" />
         <span className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-[#0d6e4e]">
           <Leaf className="h-3 w-3" /> Latest Episode
         </span>

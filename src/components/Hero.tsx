@@ -2,6 +2,7 @@
 
 import { motion, useTransform, useReducedMotion, MotionValue } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { Leaf } from "lucide-react";
 import { PodcastButton } from "./ui/PodcastButton";
 import { Button } from "./ui/Button";
@@ -45,19 +46,20 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
   const pv = (mv: MotionValue<number>) => (prefersReduced ? undefined : mv);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-[#038f90]">
-      {/* Backdrop: soft Ghibli-style mint sky + distant countryside */}
-      <div className="absolute inset-0 z-0">
-        <img src="/images/hero/bg_mint.png" alt="" className="absolute inset-0 h-full w-full object-cover object-bottom" />
-        {/* teal wash keeps the white text legible over the light sky */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a8d83]/45 via-[#1f9a86]/12 to-transparent" />
-      </div>
+    <div className="relative h-screen w-full overflow-hidden bg-[#012620]">
+      {/* Studio Ghibli Painted Countryside Backdrop (Rolling green hills, deep shadow forest, dirt road & sky) */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <img src="/images/hero/ghibli_bg.png" alt="Studio Ghibli Countryside Landscape" className="absolute inset-0 h-full w-full object-cover object-center" />
+        
+        {/* Deep Botanical Emerald Shadow Wash (Harmonizes the painted hills with our foreground sugarcane and forest leaves) */}
+        <div className="absolute inset-0 bg-[#012620]/30 pointer-events-none" />
 
-      {/* DESKTOP: soft scrim keeping the left-hand text legible over the scene */}
-      <div
-        className="hidden lg:block absolute inset-y-0 left-0 w-[58%] z-[8] pointer-events-none"
-        style={{ background: "linear-gradient(to right, rgba(3,143,144,0) 0%, rgba(3,143,144,0.45) 20%, rgba(3,143,144,0.35) 55%, transparent 100%)" }}
-      />
+        {/* High Contrast Dark Forest Vignette: From Top on Mobile (<lg), From Left on Desktop (lg+) */}
+        <div className="absolute inset-x-0 top-0 h-[82%] lg:inset-y-0 lg:left-0 lg:w-[68%] lg:h-full bg-gradient-to-b lg:bg-gradient-to-r from-[#011a15]/96 via-[#012620]/85 via-60% to-transparent pointer-events-none" />
+        
+        {/* Bottom Grounding Gradient connecting to the sections below */}
+        <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-t from-[#012620] to-transparent pointer-events-none opacity-90" />
+      </div>
 
       {/* MOBILE + TABLET: sugarcane rooted at the bottom, parallax-rising + growing on scroll */}
       <motion.div
@@ -67,12 +69,12 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         <img
           src="/images/hero/parallax/FG_cane_l.png"
           alt=""
-          className="absolute bottom-0 left-[-10%] w-[58%] sm:w-[46%] h-auto drop-shadow-lg"
+          className="absolute bottom-0 left-[-10%] w-[58%] sm:w-[46%] h-auto drop-shadow-2xl"
         />
         <img
           src="/images/hero/parallax/FG_cane_l.png"
           alt=""
-          className="absolute bottom-0 right-[-10%] w-[58%] sm:w-[46%] h-auto -scale-x-100 drop-shadow-lg"
+          className="absolute bottom-0 right-[-10%] w-[58%] sm:w-[46%] h-auto -scale-x-100 drop-shadow-2xl"
         />
       </motion.div>
 
@@ -86,7 +88,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
             alt=""
             width={679}
             height={429}
-            className="absolute top-0 right-0 w-[34%] sm:w-[28%] h-auto opacity-90"
+            className="absolute top-0 right-0 w-[34%] sm:w-[28%] h-auto opacity-70 drop-shadow-lg"
             priority
           />
           <Image
@@ -94,17 +96,17 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
             alt=""
             width={679}
             height={429}
-            className="absolute top-0 left-0 w-[34%] sm:w-[28%] h-auto -scale-x-100 opacity-90"
+            className="absolute top-0 left-0 w-[34%] sm:w-[28%] h-auto -scale-x-100 opacity-70 drop-shadow-lg"
           />
         </div>
 
         {/* navbar spacer on mobile */}
         <div className="lg:hidden h-[26vh] sm:h-[24vh] w-full" />
 
-        {/* Text Section: Indented to align with other sections, overlapping image on desktop */}
+        {/* Text Section: High-contrast white typography with crisp drop shadows */}
         <div className="relative z-20 flex flex-col items-center lg:items-start text-center lg:text-left -mt-4 lg:mt-0 pt-3 pb-24 md:pt-10 md:pb-32 lg:py-0 w-full lg:max-w-3xl">
-          {/* Brand Heading */}
-          <h1 className="mb-3 lg:mb-8">
+          {/* Brand Heading (Logo inverted to pure white across all devices) */}
+          <h1 className="mb-3 lg:mb-6">
             <Image
               src="/images/logo.png"
               alt="Good Garbage Podcast"
@@ -112,17 +114,17 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
               height={214}
               priority
               sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 480px"
-              className="w-64 sm:w-80 md:w-96 lg:w-[30rem] h-auto lg:brightness-0 lg:invert drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]"
+              className="w-64 sm:w-80 md:w-96 lg:w-[30rem] h-auto brightness-0 invert drop-shadow-[0_4px_20px_rgba(0,0,0,0.65)]"
             />
           </h1>
 
-          <p className="max-w-xl font-serif leading-[1.5] text-black/90 font-medium text-sm sm:text-base md:text-lg lg:text-xl tracking-normal mb-4 lg:mb-8 px-4 lg:px-0">
+          <p className="max-w-xl font-serif leading-[1.6] text-white font-medium text-sm sm:text-base md:text-lg lg:text-xl tracking-normal mb-6 lg:mb-8 px-4 lg:px-0 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
             Conversations on turning what the world throws away into what brings it back to life — biomaterials, composting, and the people regenerating our planet.
           </p>
 
-          {/* Concept A: kinetic episode marquee */}
+          {/* Concept A: kinetic episode marquee (High contrast white) */}
           <div
-            className="marquee-mask relative w-full max-w-xl mb-5 lg:mb-12 overflow-hidden"
+            className="marquee-mask relative w-full max-w-xl mb-6 lg:mb-12 overflow-hidden"
             style={{
               maskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)',
               WebkitMaskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)',
@@ -131,28 +133,31 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
             <div className="marquee-track flex w-max items-center gap-6">
               {[...EPISODE_TITLES, ...EPISODE_TITLES].map((title, i) => (
                 <span key={i} className="flex shrink-0 items-center gap-6">
-                  <span className="whitespace-nowrap font-sans text-[11px] md:text-xs font-bold uppercase tracking-[0.15em] text-black/80">
+                  <span className="whitespace-nowrap font-sans text-[11px] md:text-xs font-bold uppercase tracking-[0.15em] text-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
                     {title}
                   </span>
-                  <Leaf className="w-3 h-3 shrink-0 text-black/50" />
+                  <Leaf className="w-3.5 h-3.5 shrink-0 text-[#aeddd9] drop-shadow-sm" />
                 </span>
               ))}
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 lg:gap-6">
-            <PodcastButton episodeName="A Fresh Start" size={isMobile ? "sm" : "lg"} className="min-w-[200px] lg:min-w-[280px] !h-14 lg:!h-16 shadow-2xl" />
-            <Button variant="glass" className="!text-black lg:!text-white border-black/40 lg:border-white/40 backdrop-blur-md min-w-[200px] lg:min-w-[280px] !h-14 lg:!h-16 !py-0 flex items-center justify-center shadow-2xl">
-              View Archive
-            </Button>
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3.5 sm:gap-4 w-full sm:w-auto">
+            <PodcastButton episodeName="A Fresh Start" className="shrink-0 shadow-2xl" />
+
+            <Link href="/episodes" className="shrink-0">
+              <Button variant="glass" className="!text-white bg-white/10 hover:bg-white/20 border-white/50 backdrop-blur-md px-7 h-13 sm:h-14 md:h-15 rounded-full flex items-center justify-center shadow-2xl font-bold text-sm sm:text-base transition-all hover:scale-[1.03]">
+                View Archive
+              </Button>
+            </Link>
           </div>
 
-          {/* Trust strip */}
-          <div className="mt-5 lg:mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-1.5 font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-black/70 lg:text-white/60">
+          {/* Trust strip (High contrast white) */}
+          <div className="mt-6 lg:mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-1.5 font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white/90 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
             <span>Sponsored by Pakka</span>
-            <span className="w-1 h-1 rounded-full bg-black/40 lg:bg-white/40" />
+            <span className="w-1 h-1 rounded-full bg-white/60" />
             <span>49 Episodes</span>
-            <span className="w-1 h-1 rounded-full bg-black/40 lg:bg-white/40" />
+            <span className="w-1 h-1 rounded-full bg-white/60" />
             <span>Spotify · Apple · YouTube</span>
           </div>
 

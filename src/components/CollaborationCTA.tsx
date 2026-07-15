@@ -2,59 +2,134 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
+import { Mic, Sparkles, TrendingUp, Package, HeartHandshake, Cpu, ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "./ui/Button";
+
+const COLLAB_TYPES = [
+  { name: "Product Dev", desc: "Circular packaging & biomaterials", icon: <Package className="w-5 h-5 text-[#aeddd9]" /> },
+  { name: "Funding", desc: "Strategic investment & grants", icon: <TrendingUp className="w-5 h-5 text-[#aeddd9]" /> },
+  { name: "Guest", desc: "Share your story on the podcast", icon: <Mic className="w-5 h-5 text-[#aeddd9]" /> },
+  { name: "Sponsorship", desc: "Brand alignment & co-creation", icon: <HeartHandshake className="w-5 h-5 text-[#aeddd9]" /> },
+  { name: "Technology", desc: "Regenerative systems & R&D", icon: <Cpu className="w-5 h-5 text-[#aeddd9]" /> },
+  { name: "Other", desc: "Custom ideas & partnerships", icon: <Sparkles className="w-5 h-5 text-[#aeddd9]" /> },
+];
 
 export function CollaborationCTA() {
   return (
-    <section className="pt-24 md:pt-32 pb-0 bg-primary relative overflow-hidden z-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pb-16 md:pb-24 relative z-10 flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-24">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="space-y-6 flex-1 text-left"
-        >
-          <div className="space-y-4">
-            <div className="inline-block px-4 py-1 rounded-full border border-white/20 text-white text-[10px] uppercase font-black tracking-widest bg-white/5">
-              Collaboration
-            </div>
-            <h2 className="text-3xl md:text-5xl font-serif text-white tracking-tighter leading-[1.1]">
-              Want to be featured <br /> or <span className="italic font-normal text-white/50">collaborate?</span>
-            </h2>
-            <p className="text-md md:text-lg text-white/80 font-sans leading-relaxed max-w-lg">
-              Share your story with our community. We're looking for guests, activists, and dreamers to build a brighter future together.
-            </p>
-          </div>
-        </motion.div>
+    <section 
+      id="collaborate" 
+      className="min-h-screen lg:h-screen lg:max-h-[880px] w-full bg-[#012620] relative overflow-hidden z-20 flex items-center justify-center py-16 md:py-20 px-6 sm:px-8 md:px-12"
+    >
+      {/* Studio Ghibli Painted Countryside Backdrop (Rolling green hills, deep shadow forest & dirt road) */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <img src="/images/hero/ghibli_bg.png" alt="Studio Ghibli Countryside Landscape" className="absolute inset-0 h-full w-full object-cover object-center" />
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="relative shrink-0"
-        >
-          {/* Creative Button Wrapper */}
-          <div className="absolute inset-0 bg-background/10 blur-2xl rounded-full" />
-          <Link href="/contact" className="relative block group">
-            <Button
-              variant="accent"
-              className="!px-10 !h-12 md:!h-16 !text-xs md:!text-base bg-white !text-[#038f90] hover:bg-[#aeddd9] transition-all duration-500 rounded-2xl group-hover:rotate-1 shadow-2xl"
-            >
-              Let's Talk Garbage
-              <span className="ml-3 group-hover:translate-x-2 transition-transform duration-300">→</span>
-            </Button>
-          </Link>
-        </motion.div>
+        {/* Deep Forest Shadow Overlay to guarantee pristine WCAG AAA legibility for cards and typography */}
+        <div className="absolute inset-0 bg-[#012620]/65 pointer-events-none" />
       </div>
 
-      {/* Wave: Teal (#038f90) -> Mint (#d4eedf) */}
-      <div className="w-full block leading-none bg-[#038f90]">
-        <svg className="w-full h-12 md:h-20 block" viewBox="0 0 1440 80" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,40 C320,80 640,10 960,60 C1200,80 1350,20 1440,45 L1440,80 L0,80 Z" fill="#d4eedf" />
-        </svg>
+      <div className="max-w-7xl mx-auto w-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-10 lg:gap-16 items-center">
+          
+          {/* Left Column: Clean Editorial Typography & Compact Host Preview (Zero Cranky Boxes) */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="space-y-6 lg:space-y-8 text-left"
+          >
+            <div className="space-y-3">
+              <span className="text-[11px] uppercase font-black tracking-[0.3em] text-[#aeddd9] block">
+                Open Call For Collaborations
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tighter leading-[1.08] drop-shadow-sm">
+                Collaborate across <br className="hidden lg:block" /> 6 key areas
+              </h2>
+            </div>
+
+            <p className="text-sm sm:text-base text-white/95 font-sans leading-relaxed max-w-md">
+              Whether you are innovating circular biomaterials, seeking strategic alignment, or wanting to share your story on the podcast, our team is open to co-creation.
+            </p>
+
+            {/* Integrated Host & Production Team Pill (High contrast dark card) */}
+            <div className="flex items-center gap-4 p-3 sm:p-3.5 bg-[#013536] rounded-2xl border border-white/20 shadow-md max-w-md">
+              <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-[#012829] shrink-0 border border-white/30 shadow-inner group">
+                <Image
+                  src="/images/hero/ved_dt.png"
+                  alt="Ved Krishna - Host & Collaborator"
+                  fill
+                  sizes="56px"
+                  className="object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div>
+                <h4 className="font-black text-sm text-white tracking-wide">Ved Krishna &amp; Production Team</h4>
+                <p className="text-[11px] text-[#aeddd9] font-bold mt-0.5">Host, Producers &amp; Pakka Innovators</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Column: High-Contrast Interactive Grid & Action Bar */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="flex flex-col justify-between space-y-8 lg:space-y-10 w-full min-w-0"
+          >
+            {/* 2x3 Choice Grid: Crisp, high-contrast dark tiles instead of hazy low-opacity boxes */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              {COLLAB_TYPES.map((type) => (
+                <Link
+                  key={type.name}
+                  href={`/contact?topic=${encodeURIComponent(type.name)}`}
+                  className="group relative rounded-2xl p-4 sm:p-5 bg-[#013536] hover:bg-[#012627] border border-white/20 hover:border-[#aeddd9] transition-all duration-300 flex items-center justify-between gap-3 shadow-md hover:shadow-2xl hover:-translate-y-0.5 cursor-pointer"
+                >
+                  <div className="flex items-center gap-3.5 min-w-0">
+                    <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#aeddd9] group-hover:text-[#013536] transition-all duration-300">
+                      {type.icon}
+                    </div>
+                    <div className="min-w-0 text-left">
+                      <h3 className="font-bold text-sm sm:text-base text-white tracking-wide truncate group-hover:text-[#aeddd9] transition-colors">
+                        {type.name}
+                      </h3>
+                      <p className="text-[11px] sm:text-xs text-white/85 truncate mt-0.5 font-sans">
+                        {type.desc}
+                      </p>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 text-white/60 group-hover:text-[#aeddd9] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+                </Link>
+              ))}
+            </div>
+
+            {/* High-Contrast Action Bar */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
+              <Link href="/contact" className="flex-1">
+                <Button
+                  variant="accent"
+                  className="w-full !h-12 sm:!h-14 !px-6 !text-xs sm:!text-sm uppercase tracking-widest bg-white !text-[#013536] hover:bg-[#aeddd9] transition-all duration-300 rounded-xl shadow-xl font-black flex items-center justify-center gap-2.5 group border border-transparent"
+                >
+                  <span>Apply for Collaboration</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              <Link href="/about" className="sm:w-auto">
+                <Button
+                  variant="glass"
+                  className="w-full sm:w-auto !h-12 sm:!h-14 !px-6 !text-xs sm:!text-sm bg-[#013536] hover:bg-[#012627] border-white/40 hover:border-white !text-white uppercase tracking-widest rounded-xl flex items-center justify-center font-bold shadow-lg"
+                >
+                  Meet our Team &amp; Host
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );
 }
+

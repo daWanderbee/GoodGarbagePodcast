@@ -52,22 +52,15 @@ export default function AboutPage() {
           accent="Podcast"
           subtitle="A vibrant celebration exploring garbage in ways you've never thought of — turning what we throw away into what brings the world back to life."
         />
-
-        {/* Irregular Asymmetric Swoop bridging Teal Hero into Cream Background */}
-        <div className="w-full -mt-2 relative z-10 pointer-events-none leading-none">
-          <svg viewBox="0 0 1440 65" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto block">
-            <path d="M0 -5H1440V12C1280 48 1050 55 820 28C590 1 340 58 160 44L0 35V-5Z" fill="#038f90" />
-          </svg>
-        </div>
       </div>
 
-      {/* 2. Mission Section with Curvy Multi-Image Collage */}
-      <section className="px-6 md:px-12 py-16 md:py-24 relative z-10 overflow-visible">
+      {/* 2. Mission Section overlapping smoothly right over the PageHero bottom edge */}
+      <section className="px-6 md:px-12 py-16 md:py-24 bg-[#f2ede4] rounded-t-[36px] md:rounded-t-[64px] -mt-10 md:-mt-16 relative z-30 shadow-2xl overflow-visible">
         <DecorationBush className="right-6 md:right-16 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80" />
         <DecorationTreeTwo className="left-4 md:left-12 bottom-4 w-14 h-20 md:w-16 md:h-24 opacity-75" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_1.1fr] gap-12 lg:gap-20 items-center relative z-10">
           <div className="space-y-6">
-            <span className="inline-block px-3.5 py-1.5 rounded-full bg-[#636b58]/15 text-[#636b58] font-sans text-[10px] font-black uppercase tracking-[0.25em]">
+            <span className="text-[11px] font-black uppercase tracking-[0.3em] text-[#636b58] block">
               Our Core Belief
             </span>
             <h2 className="text-3xl md:text-5xl font-serif text-[#038f90] leading-[1.05] tracking-tighter">
@@ -124,10 +117,9 @@ export default function AboutPage() {
                 src="/images/episodes/latest.png"
                 alt="Compostable Materials Artwork"
                 fill
-                sizes="(max-width: 768px) 45vw, 300px"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-black/35" />
               <span className="absolute bottom-3 left-3 bg-[#0d6e4e] text-white text-[9px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
                 Biomaterials
               </span>
@@ -136,9 +128,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 3. Meet the Host Section */}
+      {/* 3. Meet the Team & Host Section */}
       <section className="px-6 md:px-12 py-12 md:py-20 relative z-20">
-        <div className="max-w-7xl mx-auto rounded-[44px] md:rounded-[52px] bg-gradient-to-br from-[#038f90] via-[#047a7b] to-[#0a5e46] text-white p-8 md:p-14 lg:p-16 shadow-2xl relative overflow-hidden border border-white/20">
+        <div className="max-w-7xl mx-auto rounded-[44px] md:rounded-[52px] bg-[#038f90] text-white p-8 md:p-14 lg:p-16 shadow-2xl relative overflow-hidden border border-white/20">
           <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#f2ede4_1px,transparent_1px)] [background-size:16px_16px]" />
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-10 lg:gap-16 items-center relative z-10">
@@ -148,26 +140,27 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="relative aspect-[4/5] max-w-md mx-auto lg:mx-0 w-full rounded-[38px] overflow-hidden bg-gradient-to-b from-[#aeddd9]/25 to-black/40 ring-2 ring-white/25 shadow-2xl flex items-end justify-center group"
+              className="flex flex-col max-w-md mx-auto lg:mx-0 w-full rounded-[36px] overflow-hidden bg-[#013e3f] ring-2 ring-white/25 shadow-2xl group"
             >
-              <Image
-                src="/images/hero/ved_dt.png"
-                alt="Ved Krishna - Host of Good Garbage Podcast"
-                fill
-                sizes="(max-width: 768px) 90vw, 450px"
-                className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent pointer-events-none" />
-              <div className="absolute bottom-6 left-6 right-6 z-10">
-                <span className="inline-block px-3.5 py-1 rounded-full bg-[#aeddd9] text-[#038f90] font-sans text-[10px] font-black uppercase tracking-[0.2em] mb-2 shadow">
-                  Host & Guide
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/20">
+                <Image
+                  src="/images/hero/ved_dt.png"
+                  alt="Ved Krishna - Host of Good Garbage Podcast"
+                  fill
+                  sizes="(max-width: 768px) 90vw, 450px"
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              <div className="bg-[#013536] p-5 border-t border-white/15 z-10 flex flex-col items-start gap-1">
+                <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#aeddd9] block">
+                  Host &amp; Production Team
                 </span>
-                <p className="font-serif text-2xl text-white tracking-tight">Ved Krishna</p>
-                <p className="font-sans text-xs text-white/80">Regenerative Innovator & Entrepreneur</p>
+                <p className="font-serif text-2xl text-white tracking-tight">Ved Krishna &amp; Team</p>
+                <p className="font-sans text-xs text-white/80">Producers &amp; Pakka Circular Innovators</p>
               </div>
             </motion.div>
 
-            {/* Host Bio */}
+            {/* Host & Team Bio */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -177,10 +170,10 @@ export default function AboutPage() {
             >
               <div className="space-y-3">
                 <span className="text-[10px] uppercase font-black tracking-[0.4em] text-[#aeddd9] block">
-                  The Voice Behind The Show
+                  The Voices &amp; Team Behind The Show
                 </span>
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif text-white leading-[1.0] tracking-tighter">
-                  Ved Krishna
+                  Ved Krishna &amp; Team
                 </h2>
                 <p className="font-serif italic text-lg md:text-xl text-[#aeddd9]">
                   "Decay is simply the first step toward growth."
@@ -224,7 +217,7 @@ export default function AboutPage() {
       <section className="px-6 md:px-12 py-16 md:py-24 bg-[#d4eedf] relative z-10">
         <div className="max-w-7xl mx-auto">
           <div className="mb-14 text-center lg:text-left">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-[#038f90]/10 text-[#038f90] font-sans text-[10px] font-black uppercase tracking-[0.3em] mb-3">
+            <span className="text-[11px] uppercase font-black tracking-[0.3em] text-[#038f90] block mb-3">
               Who It's For
             </span>
             <h2 className="text-3xl md:text-5xl font-serif text-[#038f90] tracking-tighter">
@@ -271,9 +264,9 @@ export default function AboutPage() {
       <section className="px-6 md:px-12 py-20 md:py-28 bg-[#038f90] relative overflow-hidden z-10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-center relative z-10">
           <div className="space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/25 bg-white/10 text-white text-[10px] uppercase font-black tracking-widest backdrop-blur-md">
+            <span className="flex items-center gap-2 text-[11px] uppercase font-black tracking-[0.3em] text-[#aeddd9] justify-center lg:justify-start mb-2">
               <Leaf className="w-3.5 h-3.5 text-[#aeddd9]" /> Proudly Powered by
-            </div>
+            </span>
             <h2 className="text-4xl md:text-6xl font-serif text-white tracking-tighter leading-[1.0]">
               A Podcast by <br /> <span className="italic text-[#aeddd9]">PAKKA Limited</span>
             </h2>

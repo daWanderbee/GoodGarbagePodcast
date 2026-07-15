@@ -38,7 +38,7 @@ function GuestCard({ guest, index }: { guest: Episode; index: number }) {
         className="w-24 h-24 rounded-full shadow-lg flex items-center justify-center font-serif text-3xl font-bold text-white mb-6 shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-300"
         style={{ backgroundColor: tint }}
       >
-        <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-white/15" />
+        <div className="absolute inset-0 bg-black/10" />
         <span className="relative z-10 tracking-tight">{initials(guest.guest)}</span>
       </div>
 
@@ -78,31 +78,25 @@ export default function GuestsPage() {
 
   return (
     <main className="min-h-screen overflow-x-hidden">
-      {/* Zone 1: Hero in Teal (#038f90) */}
-      <div className="relative bg-[#038f90]">
+      {/* Zone 1: Hero */}
+      <div className="relative">
         <PageHero
           eyebrow="Voices of Regeneration"
           title="Our"
           accent="Guests"
           subtitle="Biomaterials scientists, packaging founders, researchers, and activists from around the world — the people regenerating our planet."
         />
-        {/* Wave: Teal (#038f90) -> Mint (#d4eedf) */}
-        <div className="w-full block leading-none bg-[#038f90]">
-          <svg className="w-full h-12 md:h-20 block" viewBox="0 0 1440 80" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,20 C240,70 480,10 720,45 C960,80 1200,15 1440,40 L1440,80 L0,80 Z" fill="#d4eedf" />
-          </svg>
-        </div>
       </div>
 
-      {/* Zone 2: Biomaterials & Science Pioneers against Mint Background (#d4eedf) */}
-      <section className="px-6 md:px-12 py-16 md:py-24 bg-[#d4eedf] relative z-10 overflow-visible">
+      {/* Zone 2: Biomaterials & Science Pioneers against Mint Background (#d4eedf) overlapping over PageHero */}
+      <section className="px-6 md:px-12 py-16 md:py-24 bg-[#d4eedf] rounded-t-[36px] md:rounded-t-[64px] -mt-10 md:-mt-16 relative z-30 shadow-2xl overflow-visible">
         <DecorationBush className="right-4 md:right-12 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80" />
         <DecorationTree className="left-4 md:left-10 bottom-2 w-12 h-24 md:w-16 md:h-32 opacity-75" />
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-12 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#038f90]/10 text-[#038f90] font-sans text-[10px] font-black uppercase tracking-[0.25em] mb-3">
+            <span className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] text-[#038f90] justify-center md:justify-start mb-2">
               <Sparkles className="w-3.5 h-3.5" /> Biomaterials & Science Pioneers
-            </div>
+            </span>
             <h2 className="text-3xl md:text-4xl font-serif text-[#038f90] tracking-tight">
               Leading the Materials Shift
             </h2>
@@ -129,9 +123,9 @@ export default function GuestsPage() {
         <DecorationBush className="left-6 md:left-14 bottom-4 w-14 h-14 md:w-16 md:h-16 opacity-80" />
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-12 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#b06a2c]/10 text-[#b06a2c] font-sans text-[10px] font-black uppercase tracking-[0.25em] mb-3">
+            <span className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] text-[#b06a2c] justify-center md:justify-start mb-2">
               <Sparkles className="w-3.5 h-3.5" /> Systems & Policy Founders
-            </div>
+            </span>
             <h2 className="text-3xl md:text-4xl font-serif text-[#038f90] tracking-tight">
               Changemakers & Global Activists
             </h2>

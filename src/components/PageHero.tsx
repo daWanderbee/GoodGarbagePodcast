@@ -13,8 +13,15 @@ interface PageHeroProps {
 // Shared dark-teal page header — keeps the white navbar legible and sets the tone.
 export function PageHero({ eyebrow, title, accent, subtitle }: PageHeroProps) {
   return (
-    <section className="relative bg-[#038f90] px-6 md:px-12 pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden">
-      <div className="max-w-7xl mx-auto text-center lg:text-left">
+    <section className="relative bg-[#012620] px-6 md:px-12 pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden z-20">
+      {/* Studio Ghibli Countryside Backdrop across all subpage headers */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <img src="/images/hero/ghibli_bg.png" alt="Studio Ghibli Countryside Landscape" className="absolute inset-0 h-full w-full object-cover object-center" />
+        {/* Deep Botanical Shadow Overlay for pristine WCAG AAA text legibility */}
+        <div className="absolute inset-0 bg-[#012620]/65 pointer-events-none" />
+      </div>
+
+      <div className="max-w-7xl mx-auto text-center lg:text-left relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}

@@ -37,32 +37,17 @@ export default function EpisodesPage() {
   return (
     <main className="bg-[#f2ede4] min-h-screen relative overflow-hidden">
       {/* Hero Section */}
+      {/* Hero Section */}
       <div className="relative">
         <PageHero
           eyebrow="The Archive"
           title="Episodes"
           subtitle="Every conversation on turning what the world throws away into what brings it back to life. Search the archive or filter by theme."
         />
-
-        {/* Irregular Asymmetric Swell where Teal (#038f90) meets Cream (#f2ede4) */}
-        <div className="w-full -mt-2 relative z-10 pointer-events-none leading-none">
-          <svg
-            viewBox="0 0 1440 60"
-            preserveAspectRatio="none"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full h-auto block"
-          >
-            <path
-              d="M0 -5H1440V28C1260 52 1040 18 800 22C560 26 300 48 120 32L0 20V-5Z"
-              fill="#038f90"
-            />
-          </svg>
-        </div>
       </div>
 
-      {/* Curvy Floating Search & Filter Section */}
-      <section className="px-6 md:px-12 -mt-6 relative z-30">
+      {/* Curvy Floating Search & Filter Section directly overlapping over PageHero */}
+      <section className="px-6 md:px-12 -mt-12 md:-mt-16 relative z-30">
         <div className="max-w-7xl mx-auto rounded-[36px] bg-white/90 backdrop-blur-md shadow-2xl ring-1 ring-[#038f90]/15 p-5 md:p-7 flex flex-col lg:flex-row gap-5 lg:items-center lg:justify-between border border-white/60">
           <label className="flex items-center gap-3.5 flex-1 rounded-full bg-[#f2ede4]/80 px-6 py-4 shadow-inner border border-[#038f90]/10 focus-within:ring-2 focus-within:ring-[#038f90]/30 transition-all">
             <Search className="w-5 h-5 text-[#038f90]/60 shrink-0" />
@@ -130,7 +115,7 @@ export default function EpisodesPage() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                    <div className="absolute inset-0 bg-black/35" />
                     
                     {/* Floating Category Badge inside Thumbnail */}
                     <span
