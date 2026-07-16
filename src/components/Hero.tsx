@@ -13,10 +13,10 @@ const EPISODE_TITLES = [
   "Can Seaweed Replace Plastic?",
   "Packaging You Can Eat",
   "Why Composting Is Having a Revolution",
-  "This Artist Is Cleaning the Planet",
   "From Petroleum to Purpose",
+  "Revolutionizing Materials",
   "The Myth of Recycling",
-  "From Greenhouse Gas to Green Polymers",
+  "From War Zones to Sustainable Solutions",
 ];
 
 interface HeroProps {
@@ -54,8 +54,8 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
         {/* Deep Botanical Emerald Shadow Wash (Harmonizes the painted hills with our foreground sugarcane and forest leaves) */}
         <div className="absolute inset-0 bg-[#012620]/30 pointer-events-none" />
 
-        {/* High Contrast Dark Forest Vignette: From Top on Mobile (<lg), From Left on Desktop (lg+) */}
-        <div className="absolute inset-x-0 top-0 h-[82%] lg:inset-y-0 lg:left-0 lg:w-[68%] lg:h-full bg-gradient-to-b lg:bg-gradient-to-r from-[#011a15]/96 via-[#012620]/85 via-60% to-transparent pointer-events-none" />
+        {/* High Contrast Dark Forest Vignette: goes down on mobile (`to-b`) and to the right on desktop (`to-r`) */}
+        <div className="absolute inset-y-0 left-0 w-full lg:w-[68%] bg-gradient-to-b lg:bg-gradient-to-r from-[#011a15]/95 via-[#012620]/80 to-transparent pointer-events-none" />
         
         {/* Bottom Grounding Gradient connecting to the sections below */}
         <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-t from-[#012620] to-transparent pointer-events-none opacity-90" />
@@ -142,11 +142,14 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3.5 sm:gap-4 w-full sm:w-auto">
-            <PodcastButton episodeName="A Fresh Start" className="shrink-0 shadow-2xl" />
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3.5 sm:gap-4 w-full max-w-sm sm:max-w-none mx-auto lg:mx-0">
+            <PodcastButton 
+              episodeName="Listen Now" 
+              className="!h-13 sm:!h-14 md:!h-15 px-6 sm:px-7 w-full sm:w-auto justify-center shrink-0 shadow-2xl transition-all hover:scale-[1.03]" 
+            />
 
-            <Link href="/episodes" className="shrink-0">
-              <Button variant="glass" className="!text-white bg-white/10 hover:bg-white/20 border-white/50 backdrop-blur-md px-7 h-13 sm:h-14 md:h-15 rounded-full flex items-center justify-center shadow-2xl font-bold text-sm sm:text-base transition-all hover:scale-[1.03]">
+            <Link href="/episodes" className="shrink-0 w-full sm:w-auto">
+              <Button variant="glass" className="!text-white bg-white/10 hover:bg-white/20 border-white/50 backdrop-blur-md px-6 sm:px-7 !h-13 sm:!h-14 md:!h-15 w-full sm:w-auto rounded-full flex items-center justify-center shadow-2xl font-bold text-sm sm:text-base transition-all hover:scale-[1.03]">
                 View Archive
               </Button>
             </Link>

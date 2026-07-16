@@ -42,10 +42,10 @@ export function LatestEpisode() {
               New Release
             </span>
             <h3 className="text-3xl md:text-6xl font-serif leading-tight tracking-tight text-[#038f90]">
-              The Hidden Value <br /> of <span className="italic opacity-60">Waste</span>
+              From War Zones <br /> to <span className="italic opacity-60">Sustainable Solutions</span>
             </h3>
             <p className="text-sm md:text-xl text-[#038f90]/80 leading-relaxed max-w-lg font-sans">
-              Exploring how discarded materials can be transformed into high-value resources and sustainable creative solutions.
+              Anita Shah left two decades of humanitarian work in conflict zones to build Kenya&apos;s first biodegradable tableware facility. This episode is about what happens when you decide the world&apos;s waste problem is too important to leave to someone else.
             </p>
           </div>
 
@@ -53,11 +53,11 @@ export function LatestEpisode() {
             <div className="flex items-center gap-12 md:gap-16">
               <div>
                 <p className="text-[10px] uppercase font-bold text-[#038f90]/40 mb-2 tracking-widest">Guest</p>
-                <p className="text-sm md:text-lg font-black text-[#038f90]">Dr. Sarah Jenkins</p>
+                <p className="text-sm md:text-lg font-black text-[#038f90]">Anita Shah, Founder · Green Stem Products Ltd.</p>
               </div>
               <div>
                 <p className="text-[10px] uppercase font-bold text-[#038f90]/40 mb-2 tracking-widest">Duration</p>
-                <p className="text-sm md:text-lg font-black text-[#038f90]">45 mins</p>
+                <p className="text-sm md:text-lg font-black text-[#038f90]">1h 12m</p>
               </div>
             </div>
 

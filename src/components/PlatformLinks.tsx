@@ -35,7 +35,7 @@ export function PlatformLinks() {
 
       <div className="max-w-6xl w-full mx-auto flex flex-col items-center text-center space-y-12 relative z-10 px-6">
         <h2 className="text-2xl md:text-3xl font-serif tracking-tighter text-[#d4eedf]">
-          Listen on <span className="opacity-40 italic ml-2 text-white/70">Platforms</span>
+          Listen on <span className="opacity-40 italic ml-2 text-white/70">Your Platform</span>
         </h2>
 
         <div className="flex flex-row items-center justify-center gap-6 md:gap-16 w-full overflow-x-auto pb-4 no-scrollbar">

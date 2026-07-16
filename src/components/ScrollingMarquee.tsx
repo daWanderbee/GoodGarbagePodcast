@@ -26,9 +26,9 @@ export function ScrollingMarquee() {
         </motion.div>
       </div>
 
-      {/* SUBTLE SPROUTING CURVE: Now using the matching light green to bulge into the next section */}
-      <div className="absolute bottom-0 left-0 w-full translate-y-[99%] pointer-events-none z-[60]">
-        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+      {/* SUBTLE SPROUTING CURVE: Overlapping 2px into the next section to guarantee zero subpixel crease lines */}
+      <div className="absolute bottom-0 left-0 w-full translate-y-[calc(100%-2px)] pointer-events-none z-[60] leading-none">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto block">
           <path 
             d="M0 0C160 45 320 45 480 25C640 5 800 65 960 25C1120 -15 1280 45 1440 0H0Z" 
             fill="#d4eedf" 

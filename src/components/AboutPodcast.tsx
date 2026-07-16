@@ -18,11 +18,11 @@ export function AboutPodcast() {
   const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.9]);
 
   return (
-    <section ref={sectionRef} className="pt-20 md:pt-28 pb-0 bg-[#f2ede4] relative overflow-visible">
-      {/* Hand-drawn Irregular Wave Divider */}
-      <div className="absolute top-0 left-0 w-full -translate-y-[98%] pointer-events-none">
-        <svg viewBox="0 0 1440 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-          <path d="M0 160L48 144C96 128 192 96 288 96C384 96 480 128 576 138.7C672 149.3 768 138.7 864 122.7C960 106.7 1056 85.3 1152 74.7C1248 64 1344 64 1392 64H1440V160H1392C1344 160 1248 160 1152 160C1056 160 960 160 864 160C768 160 672 160 576 160C480 160 384 160 288 160C192 160 96 160 48 160H0V160Z" fill="#f2ede4" />
+    <section ref={sectionRef} className="pt-20 md:pt-32 pb-0 bg-[#f2ede4] relative overflow-visible -mt-8 sm:-mt-14 md:-mt-20 z-[30]">
+      {/* Seamless Unbroken Cream Arch right above VALUE PROPOSITION with 2px downward overlap */}
+      <div className="absolute top-0 left-0 w-full translate-y-[calc(-100%+2px)] pointer-events-none z-[35] overflow-visible leading-none">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-12 sm:h-20 md:h-28 lg:h-36 block">
+          <path d="M0 120 Q 720 -30, 1440 120 L 1440 124 L 0 124 Z" fill="#f2ede4" />
         </svg>
       </div>
       <div className="max-w-7xl mx-auto px-6 md:px-12 pb-16 md:pb-24">
@@ -32,16 +32,16 @@ export function AboutPodcast() {
             <div className="space-y-6">
               <span className="text-[10px] md:text-[11px] uppercase font-black tracking-[0.4em] text-[#038f90]/70 block mb-4">Value Proposition</span>
               <h2 className="text-2xl md:text-5xl font-serif text-[#038f90] leading-[0.95] tracking-tighter">
-                Making the world bright <br /> with <span className="italic opacity-50">&quot;Good Garbage&quot;</span>
+                Making the world bright <br /> with <span className="italic opacity-50">Good Garbage</span>
               </h2>
             </div>
 
             <div className="space-y-4 text-black/80 max-w-lg">
               <p className="text-base md:text-lg font-medium leading-relaxed">
-                The Good Garbage Podcast started with a simple belief: that sustainability doesn&apos;t have to be boring—it can be a celebration.
+                The Good Garbage Podcast started with a simple belief: sustainability doesn&apos;t have to be grim — it can be a genuine celebration of what human ingenuity and natural systems can do together.
               </p>
               <p className="text-xs md:text-[15px] leading-relaxed">
-                Proudly sponsored by <span className="font-bold text-accent">Pakka</span>, we explore how discarded materials and &quot;messy&quot; ideas can be transformed into high-value resources. From global climate experts to grassroots activists, our guests share stories that inspire a cleaner, more creative future.
+                Proudly sponsored by <span className="font-bold text-accent">Pakka</span> — pioneers of compostable packaging and a plastic-free future — we sit down each week with the scientists, founders, and activists turning discarded materials into high-value resources. From biomaterials labs to grassroots movements, these are the stories that prove regeneration is already happening.
               </p>
               <div className="flex items-center gap-3 pt-2">
                 <div className="w-11 h-11 rounded-full bg-background overflow-hidden flex-shrink-0 border-2 border-[#038f90]/30 shadow-md">

@@ -13,7 +13,7 @@ export function Newsletter() {
               Never Miss <br className="hidden md:block" /> an <span className="italic opacity-60">Episode</span>
             </h2>
             <p className="text-sm md:text-lg text-[#038f90]/80 font-sans font-medium">
-              Join 5,000+ sustainability enthusiasts. Get the latest episodes and creative waste solutions delivered to your inbox.
+              Join 5,000+ sustainability enthusiasts. Get new episodes, guest features, and ideas on circular innovation delivered to your inbox every week.
             </p>
           </div>
           <div className="w-full max-w-md">

@@ -39,8 +39,8 @@ function ContactFormInner() {
           <Leaf className="w-6 h-6" />
         </div>
         <h3 className="font-serif text-2xl text-[#038f90]">Thanks — message received.</h3>
-        <p className="mt-2 text-sm text-black/60">We'll get back to you soon. In the meantime, browse the archive.</p>
-        <Link href="/episodes" className="mt-6 inline-block text-[#0d6e4e] font-bold text-sm">Explore episodes →</Link>
+        <p className="mt-2 text-sm text-black/60">We will get back to you soon. In the meantime, explore the archive.</p>
+        <Link href="/episodes" className="mt-6 inline-block text-[#0d6e4e] font-bold text-sm">Explore Episodes →</Link>
       </div>
     );
   }
@@ -99,14 +99,15 @@ export default function ContactPage() {
       <div className="relative">
         <PageHero
           eyebrow="Contact"
-          title="Let's talk"
-          accent="garbage"
-          subtitle="Join us as a guest, partner on a project, or connect with Pakka. We're always looking for people building a brighter future."
+          title="Get in"
+          accent="touch"
+          subtitle="Come on as a guest, partner on a project, or connect with Pakka. We are always looking for the people building a better relationship between what we discard and what we build."
+          curveVariant="arch"
         />
       </div>
 
-      {/* 1. Join as guest / partner overlapping over PageHero */}
-      <section className="px-6 md:px-12 py-16 md:py-24 bg-[#f2ede4] rounded-t-[36px] md:rounded-t-[64px] -mt-10 md:-mt-16 relative z-30 shadow-2xl overflow-visible">
+      {/* 1. Join as guest / partner */}
+      <section className="px-6 md:px-12 py-16 md:py-24 relative overflow-visible">
         <DecorationBush className="right-6 md:right-16 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80 pointer-events-none" />
         <DecorationTree className="left-4 md:left-12 bottom-4 w-12 h-24 md:w-16 md:h-32 opacity-75 pointer-events-none" />
         <DecorationTreeTwo className="right-10 md:right-24 bottom-10 w-14 h-20 md:w-16 md:h-24 opacity-80 pointer-events-none" />
@@ -117,7 +118,7 @@ export default function ContactPage() {
               Why do you want <br /> to <span className="italic opacity-70">talk with us?</span>
             </h2>
             <p className="text-base text-black/70 leading-relaxed max-w-md">
-              Whether you are working on product development, seeking funding, applying to be a guest, or proposing a sponsorship or technology partnership, our team is ready to connect.
+              Whether you are working on product development, applying to be a guest, seeking funding, or proposing a sponsorship — our team reads every message and responds to the ones that fit. Tell us what you are building.
             </p>
             <div className="flex items-center gap-2 pt-2 text-[#038f90]/60 text-sm">
               <Mail className="w-4 h-4" /> hello@goodgarbagepodcast.com
@@ -130,10 +131,10 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Irregular Terraced Crest bridging Cream into Teal */}
-      <div className="w-full relative z-10 pointer-events-none leading-none -mb-3">
-        <svg viewBox="0 0 1440 50" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto block">
-          <path d="M0 60L100 35C320 8 540 42 760 30C980 18 1200 45 1360 20L1440 10V60H0Z" fill="#038f90" />
+      {/* Wave transition from Cream into Teal Connect Section (#038f90) with 3px downward overlap */}
+      <div className="w-full block leading-none bg-[#f2ede4] -mb-[3px] relative z-20 overflow-visible">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-12 md:h-16 block overflow-visible" suppressHydrationWarning>
+          <path d="M0 60L100 35C320 8 540 42 760 30C980 18 1200 45 1360 20L1440 10V65H0Z" fill="#038f90" suppressHydrationWarning />
         </svg>
       </div>
 
@@ -148,7 +149,7 @@ export default function ContactPage() {
               Connect with <span className="italic text-white/70">Pakka Limited</span>
             </h2>
             <p className="text-base md:text-lg text-white/85 leading-relaxed max-w-lg">
-              Pakka pioneers compostable packaging that replaces single-use plastic — through Chuk and FlexC. Reach out to buy, partner, or sponsor the show.
+              Pakka pioneers compostable packaging that replaces single-use plastic — through Chuk (compostable tableware) and flexC (compostable flexible packaging). If you want to buy, partner, or sponsor the show, Pakka is the right conversation to start.
             </p>
           </div>
 

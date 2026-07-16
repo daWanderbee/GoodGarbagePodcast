@@ -37,7 +37,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-[#038f90]/60 max-w-xs font-sans leading-relaxed">
-              Exploring the beauty in the discarded and the value in the "messy" side of sustainability.
+              Exploring the beauty in the discarded — and the value in the messy side of sustainability.
             </p>
             <div className="flex items-center gap-4 text-[#038f90]/40">
               <Link href="#" className="hover:text-[#038f90] transition-colors"><Instagram size={20} /></Link>
@@ -92,7 +92,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-[#038f90]/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[9px] uppercase tracking-[0.2em] font-bold text-[#038f90]/40">
-          <p>© 2024 Good Garbage Podcast. All rights reserved.</p>
+          <p>© 2025 Good Garbage Podcast. All rights reserved.</p>
           <div className="flex items-center gap-8">
             <Link href="#" className="hover:text-[#038f90] transition-colors">Privacy Policy</Link>
             <Link href="#" className="hover:text-[#038f90] transition-colors">Terms of Service</Link>

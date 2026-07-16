@@ -78,18 +78,20 @@ export default function GuestsPage() {
 
   return (
     <main className="min-h-screen overflow-x-hidden">
-      {/* Zone 1: Hero */}
+      {/* Zone 1: Hero (`PageHero` with Barn Image `ghibli_bg.png`) */}
       <div className="relative">
         <PageHero
           eyebrow="Voices of Regeneration"
           title="Our"
           accent="Guests"
-          subtitle="Biomaterials scientists, packaging founders, researchers, and activists from around the world — the people regenerating our planet."
+          subtitle="Biomaterials scientists, packaging founders, policy changemakers, and environmental artists from across the world — the people proving regeneration isn't a future promise. It's already underway."
+          lowerCurveColor="#d4eedf"
+          curveVariant="crest"
         />
       </div>
 
-      {/* Zone 2: Biomaterials & Science Pioneers against Mint Background (#d4eedf) overlapping over PageHero */}
-      <section className="px-6 md:px-12 py-16 md:py-24 bg-[#d4eedf] rounded-t-[36px] md:rounded-t-[64px] -mt-10 md:-mt-16 relative z-30 shadow-2xl overflow-visible">
+      {/* Zone 2: Biomaterials & Science Pioneers against Mint Background (#d4eedf) */}
+      <section className="px-6 md:px-12 py-16 md:py-24 bg-[#d4eedf] relative z-10 overflow-visible">
         <DecorationBush className="right-4 md:right-12 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80" />
         <DecorationTree className="left-4 md:left-10 bottom-2 w-12 h-24 md:w-16 md:h-32 opacity-75" />
         <div className="max-w-7xl mx-auto relative z-10">
@@ -139,15 +141,8 @@ export default function GuestsPage() {
         </div>
       </section>
 
-      {/* Wave: Cream (#f2ede4) -> Teal Collaboration CTA (#038f90) */}
-      <div className="w-full block leading-none bg-[#f2ede4]">
-        <svg className="w-full h-12 md:h-20 block" viewBox="0 0 1440 80" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,35 C360,75 720,15 1080,55 C1260,70 1360,25 1440,40 L1440,80 L0,80 Z" fill="#038f90" />
-        </svg>
-      </div>
-
-      {/* Collaborate / Be a Guest Section */}
-      <CollaborationCTA />
+      {/* Collaborate / Be a Guest Section with Cream Top Curve over Ghibli background */}
+      <CollaborationCTA topCurveColor="#f2ede4" />
 
       <Footer />
     </main>

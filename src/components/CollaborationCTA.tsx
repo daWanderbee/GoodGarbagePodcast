@@ -15,11 +15,15 @@ const COLLAB_TYPES = [
   { name: "Other", desc: "Custom ideas & partnerships", icon: <Sparkles className="w-5 h-5 text-[#aeddd9]" /> },
 ];
 
-export function CollaborationCTA() {
+interface CollaborationCTAProps {
+  topCurveColor?: string;
+}
+
+export function CollaborationCTA({ topCurveColor }: CollaborationCTAProps = {}) {
   return (
     <section 
       id="collaborate" 
-      className="min-h-screen lg:h-screen lg:max-h-[880px] w-full bg-[#012620] relative overflow-hidden z-20 flex items-center justify-center py-16 md:py-20 px-6 sm:px-8 md:px-12"
+      className="min-h-screen lg:h-screen lg:max-h-[880px] w-full bg-[#012620] relative overflow-visible z-20 flex items-center justify-center py-16 md:py-20 px-6 sm:px-8 md:px-12"
     >
       {/* Studio Ghibli Painted Countryside Backdrop (Rolling green hills, deep shadow forest & dirt road) */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -28,6 +32,15 @@ export function CollaborationCTA() {
         {/* Deep Forest Shadow Overlay to guarantee pristine WCAG AAA legibility for cards and typography */}
         <div className="absolute inset-0 bg-[#012620]/65 pointer-events-none" />
       </div>
+
+      {/* Top Curve arching down over the Studio Ghibli countryside clouds painting with un-clipped 3px upward overlap to eliminate subpixel crease lines */}
+      {topCurveColor && (
+        <div className="absolute -top-[3px] left-0 w-full pointer-events-none z-20 leading-none overflow-visible">
+          <svg viewBox="0 -10 1440 75" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-8 sm:h-12 md:h-18 block overflow-visible">
+            <path d="M0 -10 L 1440 -10 L 1440 25 Q 720 65 0 25 Z" fill={topCurveColor} />
+          </svg>
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-10 lg:gap-16 items-center">
@@ -50,7 +63,7 @@ export function CollaborationCTA() {
             </div>
 
             <p className="text-sm sm:text-base text-white/95 font-sans leading-relaxed max-w-md">
-              Whether you are innovating circular biomaterials, seeking strategic alignment, or wanting to share your story on the podcast, our team is open to co-creation.
+              Whether you are building circular biomaterials, looking for strategic alignment, or want to bring your story to a growing global audience — our team is open to co-creation. Pick your entry point below.
             </p>
 
             {/* Integrated Host & Production Team Pill (High contrast dark card) */}

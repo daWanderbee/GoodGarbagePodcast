@@ -11,31 +11,31 @@ import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
 import { DecorationBush } from "@/components/ui/DecorationBush";
 
 const audience = [
-  { 
-    icon: Sprout, 
-    title: "Sustainability Enthusiasts", 
-    text: "Actively seeking content on environmental issues, the circular economy, and regenerative design practices.",
+  {
+    icon: Sprout,
+    title: "Sustainability Enthusiasts",
+    text: "People actively seeking honest content on the circular economy, regenerative design, and environmental systems.",
     badgeColor: "bg-[#0d6e4e]/10 text-[#0d6e4e]",
     borderColor: "hover:border-[#0d6e4e]/40"
   },
-  { 
-    icon: Users, 
-    title: "Students & Researchers", 
-    text: "Early-career people in biomaterials and material science, passionate about climate action and purpose-driven work.",
+  {
+    icon: Users,
+    title: "Students & Researchers",
+    text: "Early-career people in biomaterials and material science, building careers around climate action and purpose-driven work.",
     badgeColor: "bg-[#038f90]/10 text-[#038f90]",
     borderColor: "hover:border-[#038f90]/40"
   },
-  { 
-    icon: Rocket, 
-    title: "Climate Startups & Founders", 
-    text: "Innovators building compostable packaging and circular businesses, looking for visibility and collaboration.",
+  {
+    icon: Rocket,
+    title: "Climate Startups & Founders",
+    text: "Innovators building compostable packaging and circular businesses who want visibility, community, and useful conversations.",
     badgeColor: "bg-[#b06a2c]/10 text-[#b06a2c]",
     borderColor: "hover:border-[#b06a2c]/40"
   },
-  { 
-    icon: LineChart, 
-    title: "Investors & Advocates", 
-    text: "VCs, angel investors, and policy advocates tracking high-value opportunities and emerging climate tech.",
+  {
+    icon: LineChart,
+    title: "Investors & Advocates",
+    text: "VCs, angel investors, and policy advocates tracking high-value opportunities in climate technology and regenerative materials.",
     badgeColor: "bg-[#636b58]/15 text-[#636b58]",
     borderColor: "hover:border-[#636b58]/40"
   },
@@ -50,12 +50,13 @@ export default function AboutPage() {
           eyebrow="About Our Mission"
           title="Good Garbage"
           accent="Podcast"
-          subtitle="A vibrant celebration exploring garbage in ways you've never thought of — turning what we throw away into what brings the world back to life."
+          subtitle="A vibrant celebration of what the world throws away — and the people turning it into what brings the planet back to life."
+          curveVariant="wave"
         />
       </div>
 
-      {/* 2. Mission Section overlapping smoothly right over the PageHero bottom edge */}
-      <section className="px-6 md:px-12 py-16 md:py-24 bg-[#f2ede4] rounded-t-[36px] md:rounded-t-[64px] -mt-10 md:-mt-16 relative z-30 shadow-2xl overflow-visible">
+      {/* 2. Mission Section with Curvy Multi-Image Collage */}
+      <section className="px-6 md:px-12 py-16 md:py-24 relative z-10 overflow-visible">
         <DecorationBush className="right-6 md:right-16 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80" />
         <DecorationTreeTwo className="left-4 md:left-12 bottom-4 w-14 h-20 md:w-16 md:h-24 opacity-75" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_1.1fr] gap-12 lg:gap-20 items-center relative z-10">
@@ -67,10 +68,10 @@ export default function AboutPage() {
               Garbage is not trash — it's a <span className="italic text-[#0d6e4e]">resource</span> waiting to regenerate.
             </h2>
             <p className="text-base md:text-lg text-black/75 leading-relaxed">
-              Good Garbage started with a simple philosophy: that sustainability doesn't have to be grim or preachy—it can be a vibrant celebration of human ingenuity and natural growth.
+              Good Garbage started with a simple philosophy: sustainability doesn't have to be grim or preachy. It can be a vibrant, honest celebration of human creativity and natural systems working together.
             </p>
             <p className="text-sm md:text-base text-black/65 leading-relaxed">
-              Each week we sit down with biomaterials scientists, USDA researchers, packaging founders, and environmental artists. We explore how discarded materials, seaweed, and agricultural residue are transformed into premium, living solutions.
+              Each week we sit down with biomaterials scientists, USDA researchers, packaging founders, and environmental artists — people like Anita Shah, who left conflict zones to build Kenya's first biodegradable tableware facility, and Nima Vakili, who grew up in a petrochemical family and chose biomaterials instead. We explore how seaweed, agricultural residue, and discarded materials become premium, living solutions.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -182,10 +183,10 @@ export default function AboutPage() {
 
               <div className="space-y-4 font-sans text-sm md:text-base text-white/90 leading-relaxed max-w-xl mx-auto lg:mx-0">
                 <p>
-                  Ved Krishna is on a lifelong mission to transform discarded materials into high-value resources. As a regenerative pioneer and sustainability advocate, he champions agricultural residue packaging and circular innovation.
+                  Ved Krishna is on a lifelong mission to transform discarded materials into high-value resources. As a regenerative pioneer and sustainability advocate, he builds the case for agricultural residue packaging and circular innovation — not in theory, but in practice, through Pakka.
                 </p>
                 <p>
-                  Through the <span className="font-bold text-[#aeddd9]">Good Garbage Podcast</span>, Ved sits down with global changemakers to bridge the gap between scientific depth and human optimism—proving that when we work together, we can bring the planet back to life.
+                  Through the <span className="font-bold text-[#aeddd9]">Good Garbage Podcast</span>, Ved sits down with global changemakers to close the gap between scientific depth and human optimism. The belief behind every episode: when the right people find each other, the planet gets a little healthier.
                 </p>
               </div>
 
@@ -221,7 +222,7 @@ export default function AboutPage() {
               Who It's For
             </span>
             <h2 className="text-3xl md:text-5xl font-serif text-[#038f90] tracking-tighter">
-              Made for the <span className="italic opacity-60">curious & committed</span>
+              Made for the <span className="italic opacity-60">curious and the committed</span>
             </h2>
           </div>
 
@@ -253,10 +254,10 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Irregular Fluid Ridge bridging Mint (#d4eedf) into Teal Sponsor Section (#038f90) */}
-      <div className="w-full relative z-10 pointer-events-none leading-none -mb-3 bg-[#d4eedf]">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto block">
-          <path d="M0 70L50 48C180 16 380 52 580 44C780 36 980 8 1180 16C1380 24 1420 45 1440 50V70H0Z" fill="#038f90" />
+      {/* Wave transition from Mint into Teal Sponsor Section (#038f90) with 3px downward overlap to guarantee zero subpixel crease lines */}
+      <div className="w-full block leading-none bg-[#d4eedf] -mb-[3px] relative z-20 overflow-visible">
+        <svg viewBox="0 0 1440 70" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-12 md:h-18 block overflow-visible" suppressHydrationWarning>
+          <path d="M0 70L50 48C180 16 380 52 580 44C780 36 980 8 1180 16C1380 24 1420 45 1440 50V75H0Z" fill="#038f90" suppressHydrationWarning />
         </svg>
       </div>
 
@@ -271,7 +272,7 @@ export default function AboutPage() {
               A Podcast by <br /> <span className="italic text-[#aeddd9]">PAKKA Limited</span>
             </h2>
             <p className="text-base md:text-lg text-white/85 leading-relaxed max-w-lg mx-auto lg:mx-0">
-              Good Garbage is proudly sponsored by Pakka — pioneering regenerative innovation through compostable packaging, agricultural residue feedstocks, and a plastic-free future.
+              Good Garbage is proudly sponsored by Pakka — a company pioneering regenerative innovation through compostable packaging, agricultural residue feedstocks, and a plastic-free future. Every episode is an extension of that mission: proof that what we throw away is the beginning of something better.
             </p>
             <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
               <Link href="/contact">
