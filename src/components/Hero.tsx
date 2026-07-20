@@ -119,7 +119,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
           </h1>
 
           <p className="max-w-xl font-serif leading-[1.6] text-white font-medium text-sm sm:text-base md:text-lg lg:text-xl tracking-normal mb-6 lg:mb-8 px-4 lg:px-0 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
-            Conversations on turning what the world throws away into what brings it back to life — biomaterials, composting, and the people regenerating our planet.
+            Conversations on turning what the world <em>throws away</em> into what brings it <em>back to life</em> — biomaterials, composting, and the people and ideas regenerating our planet.
           </p>
 
           {/* Concept A: kinetic episode marquee (High contrast white) */}
@@ -159,9 +159,9 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
           <div className="mt-6 lg:mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-1.5 font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white/90 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
             <span>Sponsored by Pakka</span>
             <span className="w-1 h-1 rounded-full bg-white/60" />
-            <span>49 Episodes</span>
+            <span>90+ Episodes</span>
             <span className="w-1 h-1 rounded-full bg-white/60" />
-            <span>Spotify · Apple · YouTube</span>
+            <span>YouTube · Spotify · Apple</span>
           </div>
 
         </div>

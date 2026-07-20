@@ -5,15 +5,13 @@ import { Youtube, Music, Podcast, Play, Instagram, Twitter } from "lucide-react"
 
 const footerLinks = {
   podcast: [
+    { name: "YouTube", href: "#", icon: <Youtube size={16} /> },
     { name: "Spotify", href: "#", icon: <Music size={16} /> },
     { name: "Apple Podcasts", href: "#", icon: <Podcast size={16} /> },
-    { name: "YouTube", href: "#", icon: <Youtube size={16} /> },
     { name: "Amazon Music", href: "#", icon: <Play size={16} /> },
   ],
   company: [
-    { name: "About Us", href: "/about" },
-    { name: "Careers", href: "#" },
-    { name: "Press Kit", href: "#" },
+    { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ],
   resources: [
@@ -47,7 +45,7 @@ export function Footer() {
 
           {/* Podcast Links */}
           <div className="space-y-6">
-            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-[#038f90] opacity-40">Podcast Channels</h4>
+            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-[#038f90] opacity-40">Listen</h4>
             <ul className="space-y-3">
               {footerLinks.podcast.map((link) => (
                 <li key={link.name}>
@@ -62,7 +60,7 @@ export function Footer() {
 
           {/* Company Links */}
           <div className="space-y-6">
-            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-[#038f90] opacity-40">Company</h4>
+            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-[#038f90] opacity-40">The Initiative</h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
@@ -76,7 +74,7 @@ export function Footer() {
 
           {/* Resource Links */}
           <div className="space-y-6">
-            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-[#038f90] opacity-40">Resources</h4>
+            <h4 className="text-[10px] uppercase font-black tracking-[0.3em] text-[#038f90] opacity-40">Explore</h4>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
@@ -92,7 +90,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-[#038f90]/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[9px] uppercase tracking-[0.2em] font-bold text-[#038f90]/40">
-          <p>© 2025 Good Garbage Podcast. All rights reserved.</p>
+          <p>© 2026 Good Garbage Podcast · An initiative by Pakka Limited</p>
           <div className="flex items-center gap-8">
             <Link href="#" className="hover:text-[#038f90] transition-colors">Privacy Policy</Link>
             <Link href="#" className="hover:text-[#038f90] transition-colors">Terms of Service</Link>

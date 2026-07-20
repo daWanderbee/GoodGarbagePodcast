@@ -30,18 +30,17 @@ export function AboutPodcast() {
           {/* Content Side */}
           <div className="space-y-6 order-2 lg:order-1">
             <div className="space-y-6">
-              <span className="text-[10px] md:text-[11px] uppercase font-black tracking-[0.4em] text-[#038f90]/70 block mb-4">Value Proposition</span>
               <h2 className="text-2xl md:text-5xl font-serif text-[#038f90] leading-[0.95] tracking-tighter">
-                Making the world bright <br /> with <span className="italic opacity-50">Good Garbage</span>
+                Sustainability doesn&apos;t <br className="hidden lg:block" /> have to be <span className="italic opacity-50">grim</span>
               </h2>
             </div>
 
             <div className="space-y-4 text-black/80 max-w-lg">
               <p className="text-base md:text-lg font-medium leading-relaxed">
-                The Good Garbage Podcast started with a simple belief: sustainability doesn&apos;t have to be grim — it can be a genuine celebration of what human ingenuity and natural systems can do together.
+                That&apos;s the belief this whole show runs on. Waste isn&apos;t a lecture — it&apos;s a design problem, and design problems get solved. Each episode, Ved Krishna sits down with the people solving them: biomaterials scientists, packaging founders, policy changemakers, artists. They turn what got thrown away into something worth more than what it replaced.
               </p>
               <p className="text-xs md:text-[15px] leading-relaxed">
-                Proudly sponsored by <span className="font-bold text-accent">Pakka</span> — pioneers of compostable packaging and a plastic-free future — we sit down each week with the scientists, founders, and activists turning discarded materials into high-value resources. From biomaterials labs to grassroots movements, these are the stories that prove regeneration is already happening.
+                Sponsored by <span className="font-bold text-accent">Pakka</span>, which has made tree-free packaging from sugarcane residue since 1981.
               </p>
               <div className="flex items-center gap-3 pt-2">
                 <div className="w-11 h-11 rounded-full bg-background overflow-hidden flex-shrink-0 border-2 border-[#038f90]/30 shadow-md">

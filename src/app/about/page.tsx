@@ -15,6 +15,7 @@ const audience = [
     icon: Sprout,
     title: "Sustainability Enthusiasts",
     text: "People actively seeking honest content on the circular economy, regenerative design, and environmental systems.",
+    route: "Listen",
     badgeColor: "bg-[#0d6e4e]/10 text-[#0d6e4e]",
     borderColor: "hover:border-[#0d6e4e]/40"
   },
@@ -22,6 +23,7 @@ const audience = [
     icon: Users,
     title: "Students & Researchers",
     text: "Early-career people in biomaterials and material science, building careers around climate action and purpose-driven work.",
+    route: "Technology",
     badgeColor: "bg-[#038f90]/10 text-[#038f90]",
     borderColor: "hover:border-[#038f90]/40"
   },
@@ -29,6 +31,7 @@ const audience = [
     icon: Rocket,
     title: "Climate Startups & Founders",
     text: "Innovators building compostable packaging and circular businesses who want visibility, community, and useful conversations.",
+    route: "Product Dev",
     badgeColor: "bg-[#b06a2c]/10 text-[#b06a2c]",
     borderColor: "hover:border-[#b06a2c]/40"
   },
@@ -36,6 +39,7 @@ const audience = [
     icon: LineChart,
     title: "Investors & Advocates",
     text: "VCs, angel investors, and policy advocates tracking high-value opportunities in climate technology and regenerative materials.",
+    route: "Funding",
     badgeColor: "bg-[#636b58]/15 text-[#636b58]",
     borderColor: "hover:border-[#636b58]/40"
   },
@@ -47,10 +51,10 @@ export default function AboutPage() {
       {/* 1. Hero Section */}
       <div className="relative">
         <PageHero
-          eyebrow="About Our Mission"
+          eyebrow="About"
           title="Good Garbage"
           accent="Podcast"
-          subtitle="A vibrant celebration of what the world throws away — and the people turning it into what brings the planet back to life."
+          subtitle="A celebration of what the world throws away — and the people turning it into what brings the planet back to life."
           curveVariant="wave"
         />
       </div>
@@ -65,13 +69,10 @@ export default function AboutPage() {
               Our Core Belief
             </span>
             <h2 className="text-3xl md:text-5xl font-serif text-[#038f90] leading-[1.05] tracking-tighter">
-              Garbage is not trash — it's a <span className="italic text-[#0d6e4e]">resource</span> waiting to regenerate.
+              Garbage isn't trash. It's a <span className="italic text-[#0d6e4e]">resource</span> waiting for a better idea.
             </h2>
             <p className="text-base md:text-lg text-black/75 leading-relaxed">
-              Good Garbage started with a simple philosophy: sustainability doesn't have to be grim or preachy. It can be a vibrant, honest celebration of human creativity and natural systems working together.
-            </p>
-            <p className="text-sm md:text-base text-black/65 leading-relaxed">
-              Each week we sit down with biomaterials scientists, USDA researchers, packaging founders, and environmental artists — people like Anita Shah, who left conflict zones to build Kenya's first biodegradable tableware facility, and Nima Vakili, who grew up in a petrochemical family and chose biomaterials instead. We explore how seaweed, agricultural residue, and discarded materials become premium, living solutions.
+              Good Garbage started with a simple idea: sustainability doesn't have to be grim or preachy. It can be an honest celebration of human creativity and natural systems working together. Each episode we sit down with the people doing the work — biomaterials scientists, USDA researchers, packaging founders, environmental artists. We talk about how seaweed, agricultural residue and yesterday's waste become something people will pay for.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -81,7 +82,7 @@ export default function AboutPage() {
               </div>
               <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white shadow-sm ring-1 ring-[#038f90]/10">
                 <Leaf className="w-4 h-4 text-[#0d6e4e]" />
-                <span className="text-xs font-bold text-[#038f90]">100% Circular Focus</span>
+                <span className="text-xs font-bold text-[#038f90]">Real science, plain talk</span>
               </div>
             </div>
           </div>
@@ -171,7 +172,7 @@ export default function AboutPage() {
             >
               <div className="space-y-3">
                 <span className="text-[10px] uppercase font-black tracking-[0.4em] text-[#aeddd9] block">
-                  The Voices &amp; Team Behind The Show
+                  The team behind the show
                 </span>
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif text-white leading-[1.0] tracking-tighter">
                   Ved Krishna &amp; Team
@@ -183,10 +184,10 @@ export default function AboutPage() {
 
               <div className="space-y-4 font-sans text-sm md:text-base text-white/90 leading-relaxed max-w-xl mx-auto lg:mx-0">
                 <p>
-                  Ved Krishna is on a lifelong mission to transform discarded materials into high-value resources. As a regenerative pioneer and sustainability advocate, he builds the case for agricultural residue packaging and circular innovation — not in theory, but in practice, through Pakka.
+                  Ved Krishna has spent his working life turning discarded material into something worth more than what it replaced. He makes the case for agricultural-residue packaging by building it at <span className="font-bold text-[#aeddd9]">Pakka</span>, which has made tree-free paper from sugarcane residue since 1981.
                 </p>
                 <p>
-                  Through the <span className="font-bold text-[#aeddd9]">Good Garbage Podcast</span>, Ved sits down with global changemakers to close the gap between scientific depth and human optimism. The belief behind every episode: when the right people find each other, the planet gets a little healthier.
+                  On <span className="font-bold text-[#aeddd9]">Good Garbage</span>, he sits down with people doing the same work in other corners of the world. The belief behind every episode: when the right people find each other, the work moves faster.
                 </p>
               </div>
 
@@ -245,7 +246,7 @@ export default function AboutPage() {
                 </div>
                 
                 <div className="mt-6 pt-4 border-t border-dashed border-[#038f90]/15 flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-black tracking-widest text-[#038f90]/50">Community</span>
+                  <span className="text-[10px] uppercase font-black tracking-widest text-[#038f90]/50">{a.route}</span>
                   <span className="w-2 h-2 rounded-full bg-[#0d6e4e]" />
                 </div>
               </motion.div>
@@ -269,10 +270,10 @@ export default function AboutPage() {
               <Leaf className="w-3.5 h-3.5 text-[#aeddd9]" /> Proudly Powered by
             </span>
             <h2 className="text-4xl md:text-6xl font-serif text-white tracking-tighter leading-[1.0]">
-              A Podcast by <br /> <span className="italic text-[#aeddd9]">PAKKA Limited</span>
+              A podcast by <br /> <span className="italic text-[#aeddd9]">Pakka Limited</span>
             </h2>
             <p className="text-base md:text-lg text-white/85 leading-relaxed max-w-lg mx-auto lg:mx-0">
-              Good Garbage is proudly sponsored by Pakka — a company pioneering regenerative innovation through compostable packaging, agricultural residue feedstocks, and a plastic-free future. Every episode is an extension of that mission: proof that what we throw away is the beginning of something better.
+              Good Garbage is sponsored by Pakka. Pakka makes tree-free packaging from sugarcane residue, reliable since 1981 and present in 45+ countries today. Every episode is an extension of the same idea: what gets thrown away is the beginning of something, not the end of it.
             </p>
             <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
               <Link href="/contact">
@@ -290,9 +291,9 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-2 gap-4 md:gap-6">
             {[
-              { k: "49+", v: "Episodes released" },
-              { k: "100%", v: "Compostable mission" },
-              { k: "3", v: "Continents of guests" },
+              { k: "90+", v: "Episodes released" },
+              { k: "12+", v: "Countries of guests" },
+              { k: "100%", v: "Compostable, not theoretical" },
               { k: "1", v: "Shared goal: regenerate" },
             ].map((s) => (
               <motion.div

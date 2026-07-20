@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import { Mic, Sparkles, TrendingUp, Package, HeartHandshake, Cpu, ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "./ui/Button";
 
@@ -54,34 +53,14 @@ export function CollaborationCTA({ topCurveColor }: CollaborationCTAProps = {}) 
             className="space-y-6 lg:space-y-8 text-left"
           >
             <div className="space-y-3">
-              <span className="text-[11px] uppercase font-black tracking-[0.3em] text-[#aeddd9] block">
-                Open Call For Collaborations
-              </span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tighter leading-[1.08] drop-shadow-sm">
-                Collaborate across <br className="hidden lg:block" /> 6 key areas
+                An open call for <br className="hidden lg:block" /> collaborators
               </h2>
             </div>
 
             <p className="text-sm sm:text-base text-white/95 font-sans leading-relaxed max-w-md">
-              Whether you are building circular biomaterials, looking for strategic alignment, or want to bring your story to a growing global audience — our team is open to co-creation. Pick your entry point below.
+              Building circular biomaterials? Looking for strategic alignment? Want your story in front of a global audience that actually cares? Pick your entry point below — we read every one.
             </p>
-
-            {/* Integrated Host & Production Team Pill (High contrast dark card) */}
-            <div className="flex items-center gap-4 p-3 sm:p-3.5 bg-[#013536] rounded-2xl border border-white/20 shadow-md max-w-md">
-              <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-[#012829] shrink-0 border border-white/30 shadow-inner group">
-                <Image
-                  src="/images/hero/ved_dt.png"
-                  alt="Ved Krishna - Host & Collaborator"
-                  fill
-                  sizes="56px"
-                  className="object-cover object-center group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              <div>
-                <h4 className="font-black text-sm text-white tracking-wide">Ved Krishna &amp; Production Team</h4>
-                <p className="text-[11px] text-[#aeddd9] font-bold mt-0.5">Host, Producers &amp; Pakka Innovators</p>
-              </div>
-            </div>
           </motion.div>
 
           {/* Right Column: High-Contrast Interactive Grid & Action Bar */}
@@ -125,7 +104,7 @@ export function CollaborationCTA({ topCurveColor }: CollaborationCTAProps = {}) 
                   variant="accent"
                   className="w-full !h-12 sm:!h-14 !px-6 !text-xs sm:!text-sm uppercase tracking-widest bg-white !text-[#013536] hover:bg-[#aeddd9] transition-all duration-300 rounded-xl shadow-xl font-black flex items-center justify-center gap-2.5 group border border-transparent"
                 >
-                  <span>Apply for Collaboration</span>
+                  <span>Apply to collaborate</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
@@ -134,7 +113,7 @@ export function CollaborationCTA({ topCurveColor }: CollaborationCTAProps = {}) 
                   variant="glass"
                   className="w-full sm:w-auto !h-12 sm:!h-14 !px-6 !text-xs sm:!text-sm bg-[#013536] hover:bg-[#012627] border-white/40 hover:border-white !text-white uppercase tracking-widest rounded-xl flex items-center justify-center font-bold shadow-lg"
                 >
-                  Meet our Team &amp; Host
+                  Meet the team
                 </Button>
               </Link>
             </div>

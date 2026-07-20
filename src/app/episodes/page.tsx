@@ -41,7 +41,7 @@ export default function EpisodesPage() {
         <PageHero
           eyebrow="The Archive"
           title="Episodes"
-          subtitle="Every conversation on turning what the world throws away into what brings it back to life. Search the archive or filter by theme — 49 episodes and counting."
+          subtitle="Every conversation on turning what the world throws away into what brings it back to life. Filter by theme, or search for the one you half-remember. 90+ episodes and counting."
           curveVariant="swell"
         />
       </div>
@@ -85,7 +85,7 @@ export default function EpisodesPage() {
             <div className="flex items-center gap-2.5">
               <Leaf className="w-4 h-4 text-[#0d6e4e]" />
               <p className="text-xs uppercase font-black tracking-[0.25em] text-[#038f90]/70 font-sans">
-                Showing {results.length} {results.length === 1 ? "Episode" : "Episodes"}
+                Showing {results.length} of 90+ episodes
               </p>
             </div>
           </div>
@@ -152,6 +152,9 @@ export default function EpisodesPage() {
                       <div>
                         <p className="font-sans text-sm font-bold text-[#038f90]">{e.guest}</p>
                         <p className="font-sans text-[11px] font-medium text-[#636b58]">{e.role}</p>
+                        {e.location && (
+                          <p className="font-sans text-[11px] font-medium text-[#636b58]/70">{e.location}</p>
+                        )}
                       </div>
                       <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-[#038f90]/50 bg-[#f2ede4] px-3 py-1.5 rounded-full">
                         {e.duration}

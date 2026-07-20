@@ -7,8 +7,8 @@ export function ScrollingMarquee() {
   const repeatedText = words.repeat(10);
 
   return (
-    <div className="w-full bg-[#d4eedf] relative z-[70]">
-      {/* Remove previous top curve as it's now matching the above section */}
+    <div className="w-full bg-[#d4eedf] relative z-[70] -mt-[2px]">
+      {/* Overlapping 2px upwards to prevent subpixel crease lines */ }
 
       <div className="w-full py-6 md:py-10 overflow-hidden">
         <motion.div

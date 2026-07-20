@@ -8,7 +8,6 @@ import { ScrollingMarquee } from "@/components/ScrollingMarquee";
 import { AboutPodcast } from "@/components/AboutPodcast";
 import { PlatformLinks } from "@/components/PlatformLinks";
 import { CollaborationCTA } from "@/components/CollaborationCTA";
-import { Newsletter } from "@/components/Newsletter";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -48,7 +47,6 @@ export default function Home() {
         <CollaborationCTA />
         <AboutPodcast />
         <PlatformLinks />
-        <Newsletter />
         <Footer />
       </div>
 

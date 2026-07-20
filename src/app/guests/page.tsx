@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { ArrowUpRight, Sparkles, Facebook, Instagram, Twitter } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
 import { CollaborationCTA } from "@/components/CollaborationCTA";
@@ -11,19 +12,10 @@ import { DecorationTree } from "@/components/ui/DecorationTree";
 import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
 import { EPISODES, Episode } from "@/lib/episodes";
 
-function initials(name: string) {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join("");
-}
-
-// Brand palette tints for circular profile pics
-const avatarTints = ["#0d6e4e", "#038f90", "#636b58", "#b06a2c"];
-
 function GuestCard({ guest, index }: { guest: Episode; index: number }) {
-  const tint = avatarTints[index % avatarTints.length];
+  // Use modulo to cycle through the 3 images we generated
+  const imageIndex = (index % 3) + 1;
+  const imageSrc = `/images/guests/${imageIndex}.png`;
 
   return (
     <motion.article
@@ -31,41 +23,30 @@ function GuestCard({ guest, index }: { guest: Episode; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: (index % 3) * 0.08 }}
-      className="group flex flex-col items-center text-center rounded-[32px] bg-white p-8 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-black/5 h-full"
+      className="group flex flex-col items-center text-center rounded-[24px] bg-[#f8f9fa] p-10 h-full w-full transition-all duration-300 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.06)] hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-1"
     >
-      {/* Just a circular profile pic */}
-      <div
-        className="w-24 h-24 rounded-full shadow-lg flex items-center justify-center font-serif text-3xl font-bold text-white mb-6 shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-300"
-        style={{ backgroundColor: tint }}
-      >
-        <div className="absolute inset-0 bg-black/10" />
-        <span className="relative z-10 tracking-tight">{initials(guest.guest)}</span>
+      <div className="w-32 h-32 rounded-full overflow-hidden mb-6 relative shadow-sm group-hover:scale-105 transition-transform duration-300">
+        <Image 
+          src={imageSrc} 
+          alt={guest.guest} 
+          fill 
+          sizes="128px"
+          className="object-cover"
+        />
       </div>
 
-      {/* Card Content */}
-      <div className="flex flex-col justify-between flex-1 w-full">
-        <div>
-          <h3 className="font-serif text-2xl font-bold text-[#038f90] group-hover:text-[#0d6e4e] transition-colors leading-tight">
-            {guest.guest}
-          </h3>
-          <p className="font-sans text-xs font-bold text-[#b06a2c] uppercase tracking-wider mt-1.5 mb-4">
-            {guest.role}
-          </p>
-          <p className="font-sans text-xs text-[#636b58]/90 line-clamp-3 leading-relaxed">
-            &ldquo;{guest.description}&rdquo;
-          </p>
-        </div>
+      <div className="flex flex-col items-center w-full">
+        <h3 className="font-serif text-[22px] md:text-2xl font-bold text-[#2b2353] leading-tight mb-1 transition-colors">
+          {guest.guest}
+        </h3>
+        <p className="font-sans text-[13px] md:text-sm font-medium text-[#888b94] mb-8">
+          {guest.role.split(',')[0]}
+        </p>
 
-        <div className="mt-6 pt-4 border-t border-black/5 flex items-center justify-between w-full">
-          <span className="font-mono text-[11px] font-bold text-[#038f90]/70 uppercase tracking-widest">
-            EP {guest.ep}
-          </span>
-          <Link
-            href="/episodes"
-            className="inline-flex items-center gap-1 font-sans text-xs text-[#0d6e4e] font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform"
-          >
-            Listen <ArrowUpRight className="w-4 h-4" />
-          </Link>
+        <div className="flex items-center gap-5 text-[#5e6679]">
+          <a href="#" className="hover:text-[#2b2353] transition-colors"><Facebook className="w-[18px] h-[18px]" strokeWidth={2.5} /></a>
+          <a href="#" className="hover:text-[#2b2353] transition-colors"><Instagram className="w-[18px] h-[18px]" strokeWidth={2.5} /></a>
+          <a href="#" className="hover:text-[#2b2353] transition-colors"><Twitter className="w-[18px] h-[18px]" fill="currentColor" strokeWidth={0} /></a>
         </div>
       </div>
     </motion.article>
@@ -84,7 +65,7 @@ export default function GuestsPage() {
           eyebrow="Voices of Regeneration"
           title="Our"
           accent="Guests"
-          subtitle="Biomaterials scientists, packaging founders, policy changemakers, and environmental artists from across the world — the people proving regeneration isn't a future promise. It's already underway."
+          subtitle="Biomaterials scientists, packaging founders, policy changemakers and environmental artists — from a dozen-plus countries. Founders from Notpla, TerraCycle, Mango Materials, A Plastic Planet, TIPA. Packaging is a global problem. These are the people solving it, wherever they are."
           lowerCurveColor="#d4eedf"
           curveVariant="crest"
         />

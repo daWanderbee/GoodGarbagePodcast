@@ -45,7 +45,7 @@ export function LatestEpisode() {
               From War Zones <br /> to <span className="italic opacity-60">Sustainable Solutions</span>
             </h3>
             <p className="text-sm md:text-xl text-[#038f90]/80 leading-relaxed max-w-lg font-sans">
-              Anita Shah left two decades of humanitarian work in conflict zones to build Kenya&apos;s first biodegradable tableware facility. This episode is about what happens when you decide the world&apos;s waste problem is too important to leave to someone else.
+              Anita Shah spent two decades doing humanitarian work in conflict zones. Then she built Kenya&apos;s first biodegradable tableware facility. This one&apos;s about deciding the waste problem is too big to leave to someone else.
             </p>
           </div>
 
@@ -53,7 +53,7 @@ export function LatestEpisode() {
             <div className="flex items-center gap-12 md:gap-16">
               <div>
                 <p className="text-[10px] uppercase font-bold text-[#038f90]/40 mb-2 tracking-widest">Guest</p>
-                <p className="text-sm md:text-lg font-black text-[#038f90]">Anita Shah, Founder · Green Stem Products Ltd.</p>
+                <p className="text-sm md:text-lg font-black text-[#038f90]">Anita Shah, Founder · Green Stem Products Ltd. · Nairobi, Kenya</p>
               </div>
               <div>
                 <p className="text-[10px] uppercase font-bold text-[#038f90]/40 mb-2 tracking-widest">Duration</p>

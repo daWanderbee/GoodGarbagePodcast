@@ -52,7 +52,7 @@ function ContactFormInner() {
         <Field label="Email" name="email" type="email" placeholder="you@email.com" required />
       </div>
       <label className="block">
-        <span className="block mb-1.5 text-[10px] uppercase font-black tracking-[0.2em] text-[#038f90]/60">Why do you want to talk?</span>
+        <span className="block mb-1.5 text-[10px] uppercase font-black tracking-[0.2em] text-[#038f90]/60">What are you building?</span>
         <select
           required
           name="topic"
@@ -60,7 +60,7 @@ function ContactFormInner() {
           onChange={(e) => setSelectedTopic(e.target.value)}
           className="w-full rounded-xl bg-[#f2ede4] px-4 py-3 text-sm text-[#038f90] font-sans focus:outline-none focus:ring-2 focus:ring-[#038f90]/20"
         >
-          <option value="" disabled>Select why you want to talk…</option>
+          <option value="" disabled>Select what you're building…</option>
           {TALK_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>
               {o.label}
@@ -101,7 +101,7 @@ export default function ContactPage() {
           eyebrow="Contact"
           title="Get in"
           accent="touch"
-          subtitle="Come on as a guest, partner on a project, or connect with Pakka. We are always looking for the people building a better relationship between what we discard and what we build."
+          subtitle="Come on as a guest, partner on a project, or talk to Pakka directly. We're looking for people building a better relationship between what gets discarded and what gets built."
           curveVariant="arch"
         />
       </div>
@@ -115,13 +115,13 @@ export default function ContactPage() {
           <div className="space-y-5">
             <span className="text-[10px] uppercase font-black tracking-[0.4em] text-[#038f90]/60">Get Involved</span>
             <h2 className="text-3xl md:text-5xl font-serif text-[#038f90] leading-[1.0] tracking-tighter">
-              Why do you want <br /> to <span className="italic opacity-70">talk with us?</span>
+              What are you <br /> <span className="italic opacity-70">building?</span>
             </h2>
             <p className="text-base text-black/70 leading-relaxed max-w-md">
-              Whether you are working on product development, applying to be a guest, seeking funding, or proposing a sponsorship — our team reads every message and responds to the ones that fit. Tell us what you are building.
+              Product development, a guest application, funding, a sponsorship — or something we haven't thought of. We read every message. Tell us what you're building and where you're stuck.
             </p>
             <div className="flex items-center gap-2 pt-2 text-[#038f90]/60 text-sm">
-              <Mail className="w-4 h-4" /> hello@goodgarbagepodcast.com
+              <Mail className="w-4 h-4" /> hello@goodgarbage.eco
             </div>
           </div>
 
@@ -146,10 +146,10 @@ export default function ContactPage() {
               <Leaf className="w-3.5 h-3.5" /> The Sponsor
             </span>
             <h2 className="text-3xl md:text-5xl font-serif text-white tracking-tighter leading-[1.0]">
-              Connect with <span className="italic text-white/70">Pakka Limited</span>
+              Talk to <span className="italic text-white/70">Pakka</span>
             </h2>
             <p className="text-base md:text-lg text-white/85 leading-relaxed max-w-lg">
-              Pakka pioneers compostable packaging that replaces single-use plastic — through Chuk (compostable tableware) and flexC (compostable flexible packaging). If you want to buy, partner, or sponsor the show, Pakka is the right conversation to start.
+              Pakka makes compostable packaging that replaces single-use plastic: Chuk for tableware, flexC for flexible packaging. If you want to buy, partner, or sponsor the show, Pakka is the right conversation to start.
             </p>
           </div>
 

@@ -12,9 +12,9 @@ interface PlatformLinksProps {
 }
 
 const platforms = [
+  { name: "YouTube", icon: <Youtube size={24} />, color: "#FF0000" },
   { name: "Spotify", icon: <Music size={24} />, color: "#1DB954" },
   { name: "Apple Podcasts", icon: <Podcast size={24} />, color: "#A341FF" },
-  { name: "YouTube", icon: <Youtube size={24} />, color: "#FF0000" },
   { name: "Amazon Music", icon: <Play size={24} />, color: "#00A8E1" },
 ];
 
@@ -35,7 +35,7 @@ export function PlatformLinks() {
 
       <div className="max-w-6xl w-full mx-auto flex flex-col items-center text-center space-y-12 relative z-10 px-6">
         <h2 className="text-2xl md:text-3xl font-serif tracking-tighter text-[#d4eedf]">
-          Listen on <span className="opacity-40 italic ml-2 text-white/70">Your Platform</span>
+          Listen <span className="opacity-40 italic ml-2 text-white/70">wherever you already listen</span>
         </h2>
 
         <div className="flex flex-row items-center justify-center gap-6 md:gap-16 w-full overflow-x-auto pb-4 no-scrollbar">
@@ -58,10 +58,10 @@ export function PlatformLinks() {
         </div>
       </div>
 
-      {/* Wave bridging Dark Green into Mint Newsletter */}
-      <div className="absolute bottom-0 left-0 w-full translate-y-[99%] pointer-events-none z-[20]">
+      {/* Mint footer curve rising into the dark platforms (matches the site's light-into-dark transitions) */}
+      <div className="absolute bottom-0 left-0 w-full translate-y-[3px] pointer-events-none z-[20] leading-none">
         <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto block">
-          <path d="M0 0C240 45 480 45 720 25C960 5 1200 45 1440 0H0Z" fill="#1a4d34" />
+          <path d="M0 60 C240 15 480 15 720 30 C960 45 1200 15 1440 60 L1440 60 L0 60 Z" fill="#d4eedf" />
         </svg>
       </div>
     </div>
