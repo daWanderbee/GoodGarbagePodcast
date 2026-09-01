@@ -9,8 +9,10 @@ import { AboutPodcast } from "@/components/AboutPodcast";
 import { PlatformLinks } from "@/components/PlatformLinks";
 import { CollaborationCTA } from "@/components/CollaborationCTA";
 import { Footer } from "@/components/Footer";
+import type { Episode } from "@/lib/feed";
 
-export default function Home() {
+export function HomeClient({ episodes }: { episodes: Episode[] }) {
+  const latest = episodes[0];
   const { scrollYProgress: rawScroll } = useScroll();
 
   // Create a smoothed scroll progress for parallax elements (inertia effect)
@@ -36,13 +38,14 @@ export default function Home() {
           rawScroll={rawScroll}
           smoothScroll={smoothScroll}
           isMobile={isMobile}
+          episodes={episodes}
         />
       </div>
 
       {/* 2. Content Stack: starts one screen down, then slides over the fixed Hero */}
       <div className="relative z-10 mt-[100vh]">
         {/* The sections now slide directly over the fixed Hero */}
-        <LatestEpisode />
+        <LatestEpisode latest={latest} />
         <ScrollingMarquee />
         <CollaborationCTA />
         <AboutPodcast />

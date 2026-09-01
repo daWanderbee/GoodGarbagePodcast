@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# contact form submissions (personal data — never commit)
+/data/
+
+# dated picklist backups written by scripts/zoho-add-lead-source.mjs
+zoho-lead-source-backup-*.json

@@ -7,25 +7,18 @@ import { Leaf } from "lucide-react";
 import { PodcastButton } from "./ui/PodcastButton";
 import { Button } from "./ui/Button";
 import { LatestPodcastCard } from "./ui/LatestPodcastCard";
-
-// Concept A: real episode titles drifting under the headline (proves the mission)
-const EPISODE_TITLES = [
-  "Can Seaweed Replace Plastic?",
-  "Packaging You Can Eat",
-  "Why Composting Is Having a Revolution",
-  "From Petroleum to Purpose",
-  "Revolutionizing Materials",
-  "The Myth of Recycling",
-  "From War Zones to Sustainable Solutions",
-];
+import { shortTitle, type Episode } from "@/lib/feed";
 
 interface HeroProps {
+  episodes: Episode[];
   rawScroll: MotionValue<number>;
   smoothScroll: MotionValue<number>;
   isMobile: boolean;
 }
 
-export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
+export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps) {
+  // Concept A: real episode titles drifting under the headline (proves the mission)
+  const EPISODE_TITLES = episodes.slice(0, 7).map((e) => shortTitle(e.title));
   // Parallax scene: each depth plane rises AND scales up as you scroll
   // (deeper = slower + smaller growth, foreground = faster + larger growth)
   // Zoom completes within the first viewport (~0.16 of page scroll), since the
@@ -272,7 +265,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile }: HeroProps) {
       </motion.div>
 
       {/* DESKTOP: latest episode card, vertically centered, pulled in toward the text */}
-      <LatestPodcastCard className="hidden lg:block absolute right-[13%] top-1/2 -translate-y-1/2 z-30" />
+      <LatestPodcastCard latest={episodes[0]} className="hidden lg:block absolute right-[13%] top-1/2 -translate-y-1/2 z-30" />
 
       {/* Simplified Static Scroll Indicator */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 lg:left-12 lg:translate-x-0 z-30 hidden lg:flex flex-col items-center lg:items-start gap-2">

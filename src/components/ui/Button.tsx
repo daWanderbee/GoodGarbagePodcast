@@ -12,6 +12,7 @@ interface ButtonProps {
   className?: string;
   icon?: ReactNode;
   fullWidth?: boolean;
+  disabled?: boolean;
 }
 
 export function Button({ 
@@ -20,7 +21,8 @@ export function Button({
   onClick, 
   className = "", 
   icon,
-  fullWidth = false
+  fullWidth = false,
+  disabled = false
 }: ButtonProps) {
   
   const variants = {
@@ -37,12 +39,14 @@ export function Button({
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98, y: 0 }}
       onClick={onClick}
+      disabled={disabled}
       className={`
         inline-flex items-center justify-center gap-3 px-8 py-4 
         rounded-full font-sans font-bold uppercase tracking-wider text-xs md:text-sm
         transition-all duration-300 ease-out
         ${variants[variant]}
         ${fullWidth ? "w-full" : "w-fit"}
+        ${disabled ? "opacity-60 pointer-events-none" : ""}
         ${className}
       `}
     >

@@ -3,14 +3,16 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Leaf, Play } from "lucide-react";
+import { shortTitle, type Episode } from "@/lib/feed";
 
 interface LatestPodcastCardProps {
   className?: string;
+  latest: Episode;
 }
 
 // Hero "latest episode" card styled as a piece of compostable packaging —
 // recycled-paper cream + a stamped certification seal (the signature element).
-export function LatestPodcastCard({ className = "" }: LatestPodcastCardProps) {
+export function LatestPodcastCard({ className = "", latest }: LatestPodcastCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -27,8 +29,8 @@ export function LatestPodcastCard({ className = "" }: LatestPodcastCardProps) {
       {/* Thumbnail: recycled glass + regrowth (garbage made beautiful) */}
       <div className="group relative mb-4 aspect-[16/10] overflow-hidden rounded-2xl">
         <Image
-          src="/images/episodes/latest.png"
-          alt="Latest episode artwork"
+          src={latest.thumbnail || "/images/episodes/latest.png"}
+          alt={latest.title}
           fill
           sizes="330px"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -47,15 +49,15 @@ export function LatestPodcastCard({ className = "" }: LatestPodcastCardProps) {
 
       {/* Meta */}
       <p className="mb-1 font-sans text-[10px] font-black uppercase tracking-[0.25em] text-[#636b58]">
-        Episode 49
+        {latest.ep ? `Episode ${latest.ep}` : latest.date}
       </p>
       <h3 className="font-serif text-2xl leading-[1.05] tracking-tight text-[#038f90]">
-        The Hidden Value of <span className="italic opacity-60">Waste</span>
+        {latest.title.split(/\s+(?:with|With|\|)\s+/)[0]}
       </h3>
 
       <div className="mt-3 flex items-center justify-between border-t border-dashed border-[#0d6e4e]/20 pt-3">
-        <span className="font-sans text-xs font-bold text-[#636b58]">Dr. Sarah Jenkins</span>
-        <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-[#038f90]/50">45 min</span>
+        <span className="font-sans text-xs font-bold text-[#636b58]">{latest.guest}</span>
+        <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-[#038f90]/50">{latest.duration}</span>
       </div>
     </motion.div>
   );

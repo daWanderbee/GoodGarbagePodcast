@@ -10,12 +10,9 @@ import { CollaborationCTA } from "@/components/CollaborationCTA";
 import { DecorationBush } from "@/components/ui/DecorationBush";
 import { DecorationTree } from "@/components/ui/DecorationTree";
 import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
-import { EPISODES, Episode } from "@/lib/episodes";
+import type { Episode } from "@/lib/feed";
 
 function GuestCard({ guest, index }: { guest: Episode; index: number }) {
-  // Use modulo to cycle through the 3 images we generated
-  const imageIndex = (index % 3) + 1;
-  const imageSrc = `/images/guests/${imageIndex}.png`;
 
   return (
     <motion.article
@@ -27,7 +24,7 @@ function GuestCard({ guest, index }: { guest: Episode; index: number }) {
     >
       <div className="w-32 h-32 rounded-full overflow-hidden mb-6 relative shadow-sm group-hover:scale-105 transition-transform duration-300">
         <Image 
-          src={imageSrc} 
+          src={guest.portrait as string} 
           alt={guest.guest} 
           fill 
           sizes="128px"
@@ -40,7 +37,7 @@ function GuestCard({ guest, index }: { guest: Episode; index: number }) {
           {guest.guest}
         </h3>
         <p className="font-sans text-[13px] md:text-sm font-medium text-[#888b94] mb-8">
-          {guest.role.split(',')[0]}
+          {guest.role ? guest.role.split(',')[0] : `Good Garbage${guest.ep ? ` · Ep ${guest.ep}` : ""}`}
         </p>
 
         <div className="flex items-center gap-5 text-[#5e6679]">
@@ -53,9 +50,11 @@ function GuestCard({ guest, index }: { guest: Episode; index: number }) {
   );
 }
 
-export default function GuestsPage() {
-  const firstHalf = EPISODES.slice(0, 6);
-  const secondHalf = EPISODES.slice(6, 12);
+export function GuestsClient({ episodes }: { episodes: Episode[] }) {
+  // A page of faces needs a face: only episodes with a verified guest portrait.
+  const named = episodes.filter((e) => e.guest && e.portrait);
+  const firstHalf = named.slice(0, 6);
+  const secondHalf = named.slice(6, 12);
 
   return (
     <main className="min-h-screen overflow-x-hidden">
@@ -87,7 +86,7 @@ export default function GuestsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {firstHalf.map((e, i) => (
-              <GuestCard key={e.ep} guest={e} index={i} />
+              <GuestCard key={e.id} guest={e} index={i} />
             ))}
           </div>
         </div>
@@ -116,7 +115,7 @@ export default function GuestsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {secondHalf.map((e, i) => (
-              <GuestCard key={e.ep} guest={e} index={i + 2} />
+              <GuestCard key={e.id} guest={e} index={i + 2} />
             ))}
           </div>
         </div>

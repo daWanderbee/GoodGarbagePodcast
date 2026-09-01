@@ -4,8 +4,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/Button";
+import type { Episode } from "@/lib/feed";
 
-export function LatestEpisode() {
+export function LatestEpisode({ latest }: { latest: Episode }) {
+  const [lead, ...rest] = latest.title.split(/[:|]/);
+  const tail = rest.join(" ").trim();
+
   return (
     <section className="relative w-full py-24 md:py-32 bg-[#d4eedf] flex items-center justify-center p-6 md:p-12 overflow-hidden rounded-t-[40px] md:rounded-t-[80px] -mt-12 md:-mt-20 z-[30]">
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center text-[#038f90]">
@@ -26,8 +30,8 @@ export function LatestEpisode() {
             className="relative aspect-video lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group"
           >
             <Image
-              src="/images/episodes/latest.png"
-              alt="Latest Episode Thumbnail"
+              src={latest.thumbnail || "/images/episodes/latest.png"}
+              alt={latest.title}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -42,10 +46,15 @@ export function LatestEpisode() {
               New Release
             </span>
             <h3 className="text-3xl md:text-6xl font-serif leading-tight tracking-tight text-[#038f90]">
-              From War Zones <br /> to <span className="italic opacity-60">Sustainable Solutions</span>
+              {lead}
+              {tail && (
+                <>
+                  <br /> <span className="italic opacity-60">{tail}</span>
+                </>
+              )}
             </h3>
             <p className="text-sm md:text-xl text-[#038f90]/80 leading-relaxed max-w-lg font-sans">
-              Anita Shah spent two decades doing humanitarian work in conflict zones. Then she built Kenya&apos;s first biodegradable tableware facility. This one&apos;s about deciding the waste problem is too big to leave to someone else.
+              {latest.description}
             </p>
           </div>
 
@@ -53,22 +62,26 @@ export function LatestEpisode() {
             <div className="flex items-center gap-12 md:gap-16">
               <div>
                 <p className="text-[10px] uppercase font-bold text-[#038f90]/40 mb-2 tracking-widest">Guest</p>
-                <p className="text-sm md:text-lg font-black text-[#038f90]">Anita Shah, Founder · Green Stem Products Ltd. · Nairobi, Kenya</p>
+                <p className="text-sm md:text-lg font-black text-[#038f90]">
+                  {[latest.guest, latest.role].filter(Boolean).join(" · ")}
+                </p>
               </div>
               <div>
                 <p className="text-[10px] uppercase font-bold text-[#038f90]/40 mb-2 tracking-widest">Duration</p>
-                <p className="text-sm md:text-lg font-black text-[#038f90]">1h 12m</p>
+                <p className="text-sm md:text-lg font-black text-[#038f90]">{latest.duration}</p>
               </div>
             </div>
 
             <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <Button 
-                variant="accent" 
-                className="!px-10 !h-14 md:!h-16 !text-xs md:!text-sm uppercase tracking-widest shadow-xl hover:shadow-2xl transition-all bg-[#038f90] !text-white"
-              >
-                Play Episode
-                <span className="ml-3">▶</span>
-              </Button>
+              <a href={latest.watch || latest.listen} target="_blank" rel="noopener noreferrer">
+                <Button
+                  variant="accent"
+                  className="!px-10 !h-14 md:!h-16 !text-xs md:!text-sm uppercase tracking-widest shadow-xl hover:shadow-2xl transition-all bg-[#038f90] !text-white"
+                >
+                  Play Episode
+                  <span className="ml-3">▶</span>
+                </Button>
+              </a>
               
               <Link href="/episodes">
                 <Button 

@@ -22,6 +22,7 @@ const TALK_OPTIONS = [
 
 function ContactFormInner() {
   const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const searchParams = useSearchParams();
   const topicParam = searchParams?.get("topic") || "";
   const [selectedTopic, setSelectedTopic] = useState<string>("");
@@ -31,6 +32,23 @@ function ContactFormInner() {
       setSelectedTopic(topicParam);
     }
   }, [topicParam]);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const payload = Object.fromEntries(new FormData(e.currentTarget));
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      setSent(true);
+    } catch {
+      setStatus("error");
+    }
+  }
 
   if (sent) {
     return (
@@ -46,7 +64,7 @@ function ContactFormInner() {
   }
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Full name" name="name" placeholder="Your name" required />
         <Field label="Email" name="email" type="email" placeholder="you@email.com" required />
@@ -78,8 +96,17 @@ function ContactFormInner() {
           className="w-full rounded-xl bg-[#f2ede4] px-4 py-3 text-sm text-[#038f90] font-sans focus:outline-none focus:ring-2 focus:ring-[#038f90]/20 resize-none placeholder:text-[#038f90]/30"
         />
       </label>
-      <Button variant="accent" className="w-full bg-[#038f90] !text-white !h-14 !text-xs uppercase tracking-widest shadow-lg">
-        Send Message
+      {status === "error" && (
+        <p className="text-sm text-red-600">
+          Could not send that. Try again, or email hello@goodgarbage.eco directly.
+        </p>
+      )}
+      <Button
+        variant="accent"
+        disabled={status === "sending"}
+        className="w-full bg-[#038f90] !text-white !h-14 !text-xs uppercase tracking-widest shadow-lg"
+      >
+        {status === "sending" ? "Sending…" : "Send Message"}
       </Button>
     </form>
   );

@@ -45,7 +45,7 @@ const audience = [
   },
 ];
 
-export default function AboutPage() {
+export function AboutClient({ episodeCount }: { episodeCount: number }) {
   return (
     <main className="bg-[#f2ede4] min-h-screen relative overflow-hidden">
       {/* 1. Hero Section */}
@@ -291,7 +291,7 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-2 gap-4 md:gap-6">
             {[
-              { k: "90+", v: "Episodes released" },
+              { k: String(episodeCount), v: "Episodes released" },
               { k: "12+", v: "Countries of guests" },
               { k: "100%", v: "Compostable, not theoretical" },
               { k: "1", v: "Shared goal: regenerate" },

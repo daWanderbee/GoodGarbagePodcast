@@ -8,7 +8,7 @@ import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
 import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
 import { DecorationBush } from "@/components/ui/DecorationBush";
-import { EPISODES, CATEGORIES } from "@/lib/episodes";
+import { CATEGORIES, type Episode } from "@/lib/feed";
 
 const tagColor: Record<string, string> = {
   Business: "bg-[#0d6e4e] text-white",
@@ -17,13 +17,13 @@ const tagColor: Record<string, string> = {
   Activism: "bg-[#b06a2c] text-white",
 };
 
-export default function EpisodesPage() {
+export function EpisodesClient({ episodes }: { episodes: Episode[] }) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<string>("All");
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return EPISODES.filter((e) => {
+    return episodes.filter((e) => {
       const matchesCat = active === "All" || e.category === active;
       const matchesText =
         !q ||
@@ -32,7 +32,7 @@ export default function EpisodesPage() {
         e.description.toLowerCase().includes(q);
       return matchesCat && matchesText;
     });
-  }, [query, active]);
+  }, [episodes, query, active]);
 
   return (
     <main className="bg-[#f2ede4] min-h-screen relative overflow-hidden">
@@ -41,7 +41,7 @@ export default function EpisodesPage() {
         <PageHero
           eyebrow="The Archive"
           title="Episodes"
-          subtitle="Every conversation on turning what the world throws away into what brings it back to life. Filter by theme, or search for the one you half-remember. 90+ episodes and counting."
+          subtitle={`Every conversation on turning what the world throws away into what brings it back to life. Filter by theme, or search for the one you half-remember. ${episodes.length} episodes and counting.`}
           curveVariant="swell"
         />
       </div>
@@ -85,7 +85,7 @@ export default function EpisodesPage() {
             <div className="flex items-center gap-2.5">
               <Leaf className="w-4 h-4 text-[#0d6e4e]" />
               <p className="text-xs uppercase font-black tracking-[0.25em] text-[#038f90]/70 font-sans">
-                Showing {results.length} of 90+ episodes
+                Showing {results.length} of {episodes.length} episodes
               </p>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default function EpisodesPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10">
               {results.map((e, i) => (
                 <motion.article
-                  key={e.ep}
+                  key={e.id}
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -125,9 +125,11 @@ export default function EpisodesPage() {
                     </span>
 
                     {/* Episode Number Badge inside Thumbnail */}
-                    <span className="absolute bottom-3.5 left-3.5 font-sans text-[11px] font-black uppercase tracking-[0.2em] text-white/90 drop-shadow">
-                      EP {e.ep}
-                    </span>
+                    {e.ep > 0 && (
+                      <span className="absolute bottom-3.5 left-3.5 font-sans text-[11px] font-black uppercase tracking-[0.2em] text-white/90 drop-shadow">
+                        EP {e.ep}
+                      </span>
+                    )}
 
                     {/* Curvy Play Action Button inside Thumbnail */}
                     <button
