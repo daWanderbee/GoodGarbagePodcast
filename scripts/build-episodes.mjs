@@ -7,12 +7,15 @@
 // Parsing lives in src/lib/feed.ts — shared with the runtime so the two cannot drift.
 import { writeFileSync, readFileSync, existsSync } from "node:fs";
 import { FEED_URL, parseFeed } from "../src/lib/feed.ts";
+import { fetchChannelVideos } from "../src/lib/youtube.ts";
 
 const arg = process.argv[2] && !process.argv[2].startsWith("--") ? process.argv[2] : FEED_URL;
 const DRY = process.argv.includes("--dry");
 
 const raw = existsSync(arg) ? readFileSync(arg, "utf8") : await (await fetch(arg)).text();
-const out = parseFeed(raw);
+// Same live channel source the site uses, so the fallback snapshot is as complete as
+// the runtime rather than stopping at the committed scrape.
+const out = parseFeed(raw, await fetchChannelVideos());
 
 if (DRY) {
   console.log(`${out.length} episodes from ${arg}`);

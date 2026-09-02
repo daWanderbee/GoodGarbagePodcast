@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Mail, Globe, Instagram, Youtube, Leaf, type LucideIcon } from "lucide-react";
+import { Globe, Instagram, Youtube, Leaf, type LucideIcon } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/Button";
@@ -98,7 +98,7 @@ function ContactFormInner() {
       </label>
       {status === "error" && (
         <p className="text-sm text-red-600">
-          Could not send that. Try again, or email hello@goodgarbage.eco directly.
+          Could not send that. Please try again in a moment.
         </p>
       )}
       <Button
@@ -148,7 +148,7 @@ export default function ContactPage() {
               Product development, a guest application, funding, a sponsorship — or something we haven't thought of. We read every message. Tell us what you're building and where you're stuck.
             </p>
             <div className="flex items-center gap-2 pt-2 text-[#038f90]/60 text-sm">
-              <Mail className="w-4 h-4" /> hello@goodgarbage.eco
+              <Leaf className="w-4 h-4" /> Use the form — we read every message.
             </div>
           </div>
 
@@ -182,7 +182,6 @@ export default function ContactPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <PakkaLink icon={Globe} label="pakka.com" href="https://pakka.com" />
-            <PakkaLink icon={Mail} label="Email Pakka" href="mailto:info@pakka.com" />
             <PakkaLink icon={Instagram} label="Instagram" href="#" />
             <PakkaLink icon={Youtube} label="YouTube" href="https://www.youtube.com/@GoodGarbage" />
           </div>

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/Button";
-import type { Episode } from "@/lib/feed";
+import { watchUrl, type Episode } from "@/lib/feed";
 
 export function LatestEpisode({ latest }: { latest: Episode }) {
   const [lead, ...rest] = latest.title.split(/[:|]/);
@@ -73,7 +73,7 @@ export function LatestEpisode({ latest }: { latest: Episode }) {
             </div>
 
             <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <a href={latest.watch || latest.listen} target="_blank" rel="noopener noreferrer">
+              <a href={watchUrl(latest)} target="_blank" rel="noopener noreferrer">
                 <Button
                   variant="accent"
                   className="!px-10 !h-14 md:!h-16 !text-xs md:!text-sm uppercase tracking-widest shadow-xl hover:shadow-2xl transition-all bg-[#038f90] !text-white"

@@ -3,7 +3,7 @@
 // episodes.ts can never drift apart.
 // Explicit .ts extension so `node --experimental-strip-types` can resolve this too —
 // scripts/build-episodes.mjs imports this module directly.
-import { YOUTUBE_VIDEOS } from "./youtube-episodes.ts";
+import { YOUTUBE_VIDEOS, type YoutubeVideo } from "./youtube-episodes.ts";
 import { GUEST_PORTRAITS } from "./guest-portraits.ts";
 
 export const FEED_URL = "https://anchor.fm/s/b9b9b52c/podcast/rss";
@@ -26,9 +26,8 @@ export interface Episode {
   thumbnail?: string;
   /** Square headshot of the guest, cropped from the episode thumbnail. "" when unverified. */
   portrait?: string;
-  listen?: string;
+  /** YouTube video URL. Empty when no video has been matched to this episode yet. */
   watch?: string;
-  audio?: string;
 }
 
 export const CATEGORIES: ("All" | Category)[] = ["All", "Business", "Environment", "Science", "Activism"];
@@ -155,21 +154,46 @@ const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
 // YouTube titles wrap the episode name in boilerplate ("Good Garbage with Ved Krishna: …",
 // "… | Good Garbage Podcast") and sometimes slip a company name in mid-title, so plain
 // containment misses; falling back to a shared opening phrase catches those.
-function matchYoutube(title: string, published: string) {
+/**
+ * A containment match only means something if the shared text is long enough to be
+ * distinctive — otherwise the channel's short "Good Garbage" clips match any episode whose
+ * own title contains the show name.
+ */
+const DISTINCTIVE = 24;
+
+/**
+ * A title match this far from the episode's own publish date is not the same thing. Set
+ * generously because YouTube uploads lag the podcast release by weeks on some episodes;
+ * the one-video-one-episode pass below is what actually enforces uniqueness.
+ */
+const MAX_DAYS_APART = 120;
+
+const daysApart = (a: string, b: string) =>
+  a && b ? Math.abs(Date.parse(a) - Date.parse(b)) / 86_400_000 : Infinity;
+
+function matchYoutube(title: string, published: string, videos: YoutubeVideo[]) {
   const t = norm(title);
-  const contains = YOUTUBE_VIDEOS.find((v) =>
+  const head = t.slice(0, 20);
+
+  const candidates = videos.filter((v) =>
     v.titles.some((y) => {
       const n = norm(y);
-      return n === t || n.includes(t) || t.includes(n);
+      if (n === t) return true;
+      if (head.length === 20 && n.includes(head)) return true;
+      if (Math.min(n.length, t.length) < DISTINCTIVE) return false;
+      return n.includes(t) || t.includes(n);
     })
   );
-  if (contains) return contains;
 
-  const head = t.slice(0, 20);
-  const byPhrase =
-    head.length === 20 &&
-    YOUTUBE_VIDEOS.find((v) => v.titles.some((y) => norm(y).includes(head)));
-  return byPhrase || YOUTUBE_VIDEOS.find((v) => v.date === published);
+  // Twelve episodes share the title "Around The World of Packaging with Alex Moore"; only
+  // the one published alongside the video should claim it.
+  const nearest = candidates
+    .map((v) => ({ v, gap: daysApart(v.date, published) }))
+    .sort((a, b) => a.gap - b.gap)[0];
+
+  if (nearest && nearest.gap <= MAX_DAYS_APART) return nearest.v;
+
+  return videos.find((v) => v.date === published);
 }
 
 /**
@@ -184,12 +208,28 @@ function portraitFor(video: { videoId: string; titles: string[] } | undefined, g
   return video.titles.some((y) => norm(y).includes(surname)) ? `/images/guests/${video.videoId}.jpg` : "";
 }
 
+/**
+ * Where a play button goes. Always YouTube, never Spotify.
+ *
+ * Exact video when we have one. Otherwise the channel's own search, pre-filled with the
+ * episode title — which lands the visitor on the right channel with the episode surfaced,
+ * rather than on a dead button. Roughly half the back catalogue has no known video id yet:
+ * the committed scrape covers 2024-05 to 2026-04, and the live channel feed only carries
+ * the 15 most recent uploads.
+ */
+export function watchUrl(episode: Pick<Episode, "watch" | "title">): string {
+  if (episode.watch) return episode.watch;
+  return `https://www.youtube.com/@GoodGarbage/search?query=${encodeURIComponent(stripEpisodeNumber(episode.title))}`;
+}
+
 /** Short display title: drops the guest clause and the trailing "| #12". */
 export function shortTitle(title: string) {
   return title.split(/\s+(?:with|With|\|)\s+/)[0];
 }
 
-export function parseFeed(xml: string): Episode[] {
+export function parseFeed(xml: string, extraVideos: YoutubeVideo[] = []): Episode[] {
+  // Live channel entries first: for a recent episode they are the only source of a video id.
+  const videos = [...extraVideos, ...YOUTUBE_VIDEOS];
   const items = xml.match(/<item>[\s\S]*?<\/item>/g) ?? [];
 
   const episodes = items
@@ -201,7 +241,7 @@ export function parseFeed(xml: string): Episode[] {
       const guest = guestFrom(title);
       const clean = stripEpisodeNumber(title);
       const iso = Number.isNaN(published.valueOf()) ? "" : published.toISOString().slice(0, 10);
-      const yt = matchYoutube(clean, iso);
+      const yt = matchYoutube(clean, iso, videos);
       return {
         ep: episodeNumber(title),
         id: slug(clean),
@@ -213,23 +253,40 @@ export function parseFeed(xml: string): Episode[] {
         duration: duration(tag(item, "itunes:duration")),
         date: iso ? published.toLocaleDateString("en-US", { month: "short", year: "numeric" }) : "",
         published: iso,
-        thumbnail: yt?.thumbnail || attr(item, "itunes:image", "href"),
-        portrait: portraitFor(yt, guest),
-        listen: tag(item, "link"),
-        watch: yt ? `https://www.youtube.com/watch?v=${yt.videoId}` : "",
-        audio: attr(item, "enclosure", "url"),
+        fallbackArt: attr(item, "itunes:image", "href"),
+        video: yt,
         type: tag(item, "itunes:episodeType"),
       };
     })
     .filter((e) => e.title && e.published && e.type === "full")
     .sort((a, b) => b.published.localeCompare(a.published));
 
-  // The recurring "Around the World of Packaging" segments share a title, so slugs collide.
+  // One video, one episode. Twelve monthly "Around the World of Packaging" episodes share a
+  // title and only one has a video, so without this they would all link to the same upload.
+  // The episode published closest to the video wins; the rest fall back to a channel search.
+  const bestClaim = new Map<string, (typeof episodes)[number]>();
+  for (const e of episodes) {
+    if (!e.video) continue;
+    const held = bestClaim.get(e.video.videoId);
+    if (!held || daysApart(e.video.date, e.published) < daysApart(held.video!.date, held.published)) {
+      bestClaim.set(e.video.videoId, e);
+    }
+  }
+  for (const e of episodes) {
+    if (e.video && bestClaim.get(e.video.videoId) !== e) e.video = undefined;
+  }
+
+  // The recurring segments share a title, so slugs collide too.
   const seen = new Set<string>();
   for (const e of episodes) {
     if (seen.has(e.id)) e.id = `${e.id}-${e.published}`;
     seen.add(e.id);
   }
 
-  return episodes.map(({ type: _type, ...e }) => e);
+  return episodes.map(({ type: _type, fallbackArt, video, ...e }) => ({
+    ...e,
+    thumbnail: video?.thumbnail || fallbackArt,
+    portrait: portraitFor(video, e.guest),
+    watch: video ? `https://www.youtube.com/watch?v=${video.videoId}` : "",
+  }));
 }

@@ -3,6 +3,7 @@
 import { motion, useTransform, MotionValue } from "framer-motion";
 import Image from "next/image";
 import { Youtube, Music, Podcast, Play } from "lucide-react";
+import { CHANNEL_URL } from "@/lib/youtube";
 import { Button } from "./ui/Button";
 
 
@@ -11,8 +12,10 @@ interface PlatformLinksProps {
   scale: MotionValue<number>;
 }
 
-const platforms = [
-  { name: "YouTube", icon: <Youtube size={24} />, color: "#FF0000" },
+// Only YouTube has a real destination. The rest were already dead "#" links before this
+// change and stay that way until someone supplies the show's URLs on those platforms.
+const platforms: { name: string; icon: React.ReactNode; color: string; href?: string }[] = [
+  { name: "YouTube", icon: <Youtube size={24} />, color: "#FF0000", href: CHANNEL_URL },
   { name: "Spotify", icon: <Music size={24} />, color: "#1DB954" },
   { name: "Apple Podcasts", icon: <Podcast size={24} />, color: "#A341FF" },
   { name: "Amazon Music", icon: <Play size={24} />, color: "#00A8E1" },
@@ -42,7 +45,9 @@ export function PlatformLinks() {
           {platforms.map((platform) => (
             <motion.a
               key={platform.name}
-              href="#"
+              href={platform.href ?? "#"}
+              target={platform.href ? "_blank" : undefined}
+              rel={platform.href ? "noopener noreferrer" : undefined}
               whileHover={{ y: -5 }}
               whileTap={{ scale: 0.95 }}
               className="flex flex-col items-center gap-3 cursor-pointer group no-underline min-w-max"

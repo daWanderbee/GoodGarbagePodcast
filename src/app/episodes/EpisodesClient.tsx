@@ -8,7 +8,7 @@ import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
 import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
 import { DecorationBush } from "@/components/ui/DecorationBush";
-import { CATEGORIES, type Episode } from "@/lib/feed";
+import { CATEGORIES, watchUrl, type Episode } from "@/lib/feed";
 
 const tagColor: Record<string, string> = {
   Business: "bg-[#0d6e4e] text-white",
@@ -132,12 +132,15 @@ export function EpisodesClient({ episodes }: { episodes: Episode[] }) {
                     )}
 
                     {/* Curvy Play Action Button inside Thumbnail */}
-                    <button
-                      aria-label="Play episode"
+                    <a
+                      href={watchUrl(e)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Watch ${e.title} on YouTube`}
                       className="absolute bottom-3.5 right-3.5 flex h-12 w-12 items-center justify-center rounded-full bg-[#0d6e4e] text-white shadow-xl transition-all duration-300 group-hover:scale-110 group-hover:bg-[#0a583e] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#aeddd9]"
                     >
                       <Play className="ml-0.5 h-5 w-5 fill-current" />
-                    </button>
+                    </a>
                   </div>
 
                   {/* Card Content */}

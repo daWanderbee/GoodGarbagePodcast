@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Leaf, Play } from "lucide-react";
-import { shortTitle, type Episode } from "@/lib/feed";
+import { shortTitle, watchUrl, type Episode } from "@/lib/feed";
 
 interface LatestPodcastCardProps {
   className?: string;
@@ -39,12 +39,15 @@ export function LatestPodcastCard({ className = "", latest }: LatestPodcastCardP
         <span className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-[#0d6e4e]">
           <Leaf className="h-3 w-3" /> Latest Episode
         </span>
-        <button
-          aria-label="Play latest episode"
+        <a
+          href={watchUrl(latest)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Watch the latest episode on YouTube"
           className="absolute bottom-3 right-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#0d6e4e] text-white shadow-lg transition-transform group-hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
           <Play className="ml-0.5 h-5 w-5 fill-current" />
-        </button>
+        </a>
       </div>
 
       {/* Meta */}

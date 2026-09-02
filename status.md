@@ -275,3 +275,232 @@ Dianna Cohen.
   wording (Marie Eric, Alvin Lim, one of the two Von Wong videos). Cosmetic.
 - Template A episodes (2024-05 → 2024-11) have no portrait by design.
 - Guest social links on the cards are still `href="#"`.
+
+---
+
+# Status — Contact form live against Zoho
+
+_Last updated: 2026-09-01, evening_
+
+Asmita submitted the real form and got "Could not send that." Diagnosis: the browser was
+served by a **stale server** still running the first version of the route, which returned
+500 whenever `RESEND_API_KEY` was unset and had no disk write at all. The current code
+returns 200 for the same payload — replayed it to confirm, and the record is on disk.
+
+## Zoho is now actually wired
+
+`src/lib/zoho.ts` accepts credentials either as `ZOHO_CLIENT_ID` / `ZOHO_CLIENT_SECRET` /
+`ZOHO_REFRESH_TOKEN`, **or** as `ZOHO_TOKEN_FILE` pointing at an existing `zoho_token.json`.
+`.env.local` (gitignored) uses the file form against `Apps\Chuk\zoho_token.json`, so no
+second copy of a long-lived refresh token lives in this project. Deployments should set
+the three env vars instead.
+
+## Duplicate leads — found by testing, not by reading
+
+The first real submission failed with `DUPLICATE_DATA`: `asmita@pakka.com` is already a
+lead. Zoho rejects a create on a duplicate Email, so **every repeat submitter would have
+silently produced nothing**.
+
+Now: create the lead; on `DUPLICATE_DATA`, look the lead up by email and attach the
+enquiry as a **Note**. Deliberately does not update the existing record — the lead that
+came back was `Lead_Source: Website-Orders`, and an upsert would have overwritten that
+attribution with `GoodGarbageContact` and clobbered its Description. Notes preserve both
+and stack up across repeat submissions.
+
+Also: note bodies no longer wrap the email in angle brackets — Zoho renders note content as
+markup and swallowed `<asmita@pakka.com>` as a tag.
+
+## Verified end to end
+
+| Case | Result |
+|---|---|
+| New email | Lead created, `Lead_Source: GoodGarbageContact`, `Lead_Status: Fresh Lead` |
+| Existing email | Note on existing lead `49724000055497012`, attribution untouched |
+| Bad email | 400, nothing written |
+
+Asmita's own test message is on that lead as a note dated 2026-09-01 22:14 IST — left in
+place. The throwaway `ggp-wiring-check@example.com` lead was created and then **deleted**
+(id 49724000060532631) after checking its email matched, since lead creation passes
+`trigger: ["workflow"]` and a fake lead can set off assignment rules.
+
+## Still open
+
+- The route fires Zoho workflows (`trigger: ["workflow"]`), matching Chuk's snippet. If
+  the podcast form should not trigger sales assignment, drop that field.
+- `RESEND_API_KEY` is still unset, so no notification email goes out. Zoho + disk only.
+- Production deploy still needs the three `ZOHO_*` env vars set on the host.
+
+## Known contacts: recorded *and* visible
+
+Follow-up question from Asmita — if someone already in the CRM submits, is it recorded?
+
+It was recorded, but it could have gone unseen. Every submission hits
+`data/contact-submissions.jsonl` before any network call, and a known contact gets a Note
+on their existing lead. But her own lead sat at **`Lead_Status: Junk Lead`** — a note on a
+junk lead is recorded and invisible.
+
+So on a duplicate the lead is now also **reopened**: `Lead_Status` → `Fresh Lead`. Only
+that one field is written; `Lead_Source` is still left alone. A failure to reopen is logged
+but not fatal, since the note is already saved.
+
+Verified on lead `49724000055497012`: status `Junk Lead` → `Fresh Lead`, `Lead_Source`
+still `Website-Orders`, both notes present.
+
+Two test notes are on that lead (2026-09-01 22:14 and 22:30) — harmless, deletable.
+
+**Judgement call worth reviewing:** reopening means a lead someone deliberately marked Junk
+comes back into the queue when they use the contact form. That is right for a real enquiry
+and wrong if the form ever attracts spam. One line in `reopen()` in `src/lib/zoho.ts` if
+you disagree.
+
+## Findability: tag, not Lead_Source (2026-09-02)
+
+Asmita's follow-up: if returning contacts don't show under
+`Lead_Source = GoodGarbageContact`, how do we reach them?
+
+They wouldn't have. A returning contact keeps their original source — a lead won at
+Paperex stays Paperex — so filtering on Lead_Source silently misses every one of them.
+
+Every form submission now also **tags the lead `GoodGarbageContact`**, on both the create
+and duplicate paths. Tags are additive, need no schema change, apply equally to new and
+existing leads, and are filterable in Zoho list views. Filter by that tag and you get
+everyone who used the form; `Lead_Source` stays a record of where the lead originally
+came from. Verified A/B: removed the tag, resubmitted through the API, tag reappeared.
+
+## Blueprint governs Lead_Status — found while cleaning up
+
+Reverting the test data surfaced this: the Leads module runs a **Blueprint**, so a plain
+write to `Lead_Status` returns `RECORD_IN_BLUEPRINT` for any record inside the process —
+which is exactly the leads someone is working. `reopen()` would have failed silently on
+them.
+
+It now falls back to `GET /Leads/{id}/actions/blueprint`, finds the transition whose
+`next_field_value` is `Fresh Lead`, and executes it — what the UI does. Verified against a
+lead sitting at `Junk Lead` inside the blueprint: it moved to `Fresh Lead`, got the note
+and the tag, and logged no error.
+
+## Test data removed
+
+All four contact-form notes deleted from lead `49724000055497012` (only notes matching the
+form's title were touched; the script lists anything it leaves alone). Tag removed.
+`Lead_Status` restored to `Junk Lead` via the blueprint transition. `Lead_Source` was never
+written. The lead is back exactly as found; the earlier throwaway
+`ggp-wiring-check@example.com` lead was deleted outright.
+
+## No email, anywhere (2026-09-02)
+
+Instruction: send no mail, and show no email address on the site. Both done.
+
+**Removed from the code:** the whole `emailNotification()` path in
+`src/app/api/contact/route.ts` — the Resend call, `RESEND_API_KEY`, `CONTACT_TO`,
+`CONTACT_FROM`. That leg existed from the first pass, before Zoho, when an email was the
+only way a submission reached anyone. The CRM and the disk log now cover it, so it was
+dead weight and one fewer third-party key to hold. No dependency was ever installed for
+it — it was a plain `fetch` — so nothing to uninstall.
+
+**Removed from the UI** (`src/app/contact/page.tsx`):
+
+| Was | Now |
+|---|---|
+| Error text "…or email hello@goodgarbage.eco directly" | "Could not send that. Please try again in a moment." |
+| `hello@goodgarbage.eco` beside a mail icon | "Use the form — we read every message." |
+| "Email Pakka" tile → `mailto:info@pakka.com` | tile removed; pakka.com, Instagram and YouTube remain |
+
+The now-unused `Mail` icon import went with them.
+
+Verified on a production build: `/`, `/contact`, `/about`, `/episodes` and `/guests` all
+render with **zero** email addresses and zero `mailto:` links. The only `@` left in the
+markup is the `you@email.com` placeholder inside the form's own email input, which is
+needed — the address is what creates the Zoho lead.
+
+A submission still works end to end with no mail activity in the log. The lead that check
+created (`ggp-nomail-check@example.com`) was deleted.
+
+Knock-on: `hello@goodgarbage.eco` is gone as an open question — the site no longer claims
+any inbox, so it no longer matters that the RSS feed lists a different address.
+
+---
+
+# Status — YouTube everywhere, and self-updating video links
+
+_Last updated: 2026-09-02_
+
+## Every play button goes to YouTube
+
+Nothing on the site links to Spotify or Anchor any more. One helper, `watchUrl()` in
+`src/lib/feed.ts`, decides where a play button goes:
+
+- exact video when the episode has one;
+- otherwise `youtube.com/@GoodGarbage/search?query=<episode title>` — the right channel
+  with the episode surfaced, rather than a dead button. Confirmed that URL returns 200.
+
+Wired: the archive card play button on `/episodes` (was an inert `<button>` that did
+nothing), "Play Episode" on the homepage, the hero card's play button, and the YouTube
+tile in the platform strip (which was a dead `#`). The `listen` (Spotify) and `audio`
+(Anchor mp3) fields are gone from the Episode type entirely, so those URLs no longer even
+appear in the page payload.
+
+Spotify, Apple and Amazon tiles in the "listen wherever" strip are still dead `#` links —
+they were before this change too. Left alone: removing a platform from a listen-anywhere
+directory is a content decision, not a wiring one.
+
+## New videos link themselves
+
+`src/lib/youtube.ts` reads the channel's own RSS
+(`youtube.com/feeds/videos.xml?channel_id=UC2OX-djWv6Fg5hu-3JUn1Sw`) — no API key, no
+quota. It carries the 15 most recent uploads, which is exactly the gap the committed
+scrape leaves: that data stops at 2026-04-30, so without this every new episode would
+publish with no video link. Both the runtime and `scripts/build-episodes.mjs` use it.
+
+## Two matching bugs this surfaced
+
+Both were silently attaching the **wrong video** to episodes:
+
+1. **Short titles matched everything.** The channel's "Good Garbage" clip matched all 24
+   episodes whose own title contains the show's name. Containment now requires at least 24
+   characters of shared text.
+2. **Twelve episodes shared one video.** The monthly "Around the World of Packaging with
+   Alex Moore" segments all have the same title and only one has a known upload. A video is
+   now claimed by **exactly one episode** — the one published nearest it — and the losers
+   fall back to channel search. The date window is 120 days, generous because uploads lag
+   the podcast; uniqueness is enforced by the claim pass, not the window.
+
+Coverage after the fixes: **48 of 115 episodes have an exact video**, none shared, 29
+portraits. Three new tests cover the link rules. Test fixtures were moved to 1999 dates —
+they had been colliding with real videos in the committed list, which made the
+date-proximity fallback match a genuine video and quietly weakened the assertions.
+
+## Studio: an unlisted back page (2026-09-02)
+
+Asked for: a way to add/update podcast videos, no login, at a random URL.
+
+Built `/studio/<STUDIO_KEY>` — key generated and put in `.env.local`, gitignored. Scope is
+deliberately narrow, because most of the original ask already happens by itself: new
+episodes arrive via the podcast RSS and new uploads link themselves via the channel RSS,
+both hourly. The only thing a human can actually add value on is attaching a video to an
+older episode the feeds can't match. So that is all the page does.
+
+- `src/lib/overrides.ts` — read/write `data/episode-overrides.json`, parse a video id out
+  of any YouTube URL form, key validation.
+- `src/app/studio/[key]/page.tsx` + `StudioClient.tsx` — searchable list, defaulted to the
+  episodes missing a video, one input each.
+- `src/app/api/studio/[key]/route.ts` — the save endpoint, behind the same key.
+- `src/app/robots.ts` — disallows `/studio/` and `/api/`.
+
+Overrides replace only the video and thumbnail. Titles, dates and descriptions stay owned
+by the feed so the two cannot drift.
+
+**Security, stated plainly:** the URL is the credential. The key gates the API as well as
+the page — a secret page in front of an open endpoint protects nothing — and fails closed
+when `STUDIO_KEY` is missing or under 16 characters. Verified: wrong key serves the 404
+page with no episode data in it, and the API returns 404. But this is not authentication,
+and anyone who obtains the URL can edit links.
+
+**Known quirk:** a wrong key renders the 404 page but with HTTP 200 under `next start`.
+Content is correct and nothing leaks; the status is wrong. Worth fixing with middleware if
+it matters for crawlers.
+
+**Bug caught by testing:** clearing an override did nothing — `{ ...existing, ...patch }`
+merged the old video id straight back in. `writeOverride` now takes `string | null`
+instead of a patch object, and there is a regression test for it. Four tests cover URL
+parsing, save/clear, override application and the fail-closed key check (13 total now).
