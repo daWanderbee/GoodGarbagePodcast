@@ -4,11 +4,13 @@ import { motion } from "framer-motion";
 
 interface PodcastButtonProps {
   episodeName: string;
+  /** Where it goes. This was a <button> with no handler, so it did nothing at all. */
+  href: string;
   size?: "sm" | "md" | "lg";
   className?: string;
 }
 
-export function PodcastButton({ episodeName, size = "md", className = "" }: PodcastButtonProps) {
+export function PodcastButton({ episodeName, href, size = "md", className = "" }: PodcastButtonProps) {
   const sizeClasses = {
     sm: "px-3 py-1.5 h-10 md:h-12",
     md: "px-5 py-2.5 h-12",
@@ -22,7 +24,10 @@ export function PodcastButton({ episodeName, size = "md", className = "" }: Podc
   };
 
   return (
-    <motion.button
+    <motion.a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       className={`flex items-center gap-3 bg-white text-[#038f90] rounded-full shadow-2xl ${sizeClasses[size]} ${className}`}
@@ -48,6 +53,6 @@ export function PodcastButton({ episodeName, size = "md", className = "" }: Podc
         ))}
       </div>
 
-    </motion.button>
+    </motion.a>
   );
 }

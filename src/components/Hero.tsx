@@ -7,7 +7,7 @@ import { Leaf } from "lucide-react";
 import { PodcastButton } from "./ui/PodcastButton";
 import { Button } from "./ui/Button";
 import { LatestPodcastCard } from "./ui/LatestPodcastCard";
-import { shortTitle, type Episode } from "@/lib/feed";
+import { shortTitle, watchUrl, type Episode } from "@/lib/feed";
 
 interface HeroProps {
   episodes: Episode[];
@@ -135,9 +135,10 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3.5 sm:gap-4 w-full max-w-sm sm:max-w-none mx-auto lg:mx-0">
-            <PodcastButton 
-              episodeName="Listen Now" 
+          <div className="pointer-events-auto flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3.5 sm:gap-4 w-full max-w-sm sm:max-w-none mx-auto lg:mx-0">
+            <PodcastButton
+              episodeName="Listen Now"
+              href={watchUrl(episodes[0])}
               className="!h-13 sm:!h-14 md:!h-15 px-6 sm:px-7 w-full sm:w-auto justify-center shrink-0 shadow-2xl transition-all hover:scale-[1.03]" 
             />
 
@@ -152,7 +153,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
           <div className="mt-6 lg:mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-1.5 font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white/90 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
             <span>Sponsored by Pakka</span>
             <span className="w-1 h-1 rounded-full bg-white/60" />
-            <span>90+ Episodes</span>
+            <span>{episodes.length} Episodes</span>
             <span className="w-1 h-1 rounded-full bg-white/60" />
             <span>YouTube · Spotify · Apple</span>
           </div>
@@ -265,7 +266,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
       </motion.div>
 
       {/* DESKTOP: latest episode card, vertically centered, pulled in toward the text */}
-      <LatestPodcastCard latest={episodes[0]} className="hidden lg:block absolute right-[13%] top-1/2 -translate-y-1/2 z-30" />
+      <LatestPodcastCard latest={episodes[0]} className="pointer-events-auto hidden lg:block absolute right-[13%] top-1/2 -translate-y-1/2 z-30" />
 
       {/* Simplified Static Scroll Indicator */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 lg:left-12 lg:translate-x-0 z-30 hidden lg:flex flex-col items-center lg:items-start gap-2">
