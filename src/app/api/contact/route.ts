@@ -1,5 +1,6 @@
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
+import { tmpdir } from "node:os";
 import { validate } from "@/lib/contact";
 import { createLead, splitName, zohoConfigured } from "@/lib/zoho";
 
@@ -14,18 +15,29 @@ import { createLead, splitName, zohoConfigured } from "@/lib/zoho";
 
 const LEAD_SOURCE = "GoodGarbageContact";
 
+/**
+ * Append-only JSONL, no DB. Fine on a persistent disk; on a serverless host the project
+ * directory is read-only and /tmp is wiped between invocations, so this is best-effort
+ * there and the CRM is the real store.
+ */
 async function saveToDisk(record: object): Promise<boolean> {
-  // ponytail: append-only JSONL, no DB. Needs a persistent disk — swap for Postgres
-  // if this ever runs on a serverless host with an ephemeral filesystem.
-  const file = process.env.CONTACT_LOG_PATH ?? path.join(process.cwd(), "data", "contact-submissions.jsonl");
-  try {
-    await mkdir(path.dirname(file), { recursive: true });
-    await appendFile(file, JSON.stringify(record) + "\n", "utf8");
-    return true;
-  } catch (err) {
-    console.error("[contact] could not write", file, err);
-    return false;
+  const candidates = [
+    process.env.CONTACT_LOG_PATH,
+    path.join(process.cwd(), "data", "contact-submissions.jsonl"),
+    path.join(tmpdir(), "contact-submissions.jsonl"),
+  ].filter((p): p is string => Boolean(p));
+
+  for (const file of candidates) {
+    try {
+      await mkdir(path.dirname(file), { recursive: true });
+      await appendFile(file, JSON.stringify(record) + "\n", "utf8");
+      return true;
+    } catch {
+      // Try the next location; only the last failure is worth reporting.
+    }
   }
+  console.error("[contact] no writable location for the submission log");
+  return false;
 }
 
 export async function POST(req: Request) {
@@ -69,7 +81,14 @@ export async function POST(req: Request) {
   }
 
 
-  // Only a genuine loss — nothing stored anywhere — is an error for the visitor.
-  if (!saved && !leadId) return Response.json({ error: "Could not save your message." }, { status: 502 });
+  // Last resort: if neither the disk nor the CRM took it, put the whole submission in the
+  // platform log, where it is still recoverable. Losing someone's message because a host
+  // has a read-only filesystem is not an acceptable outcome.
+  if (!saved && !leadId) {
+    console.error(
+      "[contact] NOT STORED — recover from this log line:",
+      JSON.stringify({ at: new Date().toISOString(), name, email, topic, message })
+    );
+  }
   return Response.json({ ok: true });
 }
