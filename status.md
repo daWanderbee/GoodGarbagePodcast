@@ -504,3 +504,40 @@ it matters for crawlers.
 merged the old video id straight back in. `writeOverride` now takes `string | null`
 instead of a patch object, and there is a regression test for it. Four tests cover URL
 parsing, save/clear, override application and the fail-closed key check (13 total now).
+
+## Play controls were inert (2026-09-03)
+
+Reported: "Listen Now" on the hero, the hero play button, and the archive play buttons
+don't click. All three were real, with two separate causes.
+
+**1. `PodcastButton` had no handler at all.** "Listen Now" was a `<motion.button>` with no
+`onClick` and no `href` — inert on every breakpoint, mobile included, since the day it was
+written. It is now an anchor, and `href` is a **required** prop so the type checker rejects
+another inert copy.
+
+**2. The whole hero was click-through on desktop.** `HomeClient` renders the fixed hero
+layer with `lg:pointer-events-none` so page content can scroll over it — which also
+disabled every control inside the hero, including "View Archive". The decorative layer
+keeps `pointer-events-none`; the CTA row and the latest-episode card now carry
+`pointer-events-auto`, which restores clicks without breaking the scroll-over effect.
+
+The archive buttons were the earlier inert `<button>`, already fixed when they were turned
+into links — the report almost certainly came from a server still running older code, the
+same stale-server trap as the contact form.
+
+**Verified by hit-testing, not by reading markup.** Rendered HTML proves a link exists; it
+proves nothing about whether a click reaches it, and this bug was pure CSS. The Chrome
+extension is blocked from `localhost` by org policy, so `scratchpad/hittest.mjs` drives
+headless Chrome over CDP (Node 22's built-in WebSocket, no puppeteer) and asks
+`document.elementFromPoint()` what sits at the centre of each control:
+
+| | |
+|---|---|
+| Hero @1440px | "Listen Now" and the card play button both resolve to themselves |
+| Hero @390px | same |
+| `/episodes` @1440px | 8 of 8 cards clickable, each a real YouTube URL |
+
+Also replaced the hero's hardcoded "90+ Episodes" with the live count.
+
+Still on the trust strip: the text "YouTube · Spotify · Apple" — prose, not a link, so it
+survived the no-Spotify-links pass. Say if it should change.
