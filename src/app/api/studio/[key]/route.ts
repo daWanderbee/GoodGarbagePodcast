@@ -1,5 +1,20 @@
 import { parseVideoId, studioKeyValid, writeOverride } from "@/lib/overrides";
 
+// The override store is a JSON file. On a read-only serverless filesystem that write throws,
+// and an unhandled throw is a 500 with no explanation. Say what actually went wrong instead.
+const READ_ONLY =
+  "This host's filesystem is read-only, so the change was not saved. Set OVERRIDES_PATH to a writable location, or run the studio locally and commit data/episode-overrides.json.";
+
+async function save(episodeId: string, videoId: string | null): Promise<Response | null> {
+  try {
+    await writeOverride(episodeId, videoId);
+    return null;
+  } catch (err) {
+    console.error("[studio] could not save override", err);
+    return Response.json({ error: READ_ONLY }, { status: 503 });
+  }
+}
+
 // Same key as the studio page. The page's secret URL would be pointless if this were open.
 export async function POST(req: Request, { params }: { params: Promise<{ key: string }> }) {
   const { key } = await params;
@@ -15,8 +30,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ key: st
 
   // Empty input clears the override and hands the episode back to the feeds.
   if (!raw) {
-    await writeOverride(episodeId, null);
-    return Response.json({ ok: true, videoId: null });
+    return (await save(episodeId, null)) ?? Response.json({ ok: true, videoId: null });
   }
 
   const videoId = parseVideoId(raw);
@@ -27,7 +41,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ key: st
     );
   }
 
-  await writeOverride(episodeId, videoId);
+  const failed = await save(episodeId, videoId);
+  if (failed) return failed;
   console.log(`[studio] ${episodeId} -> ${videoId}`);
   return Response.json({ ok: true, videoId });
 }

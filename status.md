@@ -541,3 +541,66 @@ Also replaced the hero's hardcoded "90+ Episodes" with the live count.
 
 Still on the trust strip: the text "YouTube · Spotify · Apple" — prose, not a link, so it
 survived the no-Spotify-links pass. Say if it should change.
+
+---
+
+# Status — production is wired to Zoho (2026-09-03)
+
+Until today the live site created **no leads**. The code was right; the deployment had no
+environment. `vercel env ls production` returned nothing, so `zohoConfigured()` was false
+on every request and `POST /api/contact` logged `zoho not configured` and returned 200.
+The submission survived only as a Vercel platform log line.
+
+## What changed
+
+Five encrypted Production environment variables were added to
+`asmitas-projects-b4b9a80e/good-garbage-podcast`:
+
+| Variable | Source |
+|---|---|
+| `ZOHO_CLIENT_ID` | `Apps\Chuk\zoho_token.json` |
+| `ZOHO_CLIENT_SECRET` | same |
+| `ZOHO_REFRESH_TOKEN` | same |
+| `ZOHO_DATA_CENTER` | `in` |
+| `STUDIO_KEY` | the studio URL's key |
+
+Discrete variables were used rather than `ZOHO_TOKEN_FILE`, because that path points at a
+file on this laptop that does not exist on the build host.
+
+Env changes only take effect on the next build, so production was redeployed.
+
+## Verified end to end, against the real CRM
+
+A submission was POSTed to the live `https://ggpodcast.vercel.app/api/contact` and the
+resulting record read back out of Zoho:
+
+```
+id         : 49724000060564277
+Full_Name  : Wiring Check 1788437972
+Lead_Source: GoodGarbageContact
+Lead_Status: Fresh Lead
+Company    : Good Garbage enquiry — General
+Tags       : GoodGarbageContact
+```
+
+The test lead was then deleted and its absence confirmed (`NO LEAD FOUND`). No test data
+remains in the CRM.
+
+`/studio/<key>` also returns 200 now that `STUDIO_KEY` is set; a wrong key renders the 404
+page.
+
+## Known limit: the studio cannot save on Vercel
+
+`writeOverride()` writes `data/episode-overrides.json`, and Vercel's filesystem is
+read-only, so saving an override used to throw and return a bare **500**. The endpoint now
+catches that and returns **503** with a message naming the cause, instead of a blank error.
+
+This is honest, not fixed. To make studio edits persist, either run the studio locally and
+commit `data/episode-overrides.json`, or move overrides to a real store (Vercel Blob or
+Postgres). Note this only affects *manual corrections* to old episodes — new episodes and
+new videos still arrive automatically from the two RSS feeds.
+
+**Watch the refresh token.** Production now depends on the same Zoho self-client refresh
+token as `Apps\Chuk`. If that token is revoked or regenerated, this site stops creating
+leads silently — the form still returns 200. `Apps\ZohoCommunications` already died this
+way (`invalid_code`).
