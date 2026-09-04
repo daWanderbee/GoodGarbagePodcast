@@ -2,6 +2,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { parseFeed, watchUrl } from "./feed.ts";
+import { EPISODE_VIDEOS } from "./episode-videos.ts";
 
 const item = (title: string, extra = "") => `
   <item>
@@ -53,9 +54,17 @@ test("every play link goes to YouTube, exact video or channel search", () => {
   assert.equal(withVideo.watch, "https://www.youtube.com/watch?v=abc123");
   assert.equal(watchUrl(withVideo), "https://www.youtube.com/watch?v=abc123");
 
+  // No video: Spotify plays the actual episode, so it beats a YouTube search for something
+  // that is not on the channel.
   const [noVideo] = parseFeed(`<rss>${item("Composting Works with Jane Doe | #42")}</rss>`);
   assert.equal(noVideo.watch, "");
-  assert.match(watchUrl(noVideo), /^https:\/\/www\.youtube\.com\/@GoodGarbage\/search\?query=/);
+  assert.equal(watchUrl(noVideo), "https://example.com/ep");
+
+  // Nothing at all to link to — last resort is the channel's own search.
+  assert.match(
+    watchUrl({ title: "Composting Works with Jane Doe", watch: "", listen: "" }),
+    /^https:\/\/www\.youtube\.com\/@GoodGarbage\/search\?query=/
+  );
 });
 
 test("a short video title cannot claim an unrelated episode", () => {
@@ -68,15 +77,31 @@ test("a short video title cannot claim an unrelated episode", () => {
 });
 
 test("episodes sharing a title do not all claim the same video", () => {
-  // Twelve monthly "Around the World of Packaging" episodes, one video.
+  // The twelve monthly segments share a title and only some have a video. The title here is
+  // invented: a real one would be found in EPISODE_VIDEOS and answered from there instead,
+  // which is right in production but would not exercise the runtime matcher.
+  const TITLE = "Orbiting the Moons of Packaging with Alex Moore";
   const xml = `<rss>
-    ${item("Around the World of Packaging with Alex Moore").replace("Mon, 04 Jan 1999", "Mon, 04 Jan 1999")}
-    ${item("Around the World of Packaging with Alex Moore").replace("Mon, 04 Jan 1999", "Tue, 04 Aug 1998")}
+    ${item(TITLE)}
+    ${item(TITLE).replace("Mon, 04 Jan 1999", "Tue, 04 Aug 1998")}
   </rss>`;
   const eps = parseFeed(xml, [
-    { videoId: "onlyone", titles: ["Around the World of Packaging with Alex Moore"], thumbnail: "", date: "1999-01-04", apple: null },
+    { videoId: "onlyone", titles: [TITLE], thumbnail: "", date: "1999-01-04", apple: null },
   ]);
   const claimed = eps.filter((e) => e.watch === "https://www.youtube.com/watch?v=onlyone");
   assert.equal(claimed.length, 1);
   assert.equal(claimed[0].published, "1999-01-04");
+});
+
+test("the committed lookup table beats a runtime guess", () => {
+  // Every back-catalogue episode is answered from EPISODE_VIDEOS, which was matched against
+  // the whole channel and audited. A runtime guess must not be able to overwrite it, or a
+  // stray title collision in the 15-video channel feed would relink an old episode.
+  const [id, known] = Object.entries(EPISODE_VIDEOS)[0];
+  const title = id.replace(/-/g, " ");
+  const [e] = parseFeed(`<rss>${item(title)}</rss>`, [
+    { videoId: "wrongvideo", titles: [title], thumbnail: "", date: "1999-01-04", apple: null },
+  ]);
+  assert.equal(e.id, id, "fixture must reproduce the table's slug");
+  assert.equal(e.watch, `https://www.youtube.com/watch?v=${known.videoId}`);
 });

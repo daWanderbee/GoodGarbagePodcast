@@ -5,6 +5,7 @@
 // scripts/build-episodes.mjs imports this module directly.
 import { YOUTUBE_VIDEOS, type YoutubeVideo } from "./youtube-episodes.ts";
 import { GUEST_PORTRAITS } from "./guest-portraits.ts";
+import { EPISODE_VIDEOS } from "./episode-videos.ts";
 
 export const FEED_URL = "https://anchor.fm/s/b9b9b52c/podcast/rss";
 
@@ -28,6 +29,8 @@ export interface Episode {
   portrait?: string;
   /** YouTube video URL. Empty when no video has been matched to this episode yet. */
   watch?: string;
+  /** The episode on Spotify, straight from the feed. Always present; used when watch is not. */
+  listen?: string;
 }
 
 export const CATEGORIES: ("All" | Category)[] = ["All", "Business", "Environment", "Science", "Activism"];
@@ -75,13 +78,17 @@ export function stripEpisodeNumber(title: string) {
 
 /** Guest name lives in the title: "… with Jane Doe", "… | Jane Doe on X", "… featuring Jane Doe". */
 function guestFrom(title: string) {
-  const t = stripEpisodeNumber(title);
+  // "… with Sian Sutherland Part 2" — the part number belongs to the episode, not the
+  // person. Left in, it becomes the surname and every name-based check downstream fails.
+  const t = stripEpisodeNumber(title).replace(/\s+(?:Part|Pt\.?)\s*\d+\s*$/i, "");
   // Take the LAST "with": titles like "Building a Brand with a Purpose with Maddie Hamann"
   // put the guest after the second one.
   const withs = [...t.matchAll(/(?:\bwith|\bWith|\bfeaturing|\bfeat\.?)\s+/g)];
   const last = withs[withs.length - 1];
   let cand = last ? t.slice(last.index + last[0].length) : undefined;
   if (!cand) cand = t.match(/\|\s*([^|]+?)\s+on\s+/)?.[1];
+  // "The Impatient Entrepreneur: Lessons from Alvin Lim" — no "with" anywhere.
+  if (!cand) cand = t.match(/\b(?:lessons|stories|insights)\s+from\s+(.+)$/i)?.[1];
   // "Some Title Pt.2 | Dr. Ramani Narayan" — a trailing segment that is only a name.
   // "… | Part 1" and "… | #89" fail the all-words-capitalised test below.
   if (!cand) {
@@ -217,8 +224,12 @@ function portraitFor(video: { videoId: string; titles: string[] } | undefined, g
  * the committed scrape covers 2024-05 to 2026-04, and the live channel feed only carries
  * the 15 most recent uploads.
  */
-export function watchUrl(episode: Pick<Episode, "watch" | "title">): string {
+export function watchUrl(episode: Pick<Episode, "watch" | "title" | "listen">): string {
   if (episode.watch) return episode.watch;
+  // No video for this one — two of the monthly segments were never uploaded. Spotify plays
+  // the actual episode, which beats dropping the listener on a search page for something
+  // that is not there.
+  if (episode.listen) return episode.listen;
   return `https://www.youtube.com/@GoodGarbage/search?query=${encodeURIComponent(stripEpisodeNumber(episode.title))}`;
 }
 
@@ -255,6 +266,7 @@ export function parseFeed(xml: string, extraVideos: YoutubeVideo[] = []): Episod
         published: iso,
         fallbackArt: attr(item, "itunes:image", "href"),
         video: yt,
+        listen: tag(item, "link"),
         type: tag(item, "itunes:episodeType"),
       };
     })
@@ -281,6 +293,28 @@ export function parseFeed(xml: string, extraVideos: YoutubeVideo[] = []): Episod
   for (const e of episodes) {
     if (seen.has(e.id)) e.id = `${e.id}-${e.published}`;
     seen.add(e.id);
+  }
+
+  // The committed lookup table wins. It was built against the whole channel and audited,
+  // where matchYoutube() above only ever sees the 15 videos in the channel RSS and has to
+  // guess conservatively. Ids are only stable after the dedup pass, so this runs here.
+  const fromTable = new Set<string>();
+  for (const e of episodes) {
+    const known = EPISODE_VIDEOS[e.id];
+    if (!known) continue;
+    e.video = {
+      videoId: known.videoId,
+      titles: [known.title],
+      thumbnail: `https://i.ytimg.com/vi/${known.videoId}/maxresdefault.jpg`,
+      date: e.published,
+      apple: null,
+    };
+    fromTable.add(known.videoId);
+  }
+  // A runtime guess that lands on a video the table already gave to a different episode is
+  // wrong by definition — drop it rather than link two episodes to one video.
+  for (const e of episodes) {
+    if (e.video && !EPISODE_VIDEOS[e.id] && fromTable.has(e.video.videoId)) e.video = undefined;
   }
 
   return episodes.map(({ type: _type, fallbackArt, video, ...e }) => ({
