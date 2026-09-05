@@ -44,54 +44,24 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img src="/images/hero/ghibli_bg.png" alt="Studio Ghibli Countryside Landscape" className="absolute inset-0 h-full w-full object-cover object-center" />
         
-        {/* Deep Botanical Emerald Shadow Wash (Harmonizes the painted hills with our foreground sugarcane and forest leaves) */}
-        <div className="absolute inset-0 bg-[#012620]/30 pointer-events-none" />
+        {/* Overall darkening wash. Raised from /30 — with the foreground gone this is the
+            only thing separating the headline from the painted hills. */}
+        <div className="absolute inset-0 bg-[#012620]/55 pointer-events-none" />
 
-        {/* High Contrast Dark Forest Vignette: goes down on mobile (`to-b`) and to the right on desktop (`to-r`) */}
-        <div className="absolute inset-y-0 left-0 w-full lg:w-[68%] bg-gradient-to-b lg:bg-gradient-to-r from-[#011a15]/95 via-[#012620]/80 to-transparent pointer-events-none" />
+        {/* A slight blur takes the detail out of the landscape without flattening it, so the
+            hills stop competing with the type. This is the "less busy" half of the note. */}
+        <div className="absolute inset-0 backdrop-blur-[2px] pointer-events-none" />
+
+        {/* Reading panel: deepest under the text, clearing toward the episode card. Runs
+            down on mobile, across on desktop, following where the copy sits. */}
+        <div className="absolute inset-y-0 left-0 w-full lg:w-[72%] bg-gradient-to-b lg:bg-gradient-to-r from-[#011a15]/95 via-[#012620]/85 to-transparent pointer-events-none" />
         
         {/* Bottom Grounding Gradient connecting to the sections below */}
         <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-t from-[#012620] to-transparent pointer-events-none opacity-90" />
       </div>
 
-      {/* MOBILE + TABLET: sugarcane rooted at the bottom, parallax-rising + growing on scroll */}
-      <motion.div
-        style={{ y: pv(yCaneMobile), scale: pv(sCaneMobile) }}
-        className="lg:hidden pointer-events-none absolute bottom-0 inset-x-0 z-[6] origin-bottom"
-      >
-        <img
-          src="/images/hero/parallax/FG_cane_l.png"
-          alt=""
-          className="absolute bottom-0 left-[-10%] w-[58%] sm:w-[46%] h-auto drop-shadow-2xl"
-        />
-        <img
-          src="/images/hero/parallax/FG_cane_l.png"
-          alt=""
-          className="absolute bottom-0 right-[-10%] w-[58%] sm:w-[46%] h-auto -scale-x-100 drop-shadow-2xl"
-        />
-      </motion.div>
-
       {/* Modern Hero Content Container - Overlapping Layout with Site-Wide Alignment */}
       <div className="relative z-10 lg:h-full w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center px-6 md:px-12 overflow-visible">
-
-        {/* MOBILE + TABLET: small vine accents tucked into the very top corners */}
-        <div className="lg:hidden pointer-events-none absolute top-0 inset-x-0 z-0">
-          <Image
-            src="/images/hero/treeRight.png"
-            alt=""
-            width={679}
-            height={429}
-            className="absolute top-0 right-0 w-[34%] sm:w-[28%] h-auto opacity-70 drop-shadow-lg"
-            priority
-          />
-          <Image
-            src="/images/hero/treeRight.png"
-            alt=""
-            width={679}
-            height={429}
-            className="absolute top-0 left-0 w-[34%] sm:w-[28%] h-auto -scale-x-100 opacity-70 drop-shadow-lg"
-          />
-        </div>
 
         {/* navbar spacer on mobile */}
         <div className="lg:hidden h-[26vh] sm:h-[24vh] w-full" />
@@ -173,107 +143,10 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
 
       </div>
 
-      {/* DESKTOP: grounded parallax landscape that rises + zooms on scroll */}
-      <motion.div
-        style={{ opacity: prefersReduced ? 1 : sceneOpacity }}
-        className="hidden lg:block absolute inset-0 z-[5] overflow-hidden pointer-events-none"
-      >
-        {/* Children planting — moved to the side (south, right of centre) */}
-        <motion.img
-          src="/images/hero/parallax/05_people.png"
-          alt="Children planting a tree"
-          loading="lazy"
-          style={{ y: pv(yMid), scale: pv(sMid) }}
-          className="absolute bottom-[16px] left-[54%] w-[15%] origin-bottom drop-shadow-md"
-        />
-
-        {/* SUGARCANE — big at the middle of each side */}
-        <motion.img
-          src="/images/hero/parallax/FG_cane_l.png"
-          alt=""
-          loading="lazy"
-          style={{ y: pv(yCane), scale: pv(sCane) }}
-          animate={prefersReduced ? undefined : { rotate: [-1.4, 1.4, -1.4] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[20px] left-[-4%] w-[24%] origin-bottom drop-shadow-xl"
-        />
-        <motion.img
-          src="/images/hero/parallax/FG_cane_l.png"
-          alt=""
-          loading="lazy"
-          style={{ y: pv(yCane), scale: pv(sCane) }}
-          animate={prefersReduced ? undefined : { rotate: [1.4, -1.4, 1.4] }}
-          transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[20px] right-[-4%] w-[25%] origin-bottom drop-shadow-xl -scale-x-100"
-        />
-
-        {/* SUGARCANE — small bundle at each bottom corner grouped closely away from double-stacking */}
-        <motion.img
-          src="/images/hero/parallax/FG_cane_r.png"
-          alt=""
-          loading="lazy"
-          style={{ y: pv(yCane), scale: pv(sCane) }}
-          animate={prefersReduced ? undefined : { rotate: [1, -1, 1] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[-10px] left-[8%] w-[12%] origin-bottom drop-shadow-lg"
-        />
-        <motion.img
-          src="/images/hero/parallax/FG_cane_r.png"
-          alt=""
-          loading="lazy"
-          style={{ y: pv(yCane), scale: pv(sCane) }}
-          animate={prefersReduced ? undefined : { rotate: [-1, 1, -1] }}
-          transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[-10px] right-[8%] w-[12%] origin-bottom drop-shadow-lg -scale-x-100"
-        />
-
-        {/* Sustainable props grouped comfortably without clutter */}
-        <motion.img
-          src="/images/hero/parallax/bagasse.png"
-          alt=""
-          loading="lazy"
-          style={{ y: pv(yMid), scale: pv(sMid) }}
-          className="absolute bottom-[40px] left-[18%] w-[9%] origin-bottom drop-shadow-md"
-        />
-
-        {/* Mushroom cluster on the left ground */}
-        <motion.img
-          src="/images/hero/parallax/mushroom.png"
-          alt=""
-          loading="lazy"
-          style={{ y: pv(yMid), scale: pv(sMid) }}
-          className="absolute bottom-[34px] left-[27%] w-[9%] origin-bottom drop-shadow-md"
-        />
-
-        {/* Hemp plant, right of centre */}
-        <motion.img
-          src="/images/hero/parallax/hemp.png"
-          alt=""
-          loading="lazy"
-          style={{ y: pv(yMid), scale: pv(sMid) }}
-          className="absolute bottom-[34px] right-[26%] w-[8%] origin-bottom drop-shadow-md"
-        />
-
-        {/* Seaweed near the right sugarcane */}
-        <motion.img
-          src="/images/hero/parallax/seaweed.png"
-          alt=""
-          loading="lazy"
-          style={{ y: pv(yMid), scale: pv(sMid) }}
-          className="absolute bottom-[36px] right-[18%] w-[7%] origin-bottom drop-shadow-md"
-        />
-
-        {/* Canopy vines draping from the top-right */}
-        <motion.img
-          src="/images/hero/treeRight.png"
-          alt=""
-          loading="lazy"
-          style={{ y: pv(yCanopy), scale: pv(sCanopy) }}
-          animate={prefersReduced ? undefined : { rotate: [0, 1, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-0 right-0 w-[34%] origin-top-right drop-shadow-xl"
-        />
-      </motion.div>
+      {/* The foreground layer lived here: sugarcane, children planting, bagasse, mushrooms,
+          hemp, seaweed and a canopy vine, all drifting on scroll. It crowded the headline
+          and was the "less busy" half of the review note. The painted landscape carries the
+          hero on its own. */}
 
       {/* DESKTOP: latest episode card, vertically centered, pulled in toward the text */}
       <LatestPodcastCard latest={episodes[0]} className="pointer-events-auto hidden lg:block absolute right-[13%] top-1/2 -translate-y-1/2 z-30" />

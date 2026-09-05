@@ -39,6 +39,11 @@ export function LatestPodcastCard({ className = "", latest }: LatestPodcastCardP
         <span className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-[#0d6e4e]">
           <Leaf className="h-3 w-3" /> Latest Episode
         </span>
+        {/* Runtime sits on the artwork, not beside the guest's name. On the same row it
+            fought the name for width and both ended up cramped. */}
+        <span className="absolute right-3 top-3 rounded-full bg-black/45 px-2 py-0.5 text-[10px] font-bold tracking-wide text-white backdrop-blur-sm">
+          {latest.duration}
+        </span>
         <a
           href={watchUrl(latest)}
           target="_blank"
@@ -58,9 +63,8 @@ export function LatestPodcastCard({ className = "", latest }: LatestPodcastCardP
         {latest.title.split(/\s+(?:with|With|\|)\s+/)[0]}
       </h3>
 
-      <div className="mt-3 flex items-center justify-between border-t border-dashed border-[#0d6e4e]/20 pt-3">
+      <div className="mt-3 border-t border-dashed border-[#0d6e4e]/20 pt-3">
         <span className="font-sans text-xs font-bold text-[#636b58]">{latest.guest}</span>
-        <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-[#038f90]/50">{latest.duration}</span>
       </div>
     </motion.div>
   );

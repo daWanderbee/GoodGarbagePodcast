@@ -127,6 +127,12 @@ export function EpisodesClient({ episodes }: { episodes: Episode[] }) {
                       </span>
                     )}
 
+                    {/* Runtime belongs on the artwork. Beside the guest's name and role it
+                        squeezed both into a narrow column. */}
+                    <span className="absolute top-3.5 right-3.5 rounded-full bg-black/45 px-2 py-0.5 text-[10px] font-bold tracking-wide text-white backdrop-blur-sm">
+                      {e.duration}
+                    </span>
+
                     {/* Curvy Play Action Button inside Thumbnail */}
                     <a
                       href={watchUrl(e)}
@@ -149,17 +155,12 @@ export function EpisodesClient({ episodes }: { episodes: Episode[] }) {
                       {e.description}
                     </p>
 
-                    <div className="mt-6 pt-4 border-t border-dashed border-[#038f90]/15 flex items-center justify-between">
-                      <div>
-                        <p className="font-sans text-sm font-bold text-[#038f90]">{e.guest}</p>
-                        <p className="font-sans text-[11px] font-medium text-[#636b58]">{e.role}</p>
-                        {e.location && (
-                          <p className="font-sans text-[11px] font-medium text-[#636b58]/70">{e.location}</p>
-                        )}
-                      </div>
-                      <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-[#038f90]/50 bg-[#f2ede4] px-3 py-1.5 rounded-full">
-                        {e.duration}
-                      </span>
+                    <div className="mt-6 pt-4 border-t border-dashed border-[#038f90]/15">
+                      <p className="font-sans text-sm font-bold text-[#038f90]">{e.guest}</p>
+                      <p className="font-sans text-[11px] font-medium text-[#636b58]">{e.role}</p>
+                      {e.location && (
+                        <p className="font-sans text-[11px] font-medium text-[#636b58]/70">{e.location}</p>
+                      )}
                     </div>
                   </div>
                 </motion.article>
