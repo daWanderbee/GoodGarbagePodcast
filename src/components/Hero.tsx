@@ -124,8 +124,13 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
           <div
             className="marquee-mask relative w-full max-w-xl mb-6 lg:mb-12 overflow-hidden"
             style={{
-              maskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)',
+              // A scrolling strip always cuts a word at its edges. The only thing that
+              // decides whether that reads as motion or as a rendering fault is how much
+              // room the fade has to finish in, so give it a quarter of the width.
+              maskImage:
+                'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 12%, black 26%, black 74%, rgba(0,0,0,0.55) 88%, transparent 100%)',
+              WebkitMaskImage:
+                'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 12%, black 26%, black 74%, rgba(0,0,0,0.55) 88%, transparent 100%)',
             }}
           >
             <div className="marquee-track flex w-max items-center gap-6">
@@ -155,11 +160,11 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
           </div>
 
           {/* Trust strip (High contrast white) */}
-          <div className="mt-6 lg:mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-1.5 font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white/90 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
+          <div className="mt-6 lg:mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-1.5 font-sans text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
             <span>Sponsored by Pakka</span>
-            <span className="w-1 h-1 rounded-full bg-white/60" />
+            <span className="w-1 h-1 rounded-full bg-white/80" />
             <span>{episodes.length} Episodes</span>
-            <span className="w-1 h-1 rounded-full bg-white/60" />
+            <span className="w-1 h-1 rounded-full bg-white/80" />
             <span>YouTube · Spotify · Apple</span>
           </div>
 

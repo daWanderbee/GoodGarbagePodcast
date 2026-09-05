@@ -178,25 +178,52 @@ const MAX_DAYS_APART = 120;
 const daysApart = (a: string, b: string) =>
   a && b ? Math.abs(Date.parse(a) - Date.parse(b)) / 86_400_000 : Infinity;
 
-function matchYoutube(title: string, published: string, videos: YoutubeVideo[]) {
-  const t = norm(title);
+/**
+ * How well a video title matches an episode title. Higher wins.
+ *
+ * This exists because the channel publishes a Short alongside most episodes, cut from it and
+ * named after it — "Recycling the Unrecyclable!" next to "Recycling the Unrecyclable | A
+ * World 'Without' with Anish Malpani". Both share the episode's opening words, both are
+ * published the same day, so title-plus-date alone cannot separate them and the Short would
+ * win on feed order alone.
+ *
+ * The build-time matcher settles this with runtime, which the channel RSS does not carry.
+ * What survives is the shape of the title: the real episode reproduces the podcast title in
+ * full, while a clip keeps the hook and drops the guest clause.
+ */
+function titleRank(episodeTitle: string, videoTitle: string): number {
+  const t = norm(episodeTitle);
+  const n = norm(videoTitle);
+  if (!t || !n) return 0;
+
+  if (n === t) return 4; // same title
+  if (Math.min(n.length, t.length) >= DISTINCTIVE && (n.includes(t) || t.includes(n))) {
+    // One fully contains the other, and enough of it to mean something. A video title that
+    // is a small fraction of the episode's is a clip, not the episode.
+    return n.length / t.length >= 0.55 ? 3 : 1;
+  }
   const head = t.slice(0, 20);
+  if (head.length === 20 && n.includes(head)) {
+    // Shares only the opening phrase — the weakest evidence there is, and exactly what a
+    // Short looks like. Never let it beat a fuller match.
+    return n.length / t.length >= 0.55 ? 2 : 1;
+  }
+  return 0;
+}
 
-  const candidates = videos.filter((v) =>
-    v.titles.some((y) => {
-      const n = norm(y);
-      if (n === t) return true;
-      if (head.length === 20 && n.includes(head)) return true;
-      if (Math.min(n.length, t.length) < DISTINCTIVE) return false;
-      return n.includes(t) || t.includes(n);
-    })
-  );
+function matchYoutube(title: string, published: string, videos: YoutubeVideo[]) {
+  const candidates = videos
+    .map((v) => ({
+      v,
+      rank: Math.max(...v.titles.map((y) => titleRank(title, y))),
+      gap: daysApart(v.date, published),
+    }))
+    .filter((c) => c.rank > 0);
 
-  // Twelve episodes share the title "Around The World of Packaging with Alex Moore"; only
-  // the one published alongside the video should claim it.
-  const nearest = candidates
-    .map((v) => ({ v, gap: daysApart(v.date, published) }))
-    .sort((a, b) => a.gap - b.gap)[0];
+  // Best title match first; among equals, the one published nearest the episode. Twelve
+  // episodes share the title "Around The World of Packaging with Alex Moore", and only the
+  // one published alongside the video should claim it.
+  const nearest = candidates.sort((a, b) => b.rank - a.rank || a.gap - b.gap)[0];
 
   if (nearest && nearest.gap <= MAX_DAYS_APART) return nearest.v;
 
