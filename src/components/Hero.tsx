@@ -111,7 +111,9 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
             />
           </h1>
 
-          <p className="max-w-xl font-serif leading-[1.6] text-white font-medium text-sm sm:text-base md:text-lg lg:text-xl tracking-normal mb-6 lg:mb-8 px-4 lg:px-0 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
+          {/* Bold, not medium: this sits on a photograph, and weight is what keeps it legible
+              over the busy parts of the image. The background itself is untouched. */}
+          <p className="max-w-xl font-serif leading-[1.6] text-white font-bold text-sm sm:text-base md:text-lg lg:text-xl tracking-normal mb-6 lg:mb-8 px-4 lg:px-0 drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
             <span className="block font-sans font-black uppercase tracking-[0.18em] text-xs sm:text-sm md:text-base mb-2 text-[#aeddd9]">
               Let&apos;s talk trash!
             </span>
