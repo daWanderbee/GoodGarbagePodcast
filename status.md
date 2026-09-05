@@ -604,3 +604,94 @@ new videos still arrive automatically from the two RSS feeds.
 token as `Apps\Chuk`. If that token is revoked or regenerated, this site stops creating
 leads silently — the form still returns 200. `Apps\ZohoCommunications` already died this
 way (`invalid_code`).
+
+---
+
+# Status — full catalogue coverage: links and faces (2026-09-04)
+
+Two thirds of the archive linked nowhere useful. 67 of 115 episodes had no video and fell
+back to a YouTube *search* for their title — a dead end for the roughly half of the back
+catalogue whose videos the search does not surface. And 85 guests had no face.
+
+Both had the same root cause: the site only ever knew about 63 videos. The channel RSS
+carries 15, and the committed scrape stopped at April 2026.
+
+## Finding the whole channel
+
+`scripts/scrape-channel.mjs` walks the **uploads playlist** (`UC…` -> `UU…`), 100 videos a
+page, following the continuation tokens YouTube's own front end uses. No API key, no
+dependency. It returns **370 videos**.
+
+The channel's `/videos` grid was the obvious source and the wrong one: it yields 30 and its
+continuation token belongs to the featured shelf, so paging it walks into a different feed
+and returns nothing new. YouTube has also replaced `videoRenderer` with `lockupViewModel` on
+these surfaces; the harvester reads both.
+
+## Matching videos to episodes
+
+`scripts/match-videos.mjs` scores every episode/video pair and assigns greedily from the
+best score down, so a video can be claimed only once. Four signals, because no single one
+holds:
+
+| Signal | Why it is needed |
+|---|---|
+| Guest surname | Strongest: 111 of 115 episodes have it in some video title. |
+| **Runtime** | The decisive one. A full episode and the 60-second short cut from it share every word of the title; only the duration separates them. |
+| Publish date | Scraped dates are approximate ("9 months ago"), so this nudges rather than decides. |
+| Month/year in title | The twelve monthly "Around the World of Packaging" segments are identical apart from the month, and their scraped dates all collapse onto a single day. |
+
+The month signal was added after an audit caught the only two real errors: Dec '24 had
+claimed the January '24 video and Nov '25 had claimed Jan '24. With it, all twelve monthly
+pairings line up exactly.
+
+**113 of 115 matched, zero duplicates.** The two refusals are correct — no Nov '25 or
+Dec '24 video was ever uploaded. They now link to **Spotify** (the new `listen` field, taken
+straight from the feed's `<link>`), because playing the actual episode beats a search page
+for something that is not there.
+
+The result ships as `src/lib/episode-videos.ts`, a committed lookup table that takes
+priority over the runtime matcher — that matcher only ever sees 15 videos and must stay
+conservative, while this one saw all 370 and was audited. Episodes published after it ran
+are still matched live from the channel RSS.
+
+## Guest faces: 29 -> 78
+
+All 113 thumbnails were downloaded, tiled into contact sheets, and classified **by eye**
+into eight layouts, because the host is not always on the same side:
+
+`L` guest left · `L3` three faces, guest hard left · `LL`/`LX` guest low or left of frame ·
+`R` sides swapped · `GR` video-call grid, guest right · `B` circle card · `C` studio cut-out ·
+`D` teal wedge
+
+Then every crop was checked against a second contact sheet, and seven were re-boxed after
+coming out as forehead-only. **35 episodes are still faceless**: their thumbnail is the show
+logo, a solo shot of the host, or a video-call grid whose arrangement varies. Those are left
+out on purpose — a wrong crop files the host's face under a guest's name.
+
+Classification lives in `scripts/portrait-templates.csv` so the crop is reproducible rather
+than a one-off.
+
+## Two parser bugs the audit surfaced
+
+- `"… with Sian Sutherland Part 2"` read "2" as the surname, so the portrait guard rejected
+  a correct crop. The part number is now stripped before the name is parsed.
+- `"The Impatient Entrepreneur: Lessons from Alvin Lim"` has no "with" and parsed to no
+  guest at all.
+
+## Verified on production
+
+```
+href -> youtube watch : 114        guest faces on /guests : 78
+href -> spotify       :   2        10/10 sampled video ids resolve (oembed 200)
+href -> yt search     :   0        both spotify links resolve
+```
+
+14 tests pass, including a new one asserting the lookup table beats a runtime guess.
+
+**Regenerate after new episodes** (only needed for corrections; new episodes link
+themselves from the RSS):
+
+```
+node scripts/scrape-channel.mjs
+node --experimental-strip-types scripts/match-videos.mjs
+```
