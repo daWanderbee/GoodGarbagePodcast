@@ -6,8 +6,6 @@ import Image from "next/image";
 import { Search, Play, Leaf } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
-import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
-import { DecorationBush } from "@/components/ui/DecorationBush";
 import { CATEGORIES, watchUrl, type Episode } from "@/lib/feed";
 
 const tagColor: Record<string, string> = {
@@ -41,7 +39,7 @@ export function EpisodesClient({ episodes }: { episodes: Episode[] }) {
         <PageHero
           eyebrow="The Archive"
           title="Episodes"
-          subtitle={`Every conversation on turning what the world throws away into what brings it back to life. Filter by theme, or search for the one you half-remember. ${episodes.length} episodes and counting.`}
+          subtitle={`Listen to over ${Math.floor(episodes.length / 10) * 10} unique definitions of what Good Garbage is, from our incredible guests. Filter by theme, or search for the one you half-remember.`}
           curveVariant="swell"
         />
       </div>
@@ -78,8 +76,6 @@ export function EpisodesClient({ episodes }: { episodes: Episode[] }) {
 
       {/* Episode listing */}
       <section className="px-6 md:px-12 py-16 md:py-24 relative z-20 overflow-visible">
-        <DecorationTreeTwo className="right-4 md:right-12 top-10 w-14 h-20 md:w-16 md:h-24 opacity-80" />
-        <DecorationBush className="left-4 md:left-10 bottom-8 w-14 h-14 md:w-18 md:h-18 opacity-80" />
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex items-center justify-between mb-10">
             <div className="flex items-center gap-2.5">

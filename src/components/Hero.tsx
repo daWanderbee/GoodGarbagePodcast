@@ -112,7 +112,10 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
           </h1>
 
           <p className="max-w-xl font-serif leading-[1.6] text-white font-medium text-sm sm:text-base md:text-lg lg:text-xl tracking-normal mb-6 lg:mb-8 px-4 lg:px-0 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
-            Conversations on turning what the world <em>throws away</em> into what brings it <em>back to life</em> — biomaterials, composting, and the people and ideas regenerating our planet.
+            <span className="block font-sans font-black uppercase tracking-[0.18em] text-xs sm:text-sm md:text-base mb-2 text-[#aeddd9]">
+              Let&apos;s talk trash!
+            </span>
+            Join us and our host, <em>Ved Krishna</em>, as we connect with the people and the ideas regenerating our planet, in search of the answer to one question: what is <em>Good Garbage</em>?
           </p>
 
           {/* Concept A: kinetic episode marquee (High contrast white) */}

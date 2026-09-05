@@ -7,8 +7,6 @@ import { Leaf, Users, Sprout, Rocket, LineChart, Play, Award } from "lucide-reac
 import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/Button";
-import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
-import { DecorationBush } from "@/components/ui/DecorationBush";
 
 const audience = [
   {
@@ -52,8 +50,7 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
       <div className="relative">
         <PageHero
           eyebrow="About"
-          title="Good Garbage"
-          accent="Podcast"
+          title="Good Garbage Podcast"
           subtitle="A celebration of what the world throws away — and the people turning it into what brings the planet back to life."
           curveVariant="wave"
         />
@@ -61,8 +58,6 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
 
       {/* 2. Mission Section with Curvy Multi-Image Collage */}
       <section className="px-6 md:px-12 py-16 md:py-24 relative z-10 overflow-visible">
-        <DecorationBush className="right-6 md:right-16 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80" />
-        <DecorationTreeTwo className="left-4 md:left-12 bottom-4 w-14 h-20 md:w-16 md:h-24 opacity-75" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_1.1fr] gap-12 lg:gap-20 items-center relative z-10">
           <div className="space-y-6">
             <span className="text-[11px] font-black uppercase tracking-[0.3em] text-[#636b58] block">
@@ -72,19 +67,9 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
               Garbage isn't trash. It's a <span className="italic text-[#0d6e4e]">resource</span> waiting for a better idea.
             </h2>
             <p className="text-base md:text-lg text-black/75 leading-relaxed">
-              Good Garbage started with a simple idea: sustainability doesn't have to be grim or preachy. It can be an honest celebration of human creativity and natural systems working together. Each episode we sit down with the people doing the work — biomaterials scientists, USDA researchers, packaging founders, environmental artists. We talk about how seaweed, agricultural residue and yesterday's waste become something people will pay for.
+              Good Garbage started with a simple idea: sustainability doesn't have to be grim or preachy. It can be an honest celebration of human creativity and natural systems working together. Each episode we sit down with the people doing the work — biomaterials scientists, USDA researchers, packaging founders, environmental artists. We talk about how seaweed, agricultural residue and yesterday&apos;s waste become something that has new value — no greenwashing, just real science in plain talk.
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-4">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white shadow-sm ring-1 ring-[#038f90]/10">
-                <Award className="w-4 h-4 text-[#b06a2c]" />
-                <span className="text-xs font-bold text-[#038f90]">No Greenwashing</span>
-              </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white shadow-sm ring-1 ring-[#038f90]/10">
-                <Leaf className="w-4 h-4 text-[#0d6e4e]" />
-                <span className="text-xs font-bold text-[#038f90]">Real science, plain talk</span>
-              </div>
-            </div>
           </div>
 
           {/* Curvy Multi-Image Collage */}
@@ -103,9 +88,6 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
                 sizes="(max-width: 768px) 45vw, 300px"
                 className="object-contain p-2 transition-transform duration-700 group-hover:scale-105"
               />
-              <span className="absolute bottom-3 left-3 bg-[#038f90] text-white text-[9px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
-                Growth Arc
-              </span>
             </motion.div>
 
             <motion.div
@@ -122,9 +104,6 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/35" />
-              <span className="absolute bottom-3 left-3 bg-[#0d6e4e] text-white text-[9px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
-                Biomaterials
-              </span>
             </motion.div>
           </div>
         </div>
@@ -155,10 +134,10 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
               </div>
               <div className="bg-[#013536] p-5 border-t border-white/15 z-10 flex flex-col items-start gap-1">
                 <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#aeddd9] block">
-                  Host &amp; Production Team
+                  Host
                 </span>
-                <p className="font-serif text-2xl text-white tracking-tight">Ved Krishna &amp; Team</p>
-                <p className="font-sans text-xs text-white/80">Producers &amp; Pakka Circular Innovators</p>
+                <p className="font-serif text-2xl text-white tracking-tight">Ved Krishna</p>
+                <p className="font-sans text-xs text-white/80">Founder, Pakka Limited</p>
               </div>
             </motion.div>
 
@@ -172,10 +151,10 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
             >
               <div className="space-y-3">
                 <span className="text-[10px] uppercase font-black tracking-[0.4em] text-[#aeddd9] block">
-                  The team behind the show
+                  Meet the host
                 </span>
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif text-white leading-[1.0] tracking-tighter">
-                  Ved Krishna &amp; Team
+                  Ved Krishna
                 </h2>
                 <p className="font-serif italic text-lg md:text-xl text-[#aeddd9]">
                   "Decay is simply the first step toward growth."
@@ -184,17 +163,17 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
 
               <div className="space-y-4 font-sans text-sm md:text-base text-white/90 leading-relaxed max-w-xl mx-auto lg:mx-0">
                 <p>
-                  Ved Krishna has spent his working life turning discarded material into something worth more than what it replaced. He makes the case for agricultural-residue packaging by building it at <span className="font-bold text-[#aeddd9]">Pakka</span>, which has made tree-free paper from sugarcane residue since 1981.
+                  Ved has spent his working life on a question most people would rather not sit with: what happens to the things we throw away? He answers it by building — running <span className="font-bold text-[#aeddd9]">Pakka</span>, where sugarcane residue becomes packaging instead of waste.
                 </p>
                 <p>
-                  On <span className="font-bold text-[#aeddd9]">Good Garbage</span>, he sits down with people doing the same work in other corners of the world. The belief behind every episode: when the right people find each other, the work moves faster.
+                  On <span className="font-bold text-[#aeddd9]">Good Garbage</span>, he sits down with people doing the same work in other corners of the world. The belief behind every episode: when the right people find each other, change comes faster.
                 </p>
               </div>
 
               <div className="pt-3 flex flex-wrap items-center justify-center lg:justify-start gap-4">
                 <Link href="/episodes">
                   <Button variant="accent" className="bg-[#0d6e4e] hover:bg-[#0a583e] !text-white !px-8 !h-14 !text-xs rounded-full shadow-xl flex items-center gap-2">
-                    <Play className="w-4 h-4 fill-current" /> Listen to Ved's Episodes
+                    <Play className="w-4 h-4 fill-current" /> Listen
                   </Button>
                 </Link>
                 <Link href="/contact">
@@ -266,14 +245,11 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
       <section className="px-6 md:px-12 py-20 md:py-28 bg-[#038f90] relative overflow-hidden z-10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-center relative z-10">
           <div className="space-y-6 text-center lg:text-left">
-            <span className="flex items-center gap-2 text-[11px] uppercase font-black tracking-[0.3em] text-[#aeddd9] justify-center lg:justify-start mb-2">
-              <Leaf className="w-3.5 h-3.5 text-[#aeddd9]" /> Proudly Powered by
-            </span>
             <h2 className="text-4xl md:text-6xl font-serif text-white tracking-tighter leading-[1.0]">
               A podcast by <br /> <span className="italic text-[#aeddd9]">Pakka Limited</span>
             </h2>
             <p className="text-base md:text-lg text-white/85 leading-relaxed max-w-lg mx-auto lg:mx-0">
-              Good Garbage is sponsored by Pakka. Pakka makes tree-free packaging from sugarcane residue, reliable since 1981 and present in 45+ countries today. Every episode is an extension of the same idea: what gets thrown away is the beginning of something, not the end of it.
+              Pakka&apos;s sustainable packaging has been reliable for over three decades and is replacing plastic in 45+ countries today. Good Garbage carries Pakka&apos;s legacy forward through the art of conversation and human connection.
             </p>
             <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
               <Link href="/contact">
@@ -292,8 +268,8 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
           <div className="grid grid-cols-2 gap-4 md:gap-6">
             {[
               { k: String(episodeCount), v: "Episodes released" },
-              { k: "12+", v: "Countries of guests" },
-              { k: "100%", v: "Compostable, not theoretical" },
+              { k: "12+", v: "Countries represented" },
+              { k: "100%", v: "Actionable, not theoretical" },
               { k: "1", v: "Shared goal: regenerate" },
             ].map((s) => (
               <motion.div

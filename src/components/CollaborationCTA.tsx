@@ -5,10 +5,12 @@ import Link from "next/link";
 import { Mic, Sparkles, TrendingUp, Package, HeartHandshake, Cpu, ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "./ui/Button";
 
+// "Become a Guest" leads, because it is what most people arrive wanting, and the longer
+// name keeps it from reading as a link to past guests.
 const COLLAB_TYPES = [
+  { name: "Become a Guest", desc: "Share your story on the podcast", icon: <Mic className="w-5 h-5 text-[#aeddd9]" /> },
   { name: "Product Dev", desc: "Circular packaging & biomaterials", icon: <Package className="w-5 h-5 text-[#aeddd9]" /> },
   { name: "Funding", desc: "Strategic investment & grants", icon: <TrendingUp className="w-5 h-5 text-[#aeddd9]" /> },
-  { name: "Guest", desc: "Share your story on the podcast", icon: <Mic className="w-5 h-5 text-[#aeddd9]" /> },
   { name: "Sponsorship", desc: "Brand alignment & co-creation", icon: <HeartHandshake className="w-5 h-5 text-[#aeddd9]" /> },
   { name: "Technology", desc: "Regenerative systems & R&D", icon: <Cpu className="w-5 h-5 text-[#aeddd9]" /> },
   { name: "Other", desc: "Custom ideas & partnerships", icon: <Sparkles className="w-5 h-5 text-[#aeddd9]" /> },
@@ -54,12 +56,12 @@ export function CollaborationCTA({ topCurveColor }: CollaborationCTAProps = {}) 
           >
             <div className="space-y-3">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tighter leading-[1.08] drop-shadow-sm">
-                An open call for <br className="hidden lg:block" /> collaborators
+                Become part of <br className="hidden lg:block" /> our community
               </h2>
             </div>
 
             <p className="text-sm sm:text-base text-white/95 font-sans leading-relaxed max-w-md">
-              Building circular biomaterials? Looking for strategic alignment? Want your story in front of a global audience that actually cares? Pick your entry point below — we read every one.
+              If you want your story to reach an audience that actually cares, you are in the right place. Are you building circular biomaterials? Or maybe you are looking for strategic alignment? Send us a message — we read each one.
             </p>
           </motion.div>
 
@@ -113,7 +115,7 @@ export function CollaborationCTA({ topCurveColor }: CollaborationCTAProps = {}) 
                   variant="glass"
                   className="w-full sm:w-auto !h-12 sm:!h-14 !px-6 !text-xs sm:!text-sm bg-[#013536] hover:bg-[#012627] border-white/40 hover:border-white !text-white uppercase tracking-widest rounded-xl flex items-center justify-center font-bold shadow-lg"
                 >
-                  Meet the team
+                  Meet the host
                 </Button>
               </Link>
             </div>

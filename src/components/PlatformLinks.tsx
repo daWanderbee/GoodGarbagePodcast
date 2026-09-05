@@ -2,7 +2,7 @@
 
 import { motion, useTransform, MotionValue } from "framer-motion";
 import Image from "next/image";
-import { Youtube, Music, Podcast, Play } from "lucide-react";
+import { Youtube, Music, Podcast } from "lucide-react";
 import { CHANNEL_URL } from "@/lib/youtube";
 import { Button } from "./ui/Button";
 
@@ -12,13 +12,19 @@ interface PlatformLinksProps {
   scale: MotionValue<number>;
 }
 
-// Only YouTube has a real destination. The rest were already dead "#" links before this
-// change and stay that way until someone supplies the show's URLs on those platforms.
-const platforms: { name: string; icon: React.ReactNode; color: string; href?: string }[] = [
+// Every entry here must have a real destination. Spotify and Apple were "#" links that
+// looked live and went nowhere; both URLs were confirmed to resolve to this show before
+// being added. Amazon Music is left out rather than faked — add it the day someone has
+// the URL, and it appears.
+const platforms: { name: string; icon: React.ReactNode; color: string; href: string }[] = [
   { name: "YouTube", icon: <Youtube size={24} />, color: "#FF0000", href: CHANNEL_URL },
-  { name: "Spotify", icon: <Music size={24} />, color: "#1DB954" },
-  { name: "Apple Podcasts", icon: <Podcast size={24} />, color: "#A341FF" },
-  { name: "Amazon Music", icon: <Play size={24} />, color: "#00A8E1" },
+  { name: "Spotify", icon: <Music size={24} />, color: "#1DB954", href: "https://open.spotify.com/show/5F6NiNSdyoLBsl0H42sqyY" },
+  {
+    name: "Apple Podcasts",
+    icon: <Podcast size={24} />,
+    color: "#A341FF",
+    href: "https://podcasts.apple.com/us/podcast/good-garbage-with-ved-krishna/id1613337676",
+  },
 ];
 
 export function PlatformLinks() {
@@ -45,9 +51,9 @@ export function PlatformLinks() {
           {platforms.map((platform) => (
             <motion.a
               key={platform.name}
-              href={platform.href ?? "#"}
-              target={platform.href ? "_blank" : undefined}
-              rel={platform.href ? "noopener noreferrer" : undefined}
+              href={platform.href}
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ y: -5 }}
               whileTap={{ scale: 0.95 }}
               className="flex flex-col items-center gap-3 cursor-pointer group no-underline min-w-max"

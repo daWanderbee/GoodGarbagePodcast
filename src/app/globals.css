@@ -76,3 +76,20 @@ h6 {
     animation: none;
   }
 }
+/* Italic kerning.
+ *
+ * Every italic run on the site is a slanted serif set tight against upright text, so the
+ * final glyph leans into whatever follows it and the whole run reads cramped. Browsers do
+ * not kern across a style boundary, which is exactly where the collision happens.
+ *
+ * Slightly positive tracking opens the run, and the trailing space puts back the gap the
+ * slant eats. Applied to real italics only, so it cannot touch upright text. */
+i,
+em,
+.italic {
+  font-style: italic;
+  letter-spacing: 0.012em;
+  padding-right: 0.045em;
+  font-kerning: normal;
+  font-feature-settings: "kern" 1;
+}

@@ -3,14 +3,11 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, Sparkles, Facebook, Instagram, Twitter } from "lucide-react";
+import { ArrowUpRight, Sparkles, Play } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
 import { CollaborationCTA } from "@/components/CollaborationCTA";
-import { DecorationBush } from "@/components/ui/DecorationBush";
-import { DecorationTree } from "@/components/ui/DecorationTree";
-import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
-import type { Episode } from "@/lib/feed";
+import { watchUrl, type Episode } from "@/lib/feed";
 
 function GuestCard({ guest, index }: { guest: Episode; index: number }) {
 
@@ -40,11 +37,18 @@ function GuestCard({ guest, index }: { guest: Episode; index: number }) {
           {guest.role ? guest.role.split(',')[0] : `Good Garbage${guest.ep ? ` · Ep ${guest.ep}` : ""}`}
         </p>
 
-        <div className="flex items-center gap-5 text-[#5e6679]">
-          <a href="#" className="hover:text-[#2b2353] transition-colors"><Facebook className="w-[18px] h-[18px]" strokeWidth={2.5} /></a>
-          <a href="#" className="hover:text-[#2b2353] transition-colors"><Instagram className="w-[18px] h-[18px]" strokeWidth={2.5} /></a>
-          <a href="#" className="hover:text-[#2b2353] transition-colors"><Twitter className="w-[18px] h-[18px]" fill="currentColor" strokeWidth={0} /></a>
-        </div>
+        {/* Was three dead social icons. They pointed nowhere, and even filled in they would
+            have implied these were the guest's own accounts. Their episode is the thing a
+            visitor actually wants from this card. */}
+        <a
+          href={watchUrl(guest)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.15em] text-[#5e6679] hover:text-[#2b2353] transition-colors"
+        >
+          <Play className="w-3.5 h-3.5 fill-current" strokeWidth={0} />
+          Watch episode
+        </a>
       </div>
     </motion.article>
   );
@@ -53,8 +57,14 @@ function GuestCard({ guest, index }: { guest: Episode; index: number }) {
 export function GuestsClient({ episodes }: { episodes: Episode[] }) {
   // A page of faces needs a face: only episodes with a verified guest portrait.
   const named = episodes.filter((e) => e.guest && e.portrait);
-  const firstHalf = named.slice(0, 6);
-  const secondHalf = named.slice(6, 12);
+
+  // This used to be slice(0,6) and slice(6,12), which showed twelve guests no matter how
+  // many existed and sorted nobody — the two headings were decoration. Split by the
+  // episode's own category so each heading describes what is actually under it, and show
+  // everyone.
+  const isMaterials = (e: Episode) => e.category === "Science" || e.category === "Environment";
+  const pioneers = named.filter(isMaterials);
+  const changemakers = named.filter((e) => !isMaterials(e));
 
   return (
     <main className="min-h-screen overflow-x-hidden">
@@ -72,8 +82,6 @@ export function GuestsClient({ episodes }: { episodes: Episode[] }) {
 
       {/* Zone 2: Biomaterials & Science Pioneers against Mint Background (#d4eedf) */}
       <section className="px-6 md:px-12 py-16 md:py-24 bg-[#d4eedf] relative z-10 overflow-visible">
-        <DecorationBush className="right-4 md:right-12 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80" />
-        <DecorationTree className="left-4 md:left-10 bottom-2 w-12 h-24 md:w-16 md:h-32 opacity-75" />
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-12 text-center md:text-left">
             <span className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] text-[#038f90] justify-center md:justify-start mb-2">
@@ -85,7 +93,7 @@ export function GuestsClient({ episodes }: { episodes: Episode[] }) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {firstHalf.map((e, i) => (
+            {pioneers.map((e, i) => (
               <GuestCard key={e.id} guest={e} index={i} />
             ))}
           </div>
@@ -101,8 +109,6 @@ export function GuestsClient({ episodes }: { episodes: Episode[] }) {
 
       {/* Zone 3: Systems & Policy Founders against Cream Background (#f2ede4) */}
       <section className="px-6 md:px-12 pt-16 pb-24 md:pb-32 bg-[#f2ede4] relative z-10 overflow-visible">
-        <DecorationTreeTwo className="right-6 md:right-16 top-6 w-14 h-20 md:w-18 md:h-28 opacity-80" />
-        <DecorationBush className="left-6 md:left-14 bottom-4 w-14 h-14 md:w-16 md:h-16 opacity-80" />
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-12 text-center md:text-left">
             <span className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] text-[#b06a2c] justify-center md:justify-start mb-2">
@@ -114,8 +120,8 @@ export function GuestsClient({ episodes }: { episodes: Episode[] }) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {secondHalf.map((e, i) => (
-              <GuestCard key={e.id} guest={e} index={i + 2} />
+            {changemakers.map((e, i) => (
+              <GuestCard key={e.id} guest={e} index={i} />
             ))}
           </div>
         </div>

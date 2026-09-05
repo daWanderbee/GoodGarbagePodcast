@@ -3,18 +3,17 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Globe, Instagram, Youtube, Leaf, type LucideIcon } from "lucide-react";
+import { Globe, Youtube, Leaf, Mail, type LucideIcon } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/Button";
-import { DecorationBush } from "@/components/ui/DecorationBush";
-import { DecorationTree } from "@/components/ui/DecorationTree";
-import { DecorationTreeTwo } from "@/components/ui/DecorationTreeTwo";
 
+// Order and wording mirror the tiles in CollaborationCTA, which deep-link here with
+// ?topic=. If the two drift apart the link silently stops preselecting anything.
 const TALK_OPTIONS = [
+  { value: "Become a Guest", label: "Become a Guest — Share your story on the podcast" },
   { value: "Product Dev", label: "Product Dev — Circular packaging & biomaterials" },
   { value: "Funding", label: "Funding — Strategic investment & grants" },
-  { value: "Guest", label: "Guest — Share your story on the podcast" },
   { value: "Sponsorship", label: "Sponsorship — Brand alignment & co-creation" },
   { value: "Technology", label: "Technology — Regenerative systems & R&D" },
   { value: "Other", label: "Other — Custom ideas & partnerships" },
@@ -135,20 +134,33 @@ export default function ContactPage() {
 
       {/* 1. Join as guest / partner */}
       <section className="px-6 md:px-12 py-16 md:py-24 relative overflow-visible">
-        <DecorationBush className="right-6 md:right-16 -top-6 w-16 h-16 md:w-20 md:h-20 opacity-80 pointer-events-none" />
-        <DecorationTree className="left-4 md:left-12 bottom-4 w-12 h-24 md:w-16 md:h-32 opacity-75 pointer-events-none" />
-        <DecorationTreeTwo className="right-10 md:right-24 bottom-10 w-14 h-20 md:w-16 md:h-24 opacity-80 pointer-events-none" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-24 items-start relative z-10">
           <div className="space-y-5">
             <span className="text-[10px] uppercase font-black tracking-[0.4em] text-[#038f90]/60">Get Involved</span>
             <h2 className="text-3xl md:text-5xl font-serif text-[#038f90] leading-[1.0] tracking-tighter">
-              What are you <br /> <span className="italic opacity-70">building?</span>
+              What&apos;s on <br /> <span className="italic opacity-70">your mind?</span>
             </h2>
             <p className="text-base text-black/70 leading-relaxed max-w-md">
-              Product development, a guest application, funding, a sponsorship — or something we haven't thought of. We read every message. Tell us what you're building and where you're stuck.
+              A guest application, product development, funding, a sponsorship — or something we haven&apos;t thought of. Tell us what you&apos;re building and where you&apos;re stuck.
             </p>
-            <div className="flex items-center gap-2 pt-2 text-[#038f90]/60 text-sm">
-              <Leaf className="w-4 h-4" /> Use the form — we read every message.
+            <div className="space-y-2 pt-2 text-sm">
+              <p className="flex items-center gap-2 text-[#038f90]/60">
+                <Leaf className="w-4 h-4 shrink-0" /> Use the form — we read every message.
+              </p>
+              {/* The site sends no mail of its own; the form writes straight to the CRM. This
+                  is a person to write to directly, for anyone who would rather do that. */}
+              <p className="flex items-center gap-2 text-[#038f90]/60">
+                <Mail className="w-4 h-4 shrink-0" />
+                <span>
+                  Or email{" "}
+                  <a
+                    href="mailto:sargam.krishna@goodgarbage.info"
+                    className="font-bold text-[#038f90] underline decoration-1 underline-offset-4 hover:opacity-70 transition-opacity break-all"
+                  >
+                    sargam.krishna@goodgarbage.info
+                  </a>
+                </span>
+              </p>
             </div>
           </div>
 
@@ -176,13 +188,12 @@ export default function ContactPage() {
               Talk to <span className="italic text-white/70">Pakka</span>
             </h2>
             <p className="text-base md:text-lg text-white/85 leading-relaxed max-w-lg">
-              Pakka makes compostable packaging that replaces single-use plastic: Chuk for tableware, flexC for flexible packaging. If you want to buy, partner, or sponsor the show, Pakka is the right conversation to start.
+              Pakka makes compostable packaging that replaces single-use plastic. If you want to buy, partner, or sponsor the show, Pakka is the right place to start.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <PakkaLink icon={Globe} label="pakka.com" href="https://pakka.com" />
-            <PakkaLink icon={Instagram} label="Instagram" href="#" />
             <PakkaLink icon={Youtube} label="YouTube" href="https://www.youtube.com/@GoodGarbage" />
           </div>
         </div>

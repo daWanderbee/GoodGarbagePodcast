@@ -37,12 +37,15 @@ export function AboutPodcast() {
 
             <div className="space-y-4 text-black/80 max-w-lg">
               <p className="text-base md:text-lg font-medium leading-relaxed">
-                That&apos;s the belief this whole show runs on. Waste isn&apos;t a lecture — it&apos;s a design problem, and design problems get solved. Each episode, Ved Krishna sits down with the people solving them: biomaterials scientists, packaging founders, policy changemakers, artists. They turn what got thrown away into something worth more than what it replaced.
+                That&apos;s the belief this whole show runs on. Waste isn&apos;t a lecture — it&apos;s a design problem, and design problems get solved. Each episode, Ved Krishna sits down with the people solving them: biomaterials scientists, packaging founders, policy changemakers, artists. Garbage isn&apos;t inherently bad — with the right people guiding the movement forward, it can even be good.
               </p>
               <p className="text-xs md:text-[15px] leading-relaxed">
-                Sponsored by <span className="font-bold text-accent">Pakka</span>, which has made tree-free packaging from sugarcane residue since 1981.
+                Sponsored by <span className="font-bold text-accent">Pakka</span>, making packaging from sugarcane residue since 1981.
               </p>
-              <div className="flex items-center gap-3 pt-2">
+              {/* One control, not a label that looks like one. This used to be a static name tag
+                  sitting next to a "Meet our Team & Host" button, so it read as clickable and did
+                  nothing. Now the card itself is the link and the button is gone. */}
+              <a href="/about" className="flex items-center gap-3 pt-2 group w-fit">
                 <div className="w-11 h-11 rounded-full bg-background overflow-hidden flex-shrink-0 border-2 border-[#038f90]/30 shadow-md">
                   <Image
                     src="/images/hero/host_mobile.png"
@@ -53,21 +56,18 @@ export function AboutPodcast() {
                   />
                 </div>
                 <div>
-                  <p className="text-sm font-black text-[#038f90]">Ved Krishna &amp; Production Team</p>
-                  <p className="text-[10px] uppercase font-bold text-black/50 tracking-wider">Host, Producers &amp; Pakka Innovators</p>
+                  <p className="text-sm font-black text-[#038f90] group-hover:underline underline-offset-4 decoration-1">
+                    Ved Krishna <span className="opacity-60 font-bold">→</span>
+                  </p>
+                  <p className="text-[10px] uppercase font-bold text-black/50 tracking-wider">Host · Meet him</p>
                 </div>
-              </div>
+              </a>
             </div>
 
             <div className="flex flex-row flex-wrap items-center gap-2.5 md:gap-3 pt-4">
               <a href="https://pakka.com" target="_blank" rel="noopener noreferrer">
                 <Button variant="accent" className="!px-5 md:!px-6 !h-11 md:!h-12 !text-[10px] md:!text-xs shrink-0 font-bold shadow-md">
                   Visit Pakka.com ↗
-                </Button>
-              </a>
-              <a href="/about">
-                <Button variant="outline" className="!px-5 md:!px-6 !h-11 md:!h-12 border-[#038f90]/30 hover:bg-[#038f90]/5 bg-transparent !text-[10px] md:!text-xs shrink-0 whitespace-nowrap font-bold text-[#038f90]">
-                  Meet our Team &amp; Host →
                 </Button>
               </a>
             </div>
