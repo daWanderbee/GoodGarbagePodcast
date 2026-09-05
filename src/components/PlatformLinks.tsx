@@ -44,7 +44,10 @@ export function PlatformLinks() {
 
       <div className="max-w-6xl w-full mx-auto flex flex-col items-center text-center space-y-12 relative z-10 px-6">
         <h2 className="text-2xl md:text-3xl font-serif tracking-tighter text-[#d4eedf]">
-          Listen <span className="opacity-40 italic ml-2 text-white/70">wherever you already listen</span>
+          {/* Was opacity-40 on top of text-white/70 — two dimmers stacked, leaving the words
+              at 28% and a 2.18:1 contrast on this green, below the 3:1 floor for large text.
+              One tone, no stacked opacity: 5.2:1, still clearly secondary to "Listen". */}
+          Listen <span className="italic ml-2 text-[#aeddd9]/85">wherever you already listen</span>
         </h2>
 
         <div className="flex flex-row items-center justify-center gap-6 md:gap-16 w-full overflow-x-auto pb-4 no-scrollbar">
