@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Youtube, Music, Podcast, Instagram, Linkedin } from "lucide-react";
+import { Youtube, Music, Podcast, Play, Instagram, Linkedin } from "lucide-react";
 import { CHANNEL_URL } from "@/lib/youtube";
 
 // Nothing in this footer is allowed to be a "#".
@@ -13,8 +13,8 @@ import { CHANNEL_URL } from "@/lib/youtube";
 //
 // To restore one: put its URL in the entry below and it appears. There is no other step.
 const SOCIALS: { name: string; href: string; icon: React.ReactNode }[] = [
-  { name: "Instagram", href: "", icon: <Instagram size={20} /> },
-  { name: "LinkedIn", href: "", icon: <Linkedin size={20} /> },
+  { name: "Instagram", href: "https://www.instagram.com/goodgarbagepodcast/", icon: <Instagram size={20} /> },
+  { name: "LinkedIn", href: "https://www.linkedin.com/showcase/goodgarbagepodcast/", icon: <Linkedin size={20} /> },
 ];
 
 const LISTEN: { name: string; href: string; icon: React.ReactNode }[] = [
@@ -25,6 +25,7 @@ const LISTEN: { name: string; href: string; icon: React.ReactNode }[] = [
     href: "https://podcasts.apple.com/us/podcast/good-garbage-with-ved-krishna/id1613337676",
     icon: <Podcast size={16} />,
   },
+  { name: "Amazon Music", href: "https://music.amazon.com/podcasts/6a28536b-c1b5-4d1a-8381-87a61799189a/good-garbage-with-ved-krishna", icon: <Play size={16} /> },
 ];
 
 const EXPLORE: { name: string; href: string }[] = [

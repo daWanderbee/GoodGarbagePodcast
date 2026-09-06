@@ -2,7 +2,7 @@
 
 import { motion, useTransform, MotionValue } from "framer-motion";
 import Image from "next/image";
-import { Youtube, Music, Podcast } from "lucide-react";
+import { Youtube, Music, Podcast, Play } from "lucide-react";
 import { CHANNEL_URL } from "@/lib/youtube";
 import { Button } from "./ui/Button";
 
@@ -12,10 +12,9 @@ interface PlatformLinksProps {
   scale: MotionValue<number>;
 }
 
-// Every entry here must have a real destination. Spotify and Apple were "#" links that
-// looked live and went nowhere; both URLs were confirmed to resolve to this show before
-// being added. Amazon Music is left out rather than faked — add it the day someone has
-// the URL, and it appears.
+// Every entry here must have a real destination. All four were "#" links at some point;
+// each URL was confirmed to resolve to this show before being added, rather than guessed
+// from a handle.
 const platforms: { name: string; icon: React.ReactNode; color: string; href: string }[] = [
   { name: "YouTube", icon: <Youtube size={24} />, color: "#FF0000", href: CHANNEL_URL },
   { name: "Spotify", icon: <Music size={24} />, color: "#1DB954", href: "https://open.spotify.com/show/5F6NiNSdyoLBsl0H42sqyY" },
@@ -25,6 +24,7 @@ const platforms: { name: string; icon: React.ReactNode; color: string; href: str
     color: "#A341FF",
     href: "https://podcasts.apple.com/us/podcast/good-garbage-with-ved-krishna/id1613337676",
   },
+  { name: "Amazon Music", icon: <Play size={24} />, color: "#00A8E1", href: "https://music.amazon.com/podcasts/6a28536b-c1b5-4d1a-8381-87a61799189a/good-garbage-with-ved-krishna" },
 ];
 
 export function PlatformLinks() {
