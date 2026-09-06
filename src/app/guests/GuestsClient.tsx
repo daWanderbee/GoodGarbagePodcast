@@ -56,7 +56,18 @@ function GuestCard({ guest, index }: { guest: Episode; index: number }) {
 
 export function GuestsClient({ episodes }: { episodes: Episode[] }) {
   // A page of faces needs a face: only episodes with a verified guest portrait.
-  const named = episodes.filter((e) => e.guest && e.portrait);
+  // One card per person, not per episode. Dr. Ramani Narayan and Sian Sutherland each did a
+  // two-part episode, so both were appearing twice with the same name and role — which reads
+  // as a duplication bug rather than as a returning guest. Keep the most recent appearance.
+  const seen = new Set<string>();
+  const named = episodes
+    .filter((e) => e.guest && e.portrait)
+    .filter((e) => {
+      const key = e.guest.trim().toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 
   // This used to be slice(0,6) and slice(6,12), which showed twelve guests no matter how
   // many existed and sorted nobody — the two headings were decoration. Split by the
