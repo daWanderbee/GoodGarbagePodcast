@@ -1,0 +1,48 @@
+# Crops rejected on visual review of the contact sheets.
+#
+# Criteria: out of focus, face cut off by the crop box, the teal title graphic running
+# across the face, eyes closed, an extreme angle, more than one person in frame, or too
+# dark to read. Headphones are fine - it is a podcast.
+#
+# A page of faces is only as good as its worst face, so a bad crop is worse than no card.
+# Re-apply with: node scripts/publish-portraits.mjs
+2NcHVm8vHcs.jpg
+514Ao55HLko.jpg
+6OQ2fWBvZmw.jpg
+93_gJeXBboI.jpg
+AnGlikEM9FE.jpg
+b023zAzuxik.jpg
+CCY0QrF96SM.jpg
+djUpEfjkqjM.jpg
+EF42v7a5lKA.jpg
+fROmsJr8mMc.jpg
+hWxKx2b7Efk.jpg
+ilIkmhhwFpY.jpg
+ix4nf6Hyx2k.jpg
+j0Y-JKbvf6A.jpg
+jnDTO0gdCXU.jpg
+K3G_kyMJWWg.jpg
+kn-EAXx_lIM.jpg
+L7t0eUHUI6A.jpg
+LZQCVGajdac.jpg
+mfoW51SjSiI.jpg
+mzs34iLiiGM.jpg
+n-69ulSDAgo.jpg
+n2LrrZhf69w.jpg
+nW6CP6hVJ-4.jpg
+pgetmiZqsZw.jpg
+qfHkA7VtqQQ.jpg
+RELphO0rEtY.jpg
+RwRauwin3LA.jpg
+S5zEfntj0_s.jpg
+tjJYwHJGUNo.jpg
+uPebyHegEL8.jpg
+X0LjF8Nx0WY.jpg
+X4R70ouTHJM.jpg
+xJZXiqqzQ_k.jpg
+zHMFW-uo9Mo.jpg
+ZokPZxPcbPk.jpg
+MUG3KvUOlC4.jpg
+QSY0cYhluEc.jpg
+V0wAkKKbtyw.jpg
+YBE9PSomzUA.jpg
