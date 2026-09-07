@@ -100,6 +100,12 @@ function guestFrom(title: string) {
   cand = cand.split(/\s*\|\s*/)[0];
   if (cand.includes(",")) cand = cand.split(",").pop() as string; // "the Italian Stallion, Frank Franciosi"
   cand = cand.replace(/^(the|our|special guest)\s+/i, "").trim();
+  // Two guests: keep the first, whole. The four-word cap below was cutting
+  // "Nicole Rycroft and Valerie Langer" down to "Nicole Rycroft and Valerie", which puts
+  // half a real person's surname under their photo. Cutting at the conjunction gives a
+  // complete name, and it is also the guest the portrait crop shows — these cards put the
+  // first-named person on the left, which is where the crop box looks.
+  cand = cand.split(/\s+(?:and|&)\s+/i)[0].trim();
   // Drop a leading company possessive: "TerraSafe's Scott Bolin", "Pacha's Maddie Hamann".
   const words = cand.split(/\s+/);
   while (words.length > 2 && /['’]s$/.test(words[0])) words.shift();
