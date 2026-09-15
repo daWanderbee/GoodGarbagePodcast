@@ -153,22 +153,22 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
             most of a phone screen. The shift uses motion's own x — a Tailwind -translate-x class
             would be overwritten by the transform framer-motion composes from y/scale/rotate. */}
         <motion.img
-          src="/images/hero/parallax/cane_left.png"
-          alt=""
-          loading="lazy"
-          style={{ x: isMobile ? "-60%" : "0%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
-          animate={prefersReduced ? undefined : { rotate: [-1.4, 1.4, -1.4] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-0 left-0 h-[48vh] sm:h-[70vh] w-auto max-w-none origin-bottom drop-shadow-xl"
-        />
-        <motion.img
           src="/images/hero/parallax/cane_right.png"
           alt=""
           loading="lazy"
-          style={{ x: isMobile ? "60%" : "0%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
-          animate={prefersReduced ? undefined : { rotate: [1.4, -1.4, 1.4] }}
+          style={{ x: isMobile ? "-40%" : "0%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
+          animate={prefersReduced ? undefined : { rotate: [-1.4, 1.8, -1.4] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-0 left-0 h-[60vh] sm:h-[60vh] w-auto max-w-none origin-bottom drop-shadow-xl"
+        />
+        <motion.img
+          src="/images/hero/parallax/cane_left.png"
+          alt=""
+          loading="lazy"
+          style={{ x: isMobile ? "40%" : "0%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
+          animate={prefersReduced ? undefined : { rotate: [1.4, -0.9, 1.4] }}
           transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-0 right-0 h-[48vh] sm:h-[75vh] w-auto max-w-none origin-bottom drop-shadow-xl"
+          className="absolute bottom-0 right-0 h-[60vh] sm:h-[60vh] w-auto max-w-none origin-bottom drop-shadow-xl"
         />
 
         {/* Meadow. Tiled, not stretched to fit, so the blades keep their shape as the screen
