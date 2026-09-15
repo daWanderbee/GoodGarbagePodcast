@@ -89,7 +89,6 @@ export function Navbar() {
             variant="glass"
             className={`flex items-center gap-1.5 md:gap-2 !py-1.5 !px-3 md:!py-2 md:!px-4 !text-[9px] md:!text-xs h-7 md:h-9 lg:h-10 border-current font-black whitespace-nowrap transition-all duration-300 shadow-md hover:scale-105 ${textColorClass} ${borderColorClass}`}
           >
-            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#1DB954] animate-pulse shadow-[0_0_8px_#1DB954]" />
             <span>Collaborate with Our Team</span>
           </Button>
         </Link>
@@ -160,7 +159,6 @@ export function Navbar() {
             <div className="mt-auto px-6 py-8 border-t border-white/15">
               <Link href="/contact" onClick={() => setMenuOpen(false)}>
                 <Button variant="glass" className="w-full flex items-center justify-center gap-2.5 !text-white border-white/40 !h-12 !text-xs font-black uppercase tracking-widest shadow-xl hover:bg-white/10">
-                  <span className="w-2 h-2 rounded-full bg-[#1DB954] animate-pulse shadow-[0_0_8px_#1DB954]" />
                   ⚡ Collaborate with Our Team
                 </Button>
               </Link>

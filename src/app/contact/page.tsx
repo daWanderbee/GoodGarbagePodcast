@@ -69,7 +69,7 @@ function ContactFormInner() {
         <Field label="Email" name="email" type="email" placeholder="you@email.com" required />
       </div>
       <label className="block">
-        <span className="block mb-1.5 text-[10px] uppercase font-black tracking-[0.2em] text-[#038f90]/60">What are you building?</span>
+        <span className="block mb-1.5 text-[10px] uppercase font-black tracking-[0.2em] text-[#038f90]/60">What&apos;s on your mind?</span>
         <select
           required
           name="topic"
