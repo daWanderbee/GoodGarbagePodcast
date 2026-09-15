@@ -24,14 +24,12 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
   // Zoom completes within the first viewport (~0.16 of page scroll), since the
   // fixed hero is covered by the next section after roughly one screen of scroll.
   const prefersReduced = useReducedMotion();
-  const yMid = useTransform(smoothScroll, [0, 0.16], [0, -110]);
-  const sMid = useTransform(smoothScroll, [0, 0.16], [1, 1.35]);
+  const yGrass = useTransform(smoothScroll, [0, 0.16], [0, -70]);
   // Side sugarcane: grows/zooms but rises only gently so its (off-screen) base
   // never lifts into view — reads as edge framing, not plants pulled from the land.
   const yCane = useTransform(smoothScroll, [0, 0.16], [0, -45]);
   const sCane = useTransform(smoothScroll, [0, 0.16], [1, 1.45]);
-  const yCanopy = useTransform(smoothScroll, [0, 0.16], [0, -25]);
-  const sCanopy = useTransform(smoothScroll, [0, 0.16], [1, 1.12]);
+  const yBirds = useTransform(smoothScroll, [0, 0.16], [0, -25]);
   const sceneOpacity = useTransform(smoothScroll, [0.1, 0.17], [1, 0]);
   // Mobile sugarcane parallax: grows and lifts gently as the page scrolls over the pinned hero.
   const yCaneMobile = useTransform(smoothScroll, [0, 0.16], [0, -24]);
@@ -40,25 +38,10 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-[#012620]">
-      {/* Studio Ghibli Painted Countryside Backdrop (Rolling green hills, deep shadow forest, dirt road & sky) */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <img src="/images/hero/ghibli_bg.png" alt="Studio Ghibli Countryside Landscape" className="absolute inset-0 h-full w-full object-cover object-center" />
-        
-        {/* Overall darkening wash. Raised from /30 — with the foreground gone this is the
-            only thing separating the headline from the painted hills. */}
-        <div className="absolute inset-0 bg-[#012620]/55 pointer-events-none" />
-
-        {/* A slight blur takes the detail out of the landscape without flattening it, so the
-            hills stop competing with the type. This is the "less busy" half of the note. */}
-        <div className="absolute inset-0 backdrop-blur-[2px] pointer-events-none" />
-
-        {/* Reading panel: deepest under the text, clearing toward the episode card. Runs
-            down on mobile, across on desktop, following where the copy sits. */}
-        <div className="absolute inset-y-0 left-0 w-full lg:w-[72%] bg-gradient-to-b lg:bg-gradient-to-r from-[#011a15]/95 via-[#012620]/85 to-transparent pointer-events-none" />
-        
-        {/* Bottom Grounding Gradient connecting to the sections below */}
-        <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-t from-[#012620] to-transparent pointer-events-none opacity-90" />
-      </div>
+      {/* Flat botanical ground. The painted landscape is gone — the colour is the backdrop and
+          the plants in front of it do the framing, so none of the old washes, blur or reading
+          panel are needed to lift the type off it. */}
+      <div className="absolute inset-0 z-0 bg-[#012620]" />
 
       {/* Modern Hero Content Container - Overlapping Layout with Site-Wide Alignment */}
       <div className="relative z-10 lg:h-full w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center px-6 md:px-12 overflow-visible">
@@ -119,7 +102,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
             <PodcastButton
               episodeName="Listen Now"
               href={watchUrl(episodes[0])}
-              className="!h-13 sm:!h-14 md:!h-15 px-6 sm:px-7 w-full sm:w-auto justify-center shrink-0 shadow-2xl transition-all hover:scale-[1.03]" 
+              className="!h-13 sm:!h-14 md:!h-15 px-6 sm:px-7 w-full sm:w-auto justify-center shrink-0 shadow-2xl transition-all hover:scale-[1.03]"
             />
 
             <Link href="/episodes" className="shrink-0 w-full sm:w-auto">
@@ -143,10 +126,60 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
 
       </div>
 
-      {/* The foreground layer lived here: sugarcane, children planting, bagasse, mushrooms,
-          hemp, seaweed and a canopy vine, all drifting on scroll. It crowded the headline
-          and was the "less busy" half of the review note. The painted landscape carries the
-          hero on its own. */}
+      {/* Foreground: sugarcane rooted off both bottom corners, a grass meadow along the
+          bottom edge and a flock top-right. Everything rises and grows on scroll, then fades
+          out as the next section covers the pinned hero. Only the edges and the floor are
+          occupied — the headline column stays clear, which is what crowded it last time. */}
+      <motion.div
+        style={{ opacity: prefersReduced ? 1 : sceneOpacity }}
+        className="pointer-events-none absolute inset-0 z-[6] overflow-hidden"
+      >
+        {/* Flock. Scroll parallax on the wrapper, idle drift on the image — framer-motion
+            would drop the `style` y if `animate` also moved y on the same element. */}
+        <motion.div style={{ y: pv(yBirds) }} className="absolute top-[13%] right-[4%] w-[40%] sm:w-[30%] lg:w-[22%]">
+          <motion.img
+            src="/images/hero/parallax/birds.png"
+            alt=""
+            animate={prefersReduced ? undefined : { x: [0, 28, 0], y: [0, -12, 0] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+            className="w-full h-auto opacity-90"
+          />
+        </motion.div>
+
+        {/* Sugarcane, one supplied pair per side. Neither is mirrored — the artwork already
+            fans its crown inward, so a flip would point the leaves off-screen.
+            Sized by height rather than width. On desktop the whole plant sits in frame; below
+            1024px it is pushed out by half its own width, because two full canes at 48vh cover
+            most of a phone screen. The shift uses motion's own x — a Tailwind -translate-x class
+            would be overwritten by the transform framer-motion composes from y/scale/rotate. */}
+        <motion.img
+          src="/images/hero/parallax/cane_left.png"
+          alt=""
+          loading="lazy"
+          style={{ x: isMobile ? "-60%" : "0%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
+          animate={prefersReduced ? undefined : { rotate: [-1.4, 1.4, -1.4] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-0 left-0 h-[48vh] sm:h-[70vh] w-auto max-w-none origin-bottom drop-shadow-xl"
+        />
+        <motion.img
+          src="/images/hero/parallax/cane_right.png"
+          alt=""
+          loading="lazy"
+          style={{ x: isMobile ? "60%" : "0%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
+          animate={prefersReduced ? undefined : { rotate: [1.4, -1.4, 1.4] }}
+          transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-0 right-0 h-[48vh] sm:h-[75vh] w-auto max-w-none origin-bottom drop-shadow-xl"
+        />
+
+        {/* Meadow. Tiled, not stretched to fit, so the blades keep their shape as the screen
+            widens. On desktop the tile is nudged wider than the artwork (1350px for a 1200px
+            source) — native size reads as thin stubble on a wide monitor, and much past this
+            the blades go fat. */}
+        <motion.div
+          style={{ y: pv(yGrass) }}
+          className="absolute -bottom-px inset-x-0 h-[26vh] lg:h-[28vh] bg-[url('/images/hero/parallax/grass.svg')] bg-repeat-x bg-bottom [background-size:auto_100%] lg:[background-size:1350px_100%]"
+        />
+      </motion.div>
 
       {/* DESKTOP: latest episode card, vertically centered, pulled in toward the text */}
       <LatestPodcastCard latest={episodes[0]} className="pointer-events-auto hidden lg:block absolute right-[13%] top-1/2 -translate-y-1/2 z-30" />
