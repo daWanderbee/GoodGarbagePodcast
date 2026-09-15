@@ -27,7 +27,7 @@ export function LatestEpisode({ latest }: { latest: Episode }) {
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="relative aspect-video lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group"
+            className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl group"
           >
             <Image
               src={latest.thumbnail || "/images/episodes/latest.png"}

@@ -27,7 +27,7 @@ export function LatestPodcastCard({ className = "", latest }: LatestPodcastCardP
       </div>
 
       {/* Thumbnail: recycled glass + regrowth (garbage made beautiful) */}
-      <div className="group relative mb-4 aspect-[16/10] overflow-hidden rounded-2xl">
+      <div className="group relative mb-4 aspect-video overflow-hidden rounded-2xl">
         <Image
           src={latest.thumbnail || "/images/episodes/latest.png"}
           alt={latest.title}

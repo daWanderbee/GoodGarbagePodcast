@@ -103,7 +103,7 @@ export function EpisodesClient({ episodes }: { episodes: Episode[] }) {
                   className="group flex flex-col rounded-[36px] bg-white p-6 shadow-md ring-1 ring-[#038f90]/10 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 relative overflow-hidden"
                 >
                   {/* Curvy Thumbnail Area */}
-                  <div className="relative mb-5 aspect-[16/10] w-full overflow-hidden rounded-[26px] bg-[#038f90]/10 shrink-0">
+                  <div className="relative mb-5 aspect-video w-full overflow-hidden rounded-[26px] bg-[#038f90]/10 shrink-0">
                     <Image
                       src={e.thumbnail || "/images/episodes/latest.png"}
                       alt={e.title}
