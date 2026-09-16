@@ -5,6 +5,7 @@
 // scripts/build-episodes.mjs imports this module directly.
 import { YOUTUBE_VIDEOS, type YoutubeVideo } from "./youtube-episodes.ts";
 import { GUEST_PORTRAITS } from "./guest-portraits.ts";
+import type { AppleEpisode } from "./apple.ts";
 import { EPISODE_VIDEOS } from "./episode-videos.ts";
 
 export const FEED_URL = "https://anchor.fm/s/b9b9b52c/podcast/rss";
@@ -31,6 +32,8 @@ export interface Episode {
   watch?: string;
   /** The episode on Spotify, straight from the feed. Always present; used when watch is not. */
   listen?: string;
+  /** The episode on Apple Podcasts. "" when Apple's lookup has nothing matching it. */
+  apple?: string;
 }
 
 export const CATEGORIES: ("All" | Category)[] = ["All", "Business", "Environment", "Science", "Activism"];
@@ -75,6 +78,15 @@ export function episodeNumber(title: string) {
 export function stripEpisodeNumber(title: string) {
   return title.replace(EP_SUFFIX, "").replace(EP_PREFIX, "").trim();
 }
+
+/**
+ * The monthly "Around the World of Packaging" round-up. Its title takes the same
+ * "… with <name>" shape as an interview, but the name is whoever presents the segment, not
+ * a guest — and the shape breaks on them: "with Sargam & Kumar" cuts at the ampersand and
+ * yields "Sargam", a first name with no surname, which then goes on the guests page as a
+ * person. These have no guest at all.
+ */
+const isRoundup = (title: string) => /^around the world of packaging\b/i.test(title.trim());
 
 /** Guest name lives in the title: "… with Jane Doe", "… | Jane Doe on X", "… featuring Jane Doe". */
 function guestFrom(title: string) {
@@ -217,6 +229,19 @@ function titleRank(episodeTitle: string, videoTitle: string): number {
   return 0;
 }
 
+/**
+ * Apple titles carry the episode number the same way the RSS does, so the existing titleRank
+ * does the work. Same tie-break as the video matcher: best title, then nearest publish date,
+ * which is what separates the twelve "Around the World of Packaging" segments from each other.
+ */
+function matchApple(title: string, published: string, episodes: AppleEpisode[]) {
+  const best = episodes
+    .map((a) => ({ a, rank: titleRank(title, stripEpisodeNumber(a.title)), gap: daysApart(a.date, published) }))
+    .filter((c) => c.rank > 0 && c.gap <= MAX_DAYS_APART)
+    .sort((x, y) => y.rank - x.rank || x.gap - y.gap)[0];
+  return best?.a.url ?? "";
+}
+
 function matchYoutube(title: string, published: string, videos: YoutubeVideo[]) {
   const candidates = videos
     .map((v) => ({
@@ -271,7 +296,7 @@ export function shortTitle(title: string) {
   return title.split(/\s+(?:with|With|\|)\s+/)[0];
 }
 
-export function parseFeed(xml: string, extraVideos: YoutubeVideo[] = []): Episode[] {
+export function parseFeed(xml: string, extraVideos: YoutubeVideo[] = [], appleEpisodes: AppleEpisode[] = []): Episode[] {
   // Live channel entries first: for a recent episode they are the only source of a video id.
   const videos = [...extraVideos, ...YOUTUBE_VIDEOS];
   const items = xml.match(/<item>[\s\S]*?<\/item>/g) ?? [];
@@ -282,7 +307,7 @@ export function parseFeed(xml: string, extraVideos: YoutubeVideo[] = []): Episod
       const html = tag(item, "description");
       const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
       const published = new Date(tag(item, "pubDate"));
-      const guest = guestFrom(title);
+      const guest = isRoundup(title) ? "" : guestFrom(title);
       const clean = stripEpisodeNumber(title);
       const iso = Number.isNaN(published.valueOf()) ? "" : published.toISOString().slice(0, 10);
       const yt = matchYoutube(clean, iso, videos);
@@ -300,6 +325,7 @@ export function parseFeed(xml: string, extraVideos: YoutubeVideo[] = []): Episod
         fallbackArt: attr(item, "itunes:image", "href"),
         video: yt,
         listen: tag(item, "link"),
+        apple: matchApple(clean, iso, appleEpisodes),
         type: tag(item, "itunes:episodeType"),
       };
     })
@@ -355,5 +381,9 @@ export function parseFeed(xml: string, extraVideos: YoutubeVideo[] = []): Episod
     thumbnail: video?.thumbnail || fallbackArt,
     portrait: portraitFor(video, e.guest),
     watch: video ? `https://www.youtube.com/watch?v=${video.videoId}` : "",
+    // Live lookup first, then the audited link committed alongside the video. The lookup is
+    // the only source for anything published since that scrape; the scrape is the only
+    // source if the lookup is down.
+    apple: e.apple || video?.apple || "",
   }));
 }

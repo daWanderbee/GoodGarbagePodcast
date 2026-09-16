@@ -37,7 +37,7 @@ export function AboutPodcast() {
 
             <div className="space-y-4 text-black/80 max-w-lg">
               <p className="text-base md:text-lg font-medium leading-relaxed">
-                That&apos;s the belief this whole show runs on. Waste isn&apos;t a lecture — it&apos;s a design problem, and design problems get solved. Each episode, Ved Krishna sits down with the people solving them: biomaterials scientists, packaging founders, policy changemakers, artists. Garbage isn&apos;t inherently bad — with the right people guiding the movement forward, it can even be good.
+                That&apos;s the belief this whole show runs on. Waste isn&apos;t a lecture — it&apos;s a design problem, and design problems get solved. Each episode, Ved Krishna sits down with the people solving them: biomaterials scientists, packaging founders, policy changemakers, artists. Garbage is not inherently bad and with the right people guiding the movement forward, it can even be good.
               </p>
               <p className="text-xs md:text-[15px] leading-relaxed">
                 Sponsored by <span className="font-bold text-accent">Pakka</span>, making packaging from sugarcane residue since 1981.

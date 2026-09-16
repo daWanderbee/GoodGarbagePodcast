@@ -72,26 +72,60 @@ export function LatestEpisode({ latest }: { latest: Episode }) {
               </div>
             </div>
 
-            <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <a href={watchUrl(latest)} target="_blank" rel="noopener noreferrer">
+            {/* One row from sm up; stacked and full width on a phone, where two
+                content-width buttons left a ragged edge under a full-width paragraph. */}
+            <div className="pt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+              <a href={watchUrl(latest)} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                 <Button
                   variant="accent"
-                  className="!px-10 !h-14 md:!h-16 !text-xs md:!text-sm uppercase tracking-widest shadow-xl hover:shadow-2xl transition-all bg-[#038f90] !text-white"
+                  className="w-full justify-center !px-10 !h-14 md:!h-16 !text-xs md:!text-sm uppercase tracking-widest shadow-xl hover:shadow-2xl transition-all bg-[#038f90] !text-white"
                 >
                   Play Episode
                   <span className="ml-3">▶</span>
                 </Button>
               </a>
-              
-              <Link href="/episodes">
-                <Button 
-                  variant="outline" 
-                  className="!px-10 !h-14 md:!h-16 !text-xs md:!text-sm border-[#038f90]/30 text-[#038f90] hover:bg-[#038f90]/5 uppercase tracking-widest"
+
+              <Link href="/episodes" className="w-full sm:w-auto">
+                <Button
+                  variant="outline"
+                  className="w-full justify-center !px-10 !h-14 md:!h-16 !text-xs md:!text-sm border-[#038f90]/30 text-[#038f90] hover:bg-[#038f90]/5 uppercase tracking-widest"
                 >
                   View All Episodes
                 </Button>
               </Link>
             </div>
+
+            {/* Straight to this episode on the other two platforms — chips rather than
+                underlined sentences, which read as body copy that happened to be a link.
+                Each is rendered only when that link is known: Apple's comes from a live
+                lookup that can be down, and the show's front page is not the same promise. */}
+            {(latest.listen || latest.apple) && (
+              <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                <span className="font-sans text-[10px] font-black uppercase tracking-[0.2em] text-[#038f90]/45">
+                  This episode
+                </span>
+                {latest.listen && (
+                  <a
+                    href={latest.listen}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full border border-[#038f90]/25 px-4 py-2 font-sans text-[10px] md:text-[11px] font-black uppercase tracking-[0.15em] text-[#038f90]/80 transition-colors hover:border-[#038f90]/50 hover:bg-[#038f90]/5 hover:text-[#038f90]"
+                  >
+                    Spotify
+                  </a>
+                )}
+                {latest.apple && (
+                  <a
+                    href={latest.apple}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full border border-[#038f90]/25 px-4 py-2 font-sans text-[10px] md:text-[11px] font-black uppercase tracking-[0.15em] text-[#038f90]/80 transition-colors hover:border-[#038f90]/50 hover:bg-[#038f90]/5 hover:text-[#038f90]"
+                  >
+                    Apple Podcasts
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
 

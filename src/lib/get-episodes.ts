@@ -1,6 +1,7 @@
 import { EPISODES } from "./episodes";
 import { FEED_URL, parseFeed, type Episode } from "./feed";
 import { fetchChannelVideos } from "./youtube";
+import { fetchAppleEpisodes } from "./apple";
 import { applyOverrides, readOverrides } from "./overrides";
 
 /**
@@ -16,12 +17,13 @@ export async function getEpisodes(): Promise<Episode[]> {
   try {
     // The channel feed supplies video ids for episodes published since the committed
     // scrape, so new episodes get a working YouTube link with nobody touching the repo.
-    const [res, channelVideos] = await Promise.all([
+    const [res, channelVideos, appleEpisodes] = await Promise.all([
       fetch(FEED_URL, { next: { revalidate: 3600 } }),
       fetchChannelVideos(),
+      fetchAppleEpisodes(),
     ]);
     if (!res.ok) throw new Error(`feed responded ${res.status}`);
-    const episodes = parseFeed(await res.text(), channelVideos);
+    const episodes = parseFeed(await res.text(), channelVideos, appleEpisodes);
     if (episodes.length < 10) throw new Error(`feed parsed to only ${episodes.length} episodes`);
     return applyOverrides(episodes, await readOverrides());
   } catch (err) {

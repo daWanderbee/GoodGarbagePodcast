@@ -105,3 +105,27 @@ test("the committed lookup table beats a runtime guess", () => {
   assert.equal(e.id, id, "fixture must reproduce the table's slug");
   assert.equal(e.watch, `https://www.youtube.com/watch?v=${known.videoId}`);
 });
+
+test("takes the Apple link from the lookup, matched by title and date", () => {
+  const apple = [
+    { title: "#42 Composting Works with Jane Doe", date: "1999-01-04", url: "https://podcasts.apple.com/ep42" },
+    { title: "Some Other Show Entirely", date: "1999-01-04", url: "https://podcasts.apple.com/nope" },
+  ];
+  const [e] = parseFeed(`<rss>${item("Composting Works with Jane Doe | #42")}</rss>`, [], apple);
+  assert.equal(e.apple, "https://podcasts.apple.com/ep42");
+});
+
+test("no Apple link rather than a wrong one", () => {
+  // Right title, published years apart: that is a different episode of a recurring segment.
+  const apple = [{ title: "Composting Works with Jane Doe", date: "2005-06-01", url: "https://podcasts.apple.com/wrong" }];
+  const [e] = parseFeed(`<rss>${item("Composting Works with Jane Doe | #42")}</rss>`, [], apple);
+  assert.equal(e.apple, "");
+});
+
+test("the monthly round-up has no guest — its presenters are not guests", () => {
+  const xml = `<rss>${item("Around the World of Packaging with Sargam & Kumar | August 2026")}${item("Around The World of Packaging with Alex Moore")}</rss>`;
+  for (const e of parseFeed(xml)) {
+    assert.equal(e.guest, "");
+    assert.equal(e.portrait, "");
+  }
+});

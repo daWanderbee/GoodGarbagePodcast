@@ -24,7 +24,6 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
   // Zoom completes within the first viewport (~0.16 of page scroll), since the
   // fixed hero is covered by the next section after roughly one screen of scroll.
   const prefersReduced = useReducedMotion();
-  const yGrass = useTransform(smoothScroll, [0, 0.16], [0, -70]);
   // Side sugarcane: grows/zooms but rises only gently so its (off-screen) base
   // never lifts into view — reads as edge framing, not plants pulled from the land.
   const yCane = useTransform(smoothScroll, [0, 0.16], [0, -45]);
@@ -117,7 +116,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
       </div>
 
       {/* Foreground: sugarcane rooted off both bottom corners with a hemp bouquet tucked in
-          beside each, a seaweed bed along the bottom edge and a flock top-right. Everything
+          beside each and a flock top-right. Everything
           rises and grows on scroll, then fades out as the next section covers the pinned hero.
           Only the edges and the floor are occupied — the headline column stays clear, which is
           what crowded it last time. */}
@@ -164,28 +163,9 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
           className="absolute bottom-0 right-0 h-[60vh] sm:h-[60vh] w-auto max-w-none origin-bottom drop-shadow-xl"
         />
 
-        {/* Seaweed bed, replacing the generated grass. The same clump on three tiled layers,
-            every one at the art's own 436x202 ratio (auto width) — nothing is squeezed. A layer
-            cannot overlap itself, since background-repeat lays tiles edge to edge, so the gap
-            between clumps is closed by offsetting the other two layers into it: at a 25vh band
-            the tile is ~54vh wide, so 18vh and 36vh land on the thirds. The back two are a
-            little shorter, which scales their width to match and gives the bed some depth.
-            Drawn last, so the bed closes over the stems of everything standing in it. */}
-        <motion.div
-          style={{
-            y: pv(yGrass),
-            backgroundImage:
-              "url(/images/hero/parallax/seaweed_tile.png), url(/images/hero/parallax/seaweed_tile.png), url(/images/hero/parallax/seaweed_tile.png)",
-            backgroundRepeat: "repeat-x",
-            backgroundPosition: "left bottom, 18vh bottom, 36vh bottom",
-            backgroundSize: "auto 100%, auto 92%, auto 84%",
-          }}
-          className="absolute -bottom-px inset-x-0 h-[21vh] lg:h-[25vh]"
-        />
         {/* Hemp, one bouquet beside each cane, in the same corner rather than inset from it —
             at 11% it stood between the cane and the headline instead of reading as part of the
-            corner planting. Drawn after the bed so it stands in front of the seaweed rather
-            than behind it, and wedged into the bottom corner — a couple of vh below the floor
+            corner planting. Wedged into the bottom corner — a couple of vh below the floor
             and a few percent past the side, so it is cropped by both edges and reads as stuck
             in the corner rather than placed near it. Each rocks against its cane rather than
             with it, so the pair does not read as one rigid block. */}

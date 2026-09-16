@@ -67,7 +67,7 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
               Garbage isn't trash. It's a <span className="italic text-[#0d6e4e]">resource</span> waiting for a better idea.
             </h2>
             <p className="text-base md:text-lg text-black/75 leading-relaxed">
-              Good Garbage started with a simple idea: sustainability doesn't have to be grim or preachy. It can be an honest celebration of human creativity and natural systems working together. Each episode we sit down with the people doing the work — biomaterials scientists, USDA researchers, packaging founders, environmental artists. We talk about how seaweed, agricultural residue and yesterday&apos;s waste become something that has new value — no greenwashing, just real science in plain talk.
+              Good Garbage started with a simple idea: sustainability doesn't have to be grim or preachy. It can be an honest celebration of human creativity and natural systems working together. Each episode, we sit down with the people doing the work — biomaterials scientists, USDA researchers, packaging founders, environmental artists. We talk about how seaweed, agricultural residue and yesterday&apos;s waste become resources with new value — no greenwashing, just real science and plain talk.
             </p>
 
           </div>
