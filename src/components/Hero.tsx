@@ -37,11 +37,9 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
   const pv = (mv: MotionValue<number>) => (prefersReduced ? undefined : mv);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-[#012620]">
-      {/* Flat botanical ground. The painted landscape is gone — the colour is the backdrop and
-          the plants in front of it do the framing, so none of the old washes, blur or reading
-          panel are needed to lift the type off it. */}
-      <div className="absolute inset-0 z-0 bg-[#012620]" />
+    <div className="relative h-screen w-full overflow-hidden bg-[#038f90]">
+      {/* Flat brand ground */}
+      <div className="absolute inset-0 z-0 bg-[#038f90]" />
 
       {/* Modern Hero Content Container - Overlapping Layout with Site-Wide Alignment */}
       <div className="relative z-10 lg:h-full w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center px-6 md:px-12 overflow-visible">
@@ -112,24 +110,17 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
             </Link>
           </div>
 
-          {/* Trust strip (High contrast white) */}
-          <div className="mt-6 lg:mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-1.5 font-sans text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
-            <span>Sponsored by Pakka</span>
-            <span className="w-1 h-1 rounded-full bg-white/80" />
-            <span>{episodes.length} Episodes</span>
-            <span className="w-1 h-1 rounded-full bg-white/80" />
-            <span>YouTube · Spotify · Apple</span>
-          </div>
 
         </div>
 
 
       </div>
 
-      {/* Foreground: sugarcane rooted off both bottom corners, a grass meadow along the
-          bottom edge and a flock top-right. Everything rises and grows on scroll, then fades
-          out as the next section covers the pinned hero. Only the edges and the floor are
-          occupied — the headline column stays clear, which is what crowded it last time. */}
+      {/* Foreground: sugarcane rooted off both bottom corners with a hemp bouquet tucked in
+          beside each, a seaweed bed along the bottom edge and a flock top-right. Everything
+          rises and grows on scroll, then fades out as the next section covers the pinned hero.
+          Only the edges and the floor are occupied — the headline column stays clear, which is
+          what crowded it last time. */}
       <motion.div
         style={{ opacity: prefersReduced ? 1 : sceneOpacity }}
         className="pointer-events-none absolute inset-0 z-[6] overflow-hidden"
@@ -148,15 +139,17 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
 
         {/* Sugarcane, one supplied pair per side. Neither is mirrored — the artwork already
             fans its crown inward, so a flip would point the leaves off-screen.
-            Sized by height rather than width. On desktop the whole plant sits in frame; below
-            1024px it is pushed out by half its own width, because two full canes at 48vh cover
-            most of a phone screen. The shift uses motion's own x — a Tailwind -translate-x class
+            Sized by height rather than width. Each stalk base sits 42-58% across its own
+            image, so at a flush left-0/right-0 the leaves reach the corner but the trunk stands
+            well inside it — desktop pushes each plant out by 22% of its width to put the trunk
+            in the corner instead. Below 1024px the shift is half the width, because two full
+            canes cover most of a phone screen. The shift uses motion's own x — a Tailwind -translate-x class
             would be overwritten by the transform framer-motion composes from y/scale/rotate. */}
         <motion.img
           src="/images/hero/parallax/cane_right.png"
           alt=""
           loading="lazy"
-          style={{ x: isMobile ? "-40%" : "0%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
+          style={{ x: isMobile ? "-50%" : "-22%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
           animate={prefersReduced ? undefined : { rotate: [-1.4, 1.8, -1.4] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-0 left-0 h-[60vh] sm:h-[60vh] w-auto max-w-none origin-bottom drop-shadow-xl"
@@ -165,19 +158,54 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
           src="/images/hero/parallax/cane_left.png"
           alt=""
           loading="lazy"
-          style={{ x: isMobile ? "40%" : "0%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
+          style={{ x: isMobile ? "50%" : "22%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
           animate={prefersReduced ? undefined : { rotate: [1.4, -0.9, 1.4] }}
           transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-0 right-0 h-[60vh] sm:h-[60vh] w-auto max-w-none origin-bottom drop-shadow-xl"
         />
 
-        {/* Meadow. Tiled, not stretched to fit, so the blades keep their shape as the screen
-            widens. On desktop the tile is nudged wider than the artwork (1350px for a 1200px
-            source) — native size reads as thin stubble on a wide monitor, and much past this
-            the blades go fat. */}
+        {/* Seaweed bed, replacing the generated grass. The same clump on three tiled layers,
+            every one at the art's own 436x202 ratio (auto width) — nothing is squeezed. A layer
+            cannot overlap itself, since background-repeat lays tiles edge to edge, so the gap
+            between clumps is closed by offsetting the other two layers into it: at a 25vh band
+            the tile is ~54vh wide, so 18vh and 36vh land on the thirds. The back two are a
+            little shorter, which scales their width to match and gives the bed some depth.
+            Drawn last, so the bed closes over the stems of everything standing in it. */}
         <motion.div
-          style={{ y: pv(yGrass) }}
-          className="absolute -bottom-px inset-x-0 h-[26vh] lg:h-[28vh] bg-[url('/images/hero/parallax/grass.svg')] bg-repeat-x bg-bottom [background-size:auto_100%] lg:[background-size:1350px_100%]"
+          style={{
+            y: pv(yGrass),
+            backgroundImage:
+              "url(/images/hero/parallax/seaweed_tile.png), url(/images/hero/parallax/seaweed_tile.png), url(/images/hero/parallax/seaweed_tile.png)",
+            backgroundRepeat: "repeat-x",
+            backgroundPosition: "left bottom, 18vh bottom, 36vh bottom",
+            backgroundSize: "auto 100%, auto 92%, auto 84%",
+          }}
+          className="absolute -bottom-px inset-x-0 h-[21vh] lg:h-[25vh]"
+        />
+        {/* Hemp, one bouquet beside each cane, in the same corner rather than inset from it —
+            at 11% it stood between the cane and the headline instead of reading as part of the
+            corner planting. Drawn after the bed so it stands in front of the seaweed rather
+            than behind it, and wedged into the bottom corner — a couple of vh below the floor
+            and a few percent past the side, so it is cropped by both edges and reads as stuck
+            in the corner rather than placed near it. Each rocks against its cane rather than
+            with it, so the pair does not read as one rigid block. */}
+        <motion.img
+          src="/images/hero/parallax/hemp_left.png"
+          alt=""
+          loading="lazy"
+          style={{ y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
+          animate={prefersReduced ? undefined : { rotate: [1.2, -1.2, 1.2] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-[-2vh] lg:bottom-[-3vh] left-[-3%] lg:left-[-2%] h-[16vh] lg:h-[22vh] w-auto max-w-none origin-bottom drop-shadow-lg"
+        />
+        <motion.img
+          src="/images/hero/parallax/hemp_right.png"
+          alt=""
+          loading="lazy"
+          style={{ y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
+          animate={prefersReduced ? undefined : { rotate: [-1.2, 1.2, -1.2] }}
+          transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-[-2vh] lg:bottom-[-3vh] right-[-3%] lg:right-[-2%] h-[16vh] lg:h-[22vh] w-auto max-w-none origin-bottom drop-shadow-lg"
         />
       </motion.div>
 
