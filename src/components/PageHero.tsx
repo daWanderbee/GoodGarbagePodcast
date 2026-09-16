@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Leaf } from "lucide-react";
-import Image from "next/image";
 
 interface PageHeroProps {
   eyebrow: string;
@@ -13,7 +12,7 @@ interface PageHeroProps {
   curveVariant?: "wave" | "swell" | "crest" | "arch";
 }
 
-// Shared botanical page header — embeds the barn/countryside background (`ghibli_bg.png`) across all headers
+// Shared botanical page header
 export function PageHero({
   eyebrow,
   title,
@@ -31,20 +30,7 @@ export function PageHero({
   };
 
   return (
-    <section className="relative bg-[#012620] px-6 md:px-12 pt-36 pb-24 md:pt-44 md:pb-36 overflow-visible z-10 sm:min-h-[440px] flex flex-col justify-center">
-      {/* Barn / Studio Ghibli Countryside Background (`make all headers have this barn image`) */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <Image
-          src="/images/hero/ghibli_bg.png"
-          alt="Painted Barn Studio Ghibli Countryside Landscape"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center scale-105"
-        />
-        {/* High-contrast WCAG AAA botanical dark overlay so header typography & navbar stand out crisply */}
-        <div className="absolute inset-0 bg-[#012620]/68 backdrop-blur-[1px]" />
-      </div>
+    <section className="relative bg-[#038f90] px-6 md:px-12 pt-36 pb-24 md:pt-44 md:pb-36 overflow-visible z-10 sm:min-h-[440px] flex flex-col justify-center">
 
       <div className="max-w-7xl mx-auto text-center lg:text-left relative z-10 w-full">
         <motion.div

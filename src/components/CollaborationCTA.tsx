@@ -24,18 +24,8 @@ export function CollaborationCTA({ topCurveColor }: CollaborationCTAProps = {}) 
   return (
     <section 
       id="collaborate" 
-      className="min-h-screen lg:h-screen lg:max-h-[880px] w-full bg-[#012620] relative overflow-visible z-20 flex items-center justify-center py-16 md:py-20 px-6 sm:px-8 md:px-12"
+      className="min-h-screen lg:h-screen lg:max-h-[880px] w-full bg-[#038f90] relative overflow-visible z-20 flex items-center justify-center py-16 md:py-20 px-6 sm:px-8 md:px-12"
     >
-      {/* Studio Ghibli Painted Countryside Backdrop (Rolling green hills, deep shadow forest & dirt road) */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <img src="/images/hero/ghibli_bg.png" alt="Studio Ghibli Countryside Landscape" className="absolute inset-0 h-full w-full object-cover object-center" />
-
-        {/* Deep Forest Shadow Overlay to guarantee pristine WCAG AAA legibility for cards and typography */}
-        <div className="absolute inset-0 bg-[#012620]/45 pointer-events-none" />
-
-        {/* Reading panel under the headline and paragraph only. */}
-        <div className="absolute inset-y-0 left-0 w-full lg:w-[58%] bg-gradient-to-b lg:bg-gradient-to-r from-[#012620]/90 via-[#012620]/60 to-transparent pointer-events-none" />
-      </div>
 
       {/* Top Curve arching down over the Studio Ghibli countryside clouds painting with un-clipped 3px upward overlap to eliminate subpixel crease lines */}
       {topCurveColor && (

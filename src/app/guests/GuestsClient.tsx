@@ -138,7 +138,7 @@ export function GuestsClient({ episodes }: { episodes: Episode[] }) {
         </div>
       </section>
 
-      {/* Collaborate / Be a Guest Section with Cream Top Curve over Ghibli background */}
+      {/* Collaborate / Be a Guest Section with Cream Top Curve over Teal (#038f90) background */}
       <CollaborationCTA topCurveColor="#f2ede4" />
 
       <Footer />
