@@ -3,11 +3,10 @@
 import { motion, useTransform, useReducedMotion, MotionValue } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Leaf } from "lucide-react";
 import { PodcastButton } from "./ui/PodcastButton";
 import { Button } from "./ui/Button";
 import { LatestPodcastCard } from "./ui/LatestPodcastCard";
-import { shortTitle, watchUrl, type Episode } from "@/lib/feed";
+import { watchUrl, type Episode } from "@/lib/feed";
 
 interface HeroProps {
   episodes: Episode[];
@@ -17,8 +16,6 @@ interface HeroProps {
 }
 
 export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps) {
-  // Concept A: real episode titles drifting under the headline (proves the mission)
-  const EPISODE_TITLES = episodes.slice(0, 7).map((e) => shortTitle(e.title));
   // Parallax scene: each depth plane rises AND scales up as you scroll
   // (deeper = slower + smaller growth, foreground = faster + larger growth)
   // Zoom completes within the first viewport (~0.16 of page scroll), since the
@@ -63,37 +60,12 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
 
           {/* Bold, not medium: this sits on a photograph, and weight is what keeps it legible
               over the busy parts of the image. The background itself is untouched. */}
-          <p className="max-w-xl font-serif leading-[1.6] text-white font-bold text-sm sm:text-base md:text-lg lg:text-xl tracking-normal mb-6 lg:mb-8 px-4 lg:px-0 drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
+          <p className="max-w-xl font-serif leading-[1.6] text-white font-bold text-sm sm:text-base md:text-lg lg:text-xl tracking-normal mb-8 lg:mb-10 px-4 lg:px-0 drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
             <span className="block font-sans font-black uppercase tracking-[0.18em] text-xs sm:text-sm md:text-base mb-2 text-[#aeddd9]">
               Let&apos;s talk trash!
             </span>
             Join us and our host, <em>Ved Krishna</em>, as we connect with the people and the ideas regenerating our planet, in search of the answer to one question: what is <em>Good Garbage</em>?
           </p>
-
-          {/* Concept A: kinetic episode marquee (High contrast white) */}
-          <div
-            className="marquee-mask relative w-full max-w-xl mb-6 lg:mb-12 overflow-hidden"
-            style={{
-              // A scrolling strip always cuts a word at its edges. The only thing that
-              // decides whether that reads as motion or as a rendering fault is how much
-              // room the fade has to finish in, so give it a quarter of the width.
-              maskImage:
-                'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 12%, black 26%, black 74%, rgba(0,0,0,0.55) 88%, transparent 100%)',
-              WebkitMaskImage:
-                'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 12%, black 26%, black 74%, rgba(0,0,0,0.55) 88%, transparent 100%)',
-            }}
-          >
-            <div className="marquee-track flex w-max items-center gap-6">
-              {[...EPISODE_TITLES, ...EPISODE_TITLES].map((title, i) => (
-                <span key={i} className="flex shrink-0 items-center gap-6">
-                  <span className="whitespace-nowrap font-sans text-[11px] md:text-xs font-bold uppercase tracking-[0.15em] text-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
-                    {title}
-                  </span>
-                  <Leaf className="w-3.5 h-3.5 shrink-0 text-[#aeddd9] drop-shadow-sm" />
-                </span>
-              ))}
-            </div>
-          </div>
 
           <div className="pointer-events-auto flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3.5 sm:gap-4 w-full max-w-sm sm:max-w-none mx-auto lg:mx-0">
             <PodcastButton
@@ -115,11 +87,10 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
 
       </div>
 
-      {/* Foreground: sugarcane rooted off both bottom corners with a hemp bouquet tucked in
-          beside each and a flock top-right. Everything
-          rises and grows on scroll, then fades out as the next section covers the pinned hero.
-          Only the edges and the floor are occupied — the headline column stays clear, which is
-          what crowded it last time. */}
+      {/* Foreground: a sugarcane clump in each bottom corner and a flock top-right. Both rise
+          and grow on scroll, then fade out as the next section covers the pinned hero. Only the
+          corners are occupied — the headline column stays clear, which is what crowded it the
+          first time round. */}
       <motion.div
         style={{ opacity: prefersReduced ? 1 : sceneOpacity }}
         className="pointer-events-none absolute inset-0 z-[6] overflow-hidden"
@@ -136,8 +107,9 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
           />
         </motion.div>
 
-        {/* Sugarcane, one supplied pair per side. Neither is mirrored — the artwork already
-            fans its crown inward, so a flip would point the leaves off-screen.
+        {/* Sugarcane, one supplied clump per side, each drawn for its own corner — no
+            mirroring, which would light the plant from the wrong side, and no sway: the art
+            includes the soil the plant stands in, so rocking it tilts the ground with it.
             Sized by height rather than width. Each stalk base sits 42-58% across its own
             image, so at a flush left-0/right-0 the leaves reach the corner but the trunk stands
             well inside it — desktop pushes each plant out by 22% of its width to put the trunk
@@ -145,48 +117,20 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
             canes cover most of a phone screen. The shift uses motion's own x — a Tailwind -translate-x class
             would be overwritten by the transform framer-motion composes from y/scale/rotate. */}
         <motion.img
-          src="/images/hero/parallax/cane_right.png"
+          src="/images/hero/parallax/sugarcane_left.webp"
           alt=""
           loading="lazy"
-          style={{ x: isMobile ? "-50%" : "-22%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
-          animate={prefersReduced ? undefined : { rotate: [-1.4, 1.8, -1.4] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          style={{ x: isMobile ? "-60%" : "-22%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
           className="absolute bottom-0 left-0 h-[60vh] sm:h-[60vh] w-auto max-w-none origin-bottom drop-shadow-xl"
         />
         <motion.img
-          src="/images/hero/parallax/cane_left.png"
+          src="/images/hero/parallax/sugarcane_right.webp"
           alt=""
           loading="lazy"
-          style={{ x: isMobile ? "50%" : "22%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
-          animate={prefersReduced ? undefined : { rotate: [1.4, -0.9, 1.4] }}
-          transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
+          style={{ x: isMobile ? "70%" : "22%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
           className="absolute bottom-0 right-0 h-[60vh] sm:h-[60vh] w-auto max-w-none origin-bottom drop-shadow-xl"
         />
 
-        {/* Hemp, one bouquet beside each cane, in the same corner rather than inset from it —
-            at 11% it stood between the cane and the headline instead of reading as part of the
-            corner planting. Wedged into the bottom corner — a couple of vh below the floor
-            and a few percent past the side, so it is cropped by both edges and reads as stuck
-            in the corner rather than placed near it. Each rocks against its cane rather than
-            with it, so the pair does not read as one rigid block. */}
-        <motion.img
-          src="/images/hero/parallax/hemp_left.png"
-          alt=""
-          loading="lazy"
-          style={{ y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
-          animate={prefersReduced ? undefined : { rotate: [1.2, -1.2, 1.2] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[-2vh] lg:bottom-[-3vh] left-[-3%] lg:left-[-2%] h-[16vh] lg:h-[22vh] w-auto max-w-none origin-bottom drop-shadow-lg"
-        />
-        <motion.img
-          src="/images/hero/parallax/hemp_right.png"
-          alt=""
-          loading="lazy"
-          style={{ y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
-          animate={prefersReduced ? undefined : { rotate: [-1.2, 1.2, -1.2] }}
-          transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[-2vh] lg:bottom-[-3vh] right-[-3%] lg:right-[-2%] h-[16vh] lg:h-[22vh] w-auto max-w-none origin-bottom drop-shadow-lg"
-        />
       </motion.div>
 
       {/* DESKTOP: latest episode card, vertically centered, pulled in toward the text */}
