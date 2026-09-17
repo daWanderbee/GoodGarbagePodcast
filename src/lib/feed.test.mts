@@ -129,3 +129,65 @@ test("the monthly round-up has no guest — its presenters are not guests", () =
     assert.equal(e.portrait, "");
   }
 });
+
+test("the numbered upload beats the Short cut from it", () => {
+  // The channel publishes both on the same day; the Short takes the episode's title verbatim,
+  // so on title alone it scores an exact match and the episode only scores containment.
+  const videos = [
+    { videoId: "short1", titles: ["Branding as Being with Raphael Bemporad"], thumbnail: "t/short", date: "1999-01-04", apple: null },
+    { videoId: "full1", titles: ["#42 Branding as Being with Raphael Bemporad"], thumbnail: "t/full", date: "1999-01-04", apple: null },
+  ];
+  const [e] = parseFeed(`<rss>${item("Branding as Being with Raphael Bemporad | #42")}</rss>`, videos);
+  assert.equal(e.watch, "https://www.youtube.com/watch?v=full1");
+  assert.equal(e.thumbnail, "t/full");
+});
+
+const roundup = (title: string, date: string) => `
+  <item>
+    <title><![CDATA[${title}]]></title>
+    <description><![CDATA[<p>Monthly packaging news.</p>]]></description>
+    <pubDate>${date}</pubDate>
+    <itunes:duration>00:12:57</itunes:duration>
+    <itunes:episodeType>full</itunes:episodeType>
+    <link>https://example.com/ep</link>
+  </item>`;
+
+test("the round-up finds its upload despite a completely different title", () => {
+  const videos = [
+    { videoId: "news", titles: ["Sustainable Packaging News, August 2026 | Sargam & Kumar"], thumbnail: "t/news", date: "2026-09-10", apple: null },
+    { videoId: "short", titles: ["Is Ethical Capitalism the Future?"], thumbnail: "t/short", date: "2026-09-10", apple: null },
+  ];
+  const [e] = parseFeed(
+    `<rss>${roundup("Around the World of Packaging with Sargam & Kumar | August 2026", "Thu, 10 Sep 2026 04:30:00 GMT")}</rss>`,
+    videos,
+  );
+  assert.equal(e.watch, "https://www.youtube.com/watch?v=news");
+  assert.equal(e.thumbnail, "t/news");
+});
+
+test("the round-up prefers the month it covers over a same-day upload by the same presenter", () => {
+  const videos = [
+    { videoId: "july", titles: ["Sustainable Packaging News, July 2026 | Sargam & Kumar"], thumbnail: "t/july", date: "2026-09-10", apple: null },
+    { videoId: "august", titles: ["Sustainable Packaging News, August 2026 | Sargam & Kumar"], thumbnail: "t/august", date: "2026-09-12", apple: null },
+  ];
+  const [e] = parseFeed(
+    `<rss>${roundup("Around the World of Packaging with Sargam & Kumar | August 2026", "Thu, 10 Sep 2026 04:30:00 GMT")}</rss>`,
+    videos,
+  );
+  assert.equal(e.watch, "https://www.youtube.com/watch?v=august");
+});
+
+test("no video at all rather than a coin flip between same-day uploads", () => {
+  const videos = [
+    { videoId: "a", titles: ["Something Unrelated"], thumbnail: "t/a", date: "1999-01-04", apple: null },
+    { videoId: "b", titles: ["Also Unrelated"], thumbnail: "t/b", date: "1999-01-04", apple: null },
+  ];
+  const [e] = parseFeed(`<rss>${item("Composting Works with Jane Doe | #42")}</rss>`, videos);
+  assert.equal(e.watch, "");
+});
+
+test("a lone same-day upload is still taken", () => {
+  const videos = [{ videoId: "only", titles: ["Something Unrelated"], thumbnail: "t/only", date: "1999-01-04", apple: null }];
+  const [e] = parseFeed(`<rss>${item("Composting Works with Jane Doe | #42")}</rss>`, videos);
+  assert.equal(e.watch, "https://www.youtube.com/watch?v=only");
+});

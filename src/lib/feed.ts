@@ -211,7 +211,11 @@ const daysApart = (a: string, b: string) =>
  */
 function titleRank(episodeTitle: string, videoTitle: string): number {
   const t = norm(episodeTitle);
-  const n = norm(videoTitle);
+  // The channel numbers the full episode "#105 Title" and titles the Short off it exactly
+  // "Title". Comparing the episode's stripped title against a raw video title therefore
+  // scored the Short higher than the episode it was cut from, and the thumbnail follows the
+  // video — so the hero showed a vertical clip instead of the episode artwork.
+  const n = norm(stripEpisodeNumber(videoTitle));
   if (!t || !n) return 0;
 
   if (n === t) return 4; // same title
@@ -242,11 +246,64 @@ function matchApple(title: string, published: string, episodes: AppleEpisode[]) 
   return best?.a.url ?? "";
 }
 
-function matchYoutube(title: string, published: string, videos: YoutubeVideo[]) {
+const MONTHS = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+
+/**
+ * "August 2026", "Aug 2026", "Nov '25" -> "2026-08". The monthly round-up is the only thing
+ * on the channel that dates itself in its own title, which makes this the one signal shared
+ * by an episode and its upload when the two are worded completely differently.
+ */
+function monthYear(title: string): string {
+  const m = title.match(/\b([A-Za-z]{3,9})\.?,?\s+'?(\d{2}|\d{4})\b/);
+  if (!m) return "";
+  const idx = MONTHS.findIndex((name) => name.startsWith(m[1].toLowerCase()) && m[1].length >= 3);
+  if (idx < 0) return "";
+  const yr = m[2].length === 2 ? 2000 + Number(m[2]) : Number(m[2]);
+  if (yr < 2020 || yr > 2100) return "";
+  return `${yr}-${String(idx + 1).padStart(2, "0")}`;
+}
+
+/** Capitalised words of 4+ letters — the presenter names, minus the words every title shares. */
+const STOPWORDS = new Set(["around", "world", "packaging", "good", "garbage", "podcast", "with", "news", "sustainable", "part"]);
+function nameTokens(title: string): string[] {
+  return (title.match(/\b[A-Z][a-z]{3,}\b/g) ?? [])
+    .map((w) => w.toLowerCase())
+    .filter((w) => !STOPWORDS.has(w) && !MONTHS.includes(w));
+}
+
+/**
+ * The monthly round-up, matched on its own terms. Its RSS title and its upload title have
+ * nothing in common — "Around the World of Packaging with Sargam & Kumar | August 2026"
+ * against "Sustainable Packaging News, August 2026 | Sargam & Kumar" — so titleRank scores
+ * zero and it used to fall through to a blind same-date guess. Two things do carry across:
+ * the month it covers, and who presented it.
+ */
+function matchRoundup(title: string, published: string, videos: YoutubeVideo[]) {
+  const my = monthYear(title);
+  const names = nameTokens(title);
+  const scored = videos
+    .map((v) => {
+      const vt = v.titles[0] ?? "";
+      const monthHit = my !== "" && monthYear(vt) === my;
+      const shared = nameTokens(vt).filter((n) => names.includes(n)).length;
+      return { v, rank: (monthHit ? 2 : 0) + (shared > 0 ? 1 : 0), gap: daysApart(v.date, published) };
+    })
+    .filter((c) => c.rank > 0 && c.gap <= MAX_DAYS_APART);
+  return scored.sort((a, b) => b.rank - a.rank || a.gap - b.gap)[0]?.v;
+}
+
+function matchYoutube(title: string, published: string, videos: YoutubeVideo[], ep = 0) {
+  if (isRoundup(title)) return matchRoundup(title, published, videos);
+
   const candidates = videos
     .map((v) => ({
       v,
-      rank: Math.max(...v.titles.map((y) => titleRank(title, y))),
+      // An episode number carried by both titles is an identifier, not a resemblance: it
+      // outranks every similarity score, which is what separates "#105 Title" from the
+      // Short titled plain "Title".
+      rank: ep > 0 && v.titles.some((y) => episodeNumber(y) === ep)
+        ? 5
+        : Math.max(...v.titles.map((y) => titleRank(title, y))),
       gap: daysApart(v.date, published),
     }))
     .filter((c) => c.rank > 0);
@@ -258,7 +315,13 @@ function matchYoutube(title: string, published: string, videos: YoutubeVideo[]) 
 
   if (nearest && nearest.gap <= MAX_DAYS_APART) return nearest.v;
 
-  return videos.find((v) => v.date === published);
+  // Nothing in the title matched. Same-day publication is the last signal left, and it is
+  // only worth anything when the day is unambiguous — the channel puts a Short up alongside
+  // most episodes, so picking the first of several same-day uploads is a coin flip, and a
+  // wrong video takes the thumbnail with it. Better no video: the play button falls back to
+  // a channel search and the card to the feed's own artwork.
+  const sameDay = videos.filter((v) => v.date === published);
+  return sameDay.length === 1 ? sameDay[0] : undefined;
 }
 
 /**
@@ -310,7 +373,7 @@ export function parseFeed(xml: string, extraVideos: YoutubeVideo[] = [], appleEp
       const guest = isRoundup(title) ? "" : guestFrom(title);
       const clean = stripEpisodeNumber(title);
       const iso = Number.isNaN(published.valueOf()) ? "" : published.toISOString().slice(0, 10);
-      const yt = matchYoutube(clean, iso, videos);
+      const yt = matchYoutube(clean, iso, videos, episodeNumber(title));
       return {
         ep: episodeNumber(title),
         id: slug(clean),
