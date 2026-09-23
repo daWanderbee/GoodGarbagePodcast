@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { Hero } from "@/components/Hero";
 import { LatestEpisode } from "@/components/LatestEpisode";
@@ -22,14 +21,6 @@ export function HomeClient({ episodes }: { episodes: Episode[] }) {
     restDelta: 0.001
   });
 
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
   return (
     <div className="bg-background relative">
       {/* 1. Hero Layer: fixed slide-over on every breakpoint — content scrolls up over it */}
@@ -37,7 +28,6 @@ export function HomeClient({ episodes }: { episodes: Episode[] }) {
         <Hero
           rawScroll={rawScroll}
           smoothScroll={smoothScroll}
-          isMobile={isMobile}
           episodes={episodes}
         />
       </div>

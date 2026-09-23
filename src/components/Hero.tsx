@@ -12,39 +12,33 @@ interface HeroProps {
   episodes: Episode[];
   rawScroll: MotionValue<number>;
   smoothScroll: MotionValue<number>;
-  isMobile: boolean;
 }
 
-export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps) {
+export function Hero({ rawScroll, smoothScroll, episodes }: HeroProps) {
   // Parallax scene: each depth plane rises AND scales up as you scroll
   // (deeper = slower + smaller growth, foreground = faster + larger growth)
   // Zoom completes within the first viewport (~0.16 of page scroll), since the
   // fixed hero is covered by the next section after roughly one screen of scroll.
   const prefersReduced = useReducedMotion();
-  // Side sugarcane: grows/zooms but rises only gently so its (off-screen) base
-  // never lifts into view — reads as edge framing, not plants pulled from the land.
-  const yCane = useTransform(smoothScroll, [0, 0.16], [0, -45]);
-  const sCane = useTransform(smoothScroll, [0, 0.16], [1, 1.45]);
-  const yBirds = useTransform(smoothScroll, [0, 0.16], [0, -25]);
+  // Three planes, one per plant: the cane stands furthest back and barely moves, the hemp
+  // sits mid-ground, the mushrooms are nearest so they rise fastest and grow into frame.
+  const yCane = useTransform(smoothScroll, [0, 0.16], [0, -30]);
+  const yHemp = useTransform(smoothScroll, [0, 0.16], [0, -52]);
+  const yMush = useTransform(smoothScroll, [0, 0.16], [0, -84]);
+  const sMush = useTransform(smoothScroll, [0, 0.16], [1, 1.07]);
   const sceneOpacity = useTransform(smoothScroll, [0.1, 0.17], [1, 0]);
-  // Mobile sugarcane parallax: grows and lifts gently as the page scrolls over the pinned hero.
-  const yCaneMobile = useTransform(smoothScroll, [0, 0.16], [0, -24]);
-  const sCaneMobile = useTransform(smoothScroll, [0, 0.16], [1, 1.4]);
   const pv = (mv: MotionValue<number>) => (prefersReduced ? undefined : mv);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-[#038f90]">
+    <div className="relative h-screen w-full overflow-hidden bg-[#067e7d]">
       {/* Flat brand ground */}
-      <div className="absolute inset-0 z-0 bg-[#038f90]" />
+      <div className="absolute inset-0 z-0 bg-[#067e7d]" />
 
       {/* Modern Hero Content Container - Overlapping Layout with Site-Wide Alignment */}
-      <div className="relative z-10 lg:h-full w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center px-6 md:px-12 overflow-visible">
-
-        {/* navbar spacer on mobile */}
-        <div className="lg:hidden h-[26vh] sm:h-[24vh] w-full" />
+      <div className="relative z-10 h-full w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center lg:justify-start px-6 md:px-12 overflow-visible">
 
         {/* Text Section: High-contrast white typography with crisp drop shadows */}
-        <div className="relative z-20 flex flex-col items-center lg:items-start text-center lg:text-left -mt-4 lg:mt-0 pt-3 pb-24 md:pt-10 md:pb-32 lg:py-0 w-full lg:max-w-3xl">
+        <div className="relative z-20 flex flex-col items-center lg:items-start text-center lg:text-left pt-16 lg:pt-0 w-full lg:max-w-3xl">
           {/* Brand Heading (Logo inverted to pure white across all devices) */}
           <h1 className="mb-3 lg:mb-6">
             <Image
@@ -64,7 +58,7 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
             <span className="block font-sans font-black uppercase tracking-[0.18em] text-xs sm:text-sm md:text-base mb-2 text-[#aeddd9]">
               Let&apos;s talk trash!
             </span>
-            Join us and our host, <em>Ved Krishna</em>, as we connect with the people and the ideas regenerating our planet, in search of the answer to one question: what is <em>Good Garbage</em>?
+            <em>Ved Krishna</em> meets the people regenerating our planet.
           </p>
 
           <div className="pointer-events-auto flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3.5 sm:gap-4 w-full max-w-sm sm:max-w-none mx-auto lg:mx-0">
@@ -87,51 +81,34 @@ export function Hero({ rawScroll, smoothScroll, isMobile, episodes }: HeroProps)
 
       </div>
 
-      {/* Foreground: a sugarcane clump in each bottom corner and a flock top-right. Both rise
-          and grow on scroll, then fade out as the next section covers the pinned hero. Only the
-          corners are occupied — the headline column stays clear, which is what crowded it the
-          first time round. */}
+      {/* Foreground: three plants along the bottom edge — hemp bottom left, sugarcane and
+          mushrooms together in the bottom right. Small enough to read as a border, so the
+          headline and the episode card keep the whole middle of the frame. */}
       <motion.div
         style={{ opacity: prefersReduced ? 1 : sceneOpacity }}
         className="pointer-events-none absolute inset-0 z-[6] overflow-hidden"
       >
-        {/* Flock. Scroll parallax on the wrapper, idle drift on the image — framer-motion
-            would drop the `style` y if `animate` also moved y on the same element. */}
-        <motion.div style={{ y: pv(yBirds) }} className="absolute top-[13%] right-[4%] w-[40%] sm:w-[30%] lg:w-[22%]">
-          <motion.img
-            src="/images/hero/parallax/birds.png"
-            alt=""
-            animate={prefersReduced ? undefined : { x: [0, 28, 0], y: [0, -12, 0] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-            className="w-full h-auto opacity-90"
-          />
+        {/* eslint-disable @next/next/no-img-element -- line art with its own alpha, already the
+            size it renders at. next/image would re-encode drawings that have nothing left to
+            compress, and its fill mode fights percentage placement inside a transformed tree. */}
+        {/* Sugarcane, bottom right: stood on the floor of the frame with its tips running
+            off the right edge rather than hanging from the top. */}
+        <motion.div style={{ y: pv(yCane) }} className="absolute inset-0">
+          <img src="/images/hero/frame/cane.webp" alt="" className="absolute -bottom-[2%] right-[-8%] sm:right-[-4%] lg:right-0 h-[44%] sm:h-[40%] lg:h-[52%] w-auto max-w-none" />
         </motion.div>
 
-        {/* Sugarcane, one supplied clump per side, each drawn for its own corner — no
-            mirroring, which would light the plant from the wrong side, and no sway: the art
-            includes the soil the plant stands in, so rocking it tilts the ground with it.
-            Sized by height rather than width. Each stalk base sits 42-58% across its own
-            image, so at a flush left-0/right-0 the leaves reach the corner but the trunk stands
-            well inside it — desktop pushes each plant out by 22% of its width to put the trunk
-            in the corner instead. Below 1024px the shift is half the width, because two full
-            canes cover most of a phone screen. The shift uses motion's own x — a Tailwind -translate-x class
-            would be overwritten by the transform framer-motion composes from y/scale/rotate. */}
-        <motion.img
-          src="/images/hero/parallax/sugarcane_left.webp"
-          alt=""
-          loading="lazy"
-          style={{ x: isMobile ? "-60%" : "-22%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
-          className="absolute bottom-0 left-0 h-[60vh] sm:h-[60vh] w-auto max-w-none origin-bottom drop-shadow-xl"
-        />
-        <motion.img
-          src="/images/hero/parallax/sugarcane_right.webp"
-          alt=""
-          loading="lazy"
-          style={{ x: isMobile ? "70%" : "22%", y: pv(isMobile ? yCaneMobile : yCane), scale: pv(isMobile ? sCaneMobile : sCane) }}
-          className="absolute bottom-0 right-0 h-[60vh] sm:h-[60vh] w-auto max-w-none origin-bottom drop-shadow-xl"
-        />
+        {/* Hemp, bottom left */}
+        <motion.div style={{ y: pv(yHemp) }} className="absolute inset-0">
+          <img src="/images/hero/frame/hemp.webp" alt="" loading="lazy" className="absolute -bottom-[2%] left-[-8%] sm:left-[-3%] lg:left-0 h-[28%] sm:h-[26%] lg:h-[32%] w-auto max-w-none" />
+        </motion.div>
 
+        {/* Mushrooms, bottom right and nearest the viewer: they rise fastest and grow. Sat at
+            the foot of the cane, so the right corner reads as one clump front to back. */}
+        <motion.div style={{ y: pv(yMush), scale: pv(sMush) }} className="absolute inset-x-0 bottom-0 origin-bottom">
+          <img src="/images/hero/frame/mushrooms.webp" alt="" loading="lazy" className="absolute -bottom-[1%] right-[1%] sm:right-[2%] lg:right-[3%] w-[28%] sm:w-[15%] lg:w-[11%] h-auto" />
+        </motion.div>
       </motion.div>
+
 
       {/* DESKTOP: latest episode card, vertically centered, pulled in toward the text */}
       <LatestPodcastCard latest={episodes[0]} className="pointer-events-auto hidden lg:block absolute right-[13%] top-1/2 -translate-y-1/2 z-30" />
