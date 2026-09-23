@@ -292,7 +292,25 @@ function matchRoundup(title: string, published: string, videos: YoutubeVideo[]) 
   return scored.sort((a, b) => b.rank - a.rank || a.gap - b.gap)[0]?.v;
 }
 
-function matchYoutube(title: string, published: string, videos: YoutubeVideo[], ep = 0) {
+/**
+ * The guest's surname, if the video title carries it. Uploads get retitled — the episode
+ * behind "#105 Branding as Being with Raphael Bemporad" went up as "Purpose-Driven Branding:
+ * Why Sustainable Brands Win | Raphael Bemporad", leaving nothing of the episode title behind
+ * except the guest. The Short cut from it kept no name at all, so this separates the two when
+ * both went up the same day and neither can be matched on title.
+ */
+function carriesGuest(videoTitles: string[], guest: string): boolean {
+  // norm() strips spaces along with the punctuation, so it cannot be used to compare words —
+  // and a substring test would let "doe" match "does". Split on non-alphanumerics instead and
+  // require the surname to be a whole word, which is what makes a three-letter name safe.
+  const words = (s: string) => s.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  const parts = words(guest).filter((w) => !["dr", "mr", "ms", "mrs", "prof"].includes(w));
+  const surname = parts[parts.length - 1] ?? "";
+  if (surname.length < 3) return false;
+  return videoTitles.some((y) => words(y).includes(surname));
+}
+
+function matchYoutube(title: string, published: string, videos: YoutubeVideo[], ep = 0, guest = "") {
   if (isRoundup(title)) return matchRoundup(title, published, videos);
 
   const candidates = videos
@@ -300,10 +318,11 @@ function matchYoutube(title: string, published: string, videos: YoutubeVideo[], 
       v,
       // An episode number carried by both titles is an identifier, not a resemblance: it
       // outranks every similarity score, which is what separates "#105 Title" from the
-      // Short titled plain "Title".
+      // Short titled plain "Title". Failing that, the guest's name in the video title is
+      // worth more than nothing and less than a real title match.
       rank: ep > 0 && v.titles.some((y) => episodeNumber(y) === ep)
-        ? 5
-        : Math.max(...v.titles.map((y) => titleRank(title, y))),
+        ? 10
+        : Math.max(...v.titles.map((y) => titleRank(title, y))) + (carriesGuest(v.titles, guest) ? 1.5 : 0),
       gap: daysApart(v.date, published),
     }))
     .filter((c) => c.rank > 0);
@@ -373,7 +392,7 @@ export function parseFeed(xml: string, extraVideos: YoutubeVideo[] = [], appleEp
       const guest = isRoundup(title) ? "" : guestFrom(title);
       const clean = stripEpisodeNumber(title);
       const iso = Number.isNaN(published.valueOf()) ? "" : published.toISOString().slice(0, 10);
-      const yt = matchYoutube(clean, iso, videos, episodeNumber(title));
+      const yt = matchYoutube(clean, iso, videos, episodeNumber(title), guest);
       return {
         ep: episodeNumber(title),
         id: slug(clean),

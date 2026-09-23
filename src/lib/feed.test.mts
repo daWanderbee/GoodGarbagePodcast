@@ -191,3 +191,24 @@ test("a lone same-day upload is still taken", () => {
   const [e] = parseFeed(`<rss>${item("Composting Works with Jane Doe | #42")}</rss>`, videos);
   assert.equal(e.watch, "https://www.youtube.com/watch?v=only");
 });
+
+test("a retitled upload is still found by the guest's surname", () => {
+  // Both went up the same day, neither title survived the rename, and only the full episode
+  // kept the guest's name — which is the whole signal left.
+  const videos = [
+    { videoId: "short", titles: ["Branding isn't marketing. It's who you are."], thumbnail: "t/short", date: "1999-01-04", apple: null },
+    { videoId: "full", titles: ["Purpose-Driven Branding: Why Sustainable Brands Win | Jane Doe"], thumbnail: "t/full", date: "1999-01-04", apple: null },
+  ];
+  const [e] = parseFeed(`<rss>${item("Composting Works with Jane Doe | #42")}</rss>`, videos);
+  assert.equal(e.watch, "https://www.youtube.com/watch?v=full");
+  assert.equal(e.thumbnail, "t/full");
+});
+
+test("a guest name alone never beats a real title match", () => {
+  const videos = [
+    { videoId: "namedrop", titles: ["Some Other Episode Mentioning Jane Doe"], thumbnail: "t/name", date: "1999-01-04", apple: null },
+    { videoId: "real", titles: ["Composting Works with Jane Doe"], thumbnail: "t/real", date: "1999-01-04", apple: null },
+  ];
+  const [e] = parseFeed(`<rss>${item("Composting Works with Jane Doe | #42")}</rss>`, videos);
+  assert.equal(e.watch, "https://www.youtube.com/watch?v=real");
+});
