@@ -24,7 +24,9 @@ export function HomeClient({ episodes }: { episodes: Episode[] }) {
   return (
     <div className="bg-background relative">
       {/* 1. Hero Layer: fixed slide-over on every breakpoint — content scrolls up over it */}
-      <div className="fixed inset-0 h-screen w-full z-0 lg:pointer-events-none">
+      {/* svh, not vh: on a phone the browser toolbar covers the bottom of a 100vh box, and that
+          is exactly where the hero plants stand. svh is the height that is always visible. */}
+      <div className="fixed inset-0 h-svh w-full z-0 lg:pointer-events-none">
         <Hero
           rawScroll={rawScroll}
           smoothScroll={smoothScroll}
@@ -33,7 +35,7 @@ export function HomeClient({ episodes }: { episodes: Episode[] }) {
       </div>
 
       {/* 2. Content Stack: starts one screen down, then slides over the fixed Hero */}
-      <div className="relative z-10 mt-[100vh]">
+      <div className="relative z-10 mt-[100svh]">
         {/* The sections now slide directly over the fixed Hero */}
         <LatestEpisode latest={latest} />
         <ScrollingMarquee />

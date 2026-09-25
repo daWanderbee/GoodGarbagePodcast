@@ -16,9 +16,9 @@ const SCALE = 3;
     const { width, height } = await img.metadata();
     const info = await img
       .resize(width * SCALE, height * SCALE, { kernel: 'lanczos3' })
-      // sigma ~1.2 suits line art: tightens the stroke edge without ringing the flat fills
-      .sharpen({ sigma: 1.2, m1: 0.6, m2: 2.2 })
-      .webp({ quality: 90, alphaQuality: 100 })
+      .sharpen({ sigma: 1.8, m1: 1.8, m2: 4.5 })
+      .linear(1.08, -8)
+      .webp({ quality: 95, alphaQuality: 100 })
       .toFile(OUT + name + '.webp');
     console.log(name, info.width + 'x' + info.height, Math.round(info.size / 1024) + 'KB');
   }
