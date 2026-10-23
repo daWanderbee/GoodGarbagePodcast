@@ -7,6 +7,7 @@ import { ScrollingMarquee } from "@/components/ScrollingMarquee";
 import { AboutPodcast } from "@/components/AboutPodcast";
 import { PlatformLinks } from "@/components/PlatformLinks";
 import { CollaborationCTA } from "@/components/CollaborationCTA";
+import { NewsletterSection } from "@/components/NewsletterSection";
 import { Footer } from "@/components/Footer";
 import type { Episode } from "@/lib/feed";
 
@@ -41,6 +42,7 @@ export function HomeClient({ episodes }: { episodes: Episode[] }) {
         <ScrollingMarquee />
         <CollaborationCTA />
         <AboutPodcast />
+        <NewsletterSection />
         <PlatformLinks />
         <Footer />
       </div>

@@ -13,6 +13,7 @@ interface ButtonProps {
   icon?: ReactNode;
   fullWidth?: boolean;
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 export function Button({ 
@@ -21,8 +22,9 @@ export function Button({
   onClick, 
   className = "", 
   icon,
-  fullWidth = false,
-  disabled = false
+  fullWidth = false, 
+  disabled = false,
+  type = "button"
 }: ButtonProps) {
   
   const variants = {
@@ -36,6 +38,7 @@ export function Button({
 
   return (
     <motion.button
+      type={type}
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98, y: 0 }}
       onClick={onClick}

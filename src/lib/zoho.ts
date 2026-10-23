@@ -14,7 +14,7 @@ const dc = () => process.env.ZOHO_DATA_CENTER ?? "in";
 
 type Creds = { client_id: string; client_secret: string; refresh_token: string };
 
-function credentials(): Creds | null {
+export function credentials(): Creds | null {
   const { ZOHO_CLIENT_ID, ZOHO_CLIENT_SECRET, ZOHO_REFRESH_TOKEN, ZOHO_TOKEN_FILE } = process.env;
   if (ZOHO_CLIENT_ID && ZOHO_CLIENT_SECRET && ZOHO_REFRESH_TOKEN) {
     return {

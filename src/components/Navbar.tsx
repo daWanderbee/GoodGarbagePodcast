@@ -7,6 +7,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { X, Leaf } from "lucide-react";
 import { Button } from "./ui/Button";
+import { NewsletterModal } from "./NewsletterModal";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -23,6 +24,7 @@ export function Navbar() {
   // Hide the nav logo only over the home hero (top of page); the hero shows its own logo.
   const hideLogo = pathname === "/" && !isScrolled;
   const [menuOpen, setMenuOpen] = useState(false);
+  const [newsletterOpen, setNewsletterOpen] = useState(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 50) {
@@ -83,7 +85,15 @@ export function Navbar() {
       </div>
 
       {/* CTA Button & Mobile Trigger */}
-      <div className="flex items-center gap-2 md:gap-4 pointer-events-auto">
+      <div className="flex items-center gap-2 md:gap-3 pointer-events-auto">
+        <Button
+          onClick={() => setNewsletterOpen(true)}
+          variant="glass"
+          className={`hidden sm:flex items-center gap-1.5 md:gap-2 !py-1.5 !px-3 md:!py-2 md:!px-4 !text-[9px] md:!text-xs h-7 md:h-9 lg:h-10 border-current font-black whitespace-nowrap transition-all duration-300 shadow-md hover:scale-105 ${textColorClass} ${borderColorClass}`}
+        >
+          <span>Subscribe for Newsletter</span>
+        </Button>
+
         <Link href="/contact">
           <Button
             variant="glass"
@@ -157,11 +167,23 @@ export function Navbar() {
             </nav>
 
             <div className="mt-auto px-6 py-8 border-t border-white/15">
-              <Link href="/contact" onClick={() => setMenuOpen(false)}>
-                <Button variant="glass" className="w-full flex items-center justify-center gap-2.5 !text-white border-white/40 !h-12 !text-xs font-black uppercase tracking-widest shadow-xl hover:bg-white/10">
-                  ⚡ Collaborate with Our Team
+              <div className="grid grid-cols-2 gap-2">
+                <Link href="/contact" onClick={() => setMenuOpen(false)} className="w-full">
+                  <Button variant="glass" className="w-full flex items-center justify-center !text-white border-white/40 !h-12 !text-[9px] sm:!text-[10px] font-black uppercase tracking-wider shadow-xl hover:bg-white/10 text-center !px-2 leading-tight">
+                    Collaborate with Our Team
+                  </Button>
+                </Link>
+                <Button 
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setNewsletterOpen(true);
+                  }}
+                  variant="glass" 
+                  className="w-full flex items-center justify-center !text-white border-white/40 !h-12 !text-[9px] sm:!text-[10px] font-black uppercase tracking-wider shadow-xl hover:bg-white/10 text-center !px-2 leading-tight"
+                >
+                  Subscribe for Newsletter
                 </Button>
-              </Link>
+              </div>
               <p className="mt-5 flex items-center gap-2 text-[10px] uppercase font-bold tracking-[0.25em] text-white/50">
                 <Leaf className="w-3.5 h-3.5" /> A podcast by Pakka
               </p>
@@ -170,6 +192,8 @@ export function Navbar() {
         </>
       )}
     </AnimatePresence>
+
+    <NewsletterModal isOpen={newsletterOpen} onClose={() => setNewsletterOpen(false)} />
     </>
   );
 }
