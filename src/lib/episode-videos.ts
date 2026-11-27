@@ -109,6 +109,7 @@ export const EPISODE_VIDEOS: Record<string, { videoId: string; title: string }> 
   "systemic-sustainability-goals-with-sander-defruyt": { videoId: "bonecvbLmc4", title: "Systemic Sustainability Goals in Packaging | Sander Defruyt" },
   "the-capability-of-nature-with-brad-rodgers": { videoId: "RwRauwin3LA", title: "Good Garbage with Ved Krishna: The Capability of Nature with Brad Rodgers" },
   "the-dream-of-everyday-biomaterials-with-nuha-siddiqui": { videoId: "cY21_0cufeM", title: "Good Garbage with Ved Krishna: The Dream of Everyday Biomaterials with Nuha Siddiqui" },
+  "the-future-of-packaging-flexibles-printing-and-end-of-life-with-alliso": { videoId: "0ROlj5CsG-k", title: "Flexible Packaging Masterclass: Plastic, Paper & MLPs | Allison Scales" },
   "the-impatient-entrepreneur-lessons-from-alvin-lim": { videoId: "ovc6gH0iLW8", title: "The Impatient Entrepreneur's Guide to Greentech | Alvin Lim" },
   "the-intersection-of-curiosity-and-sustainability-with-kelly-williams": { videoId: "jIPVjkPVFtk", title: "Sustainable Packaging for Long Shelf-Life Food | Kelly Williams" },
   "the-journey-of-funding-a-good-mission-with-jenny-garbis": { videoId: "MpKNRw8NTkI", title: "Good Garbage with Ved Krishna: The Journey of Funding a Good Mission with Jenny Garbis" },
