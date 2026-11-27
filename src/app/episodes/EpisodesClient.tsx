@@ -105,7 +105,7 @@ export function EpisodesClient({ episodes }: { episodes: Episode[] }) {
                   {/* Curvy Thumbnail Area */}
                   <div className="relative mb-5 aspect-video w-full overflow-hidden rounded-[26px] bg-[#038f90]/10 shrink-0">
                     <Image
-                      src={e.thumbnail || "/images/episodes/latest.png"}
+                      src={e.thumbnail || "/images/episodes/latest.webp"}
                       alt={e.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

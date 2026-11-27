@@ -30,7 +30,7 @@ export function LatestEpisode({ latest }: { latest: Episode }) {
             className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl group"
           >
             <Image
-              src={latest.thumbnail || "/images/episodes/latest.png"}
+              src={latest.thumbnail || "/images/episodes/latest.webp"}
               alt={latest.title}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"

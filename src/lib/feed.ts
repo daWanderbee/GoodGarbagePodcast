@@ -446,7 +446,10 @@ export function parseFeed(xml: string, extraVideos: YoutubeVideo[] = [], appleEp
     e.video = {
       videoId: known.videoId,
       titles: [known.title],
-      thumbnail: `https://i.ytimg.com/vi/${known.videoId}/maxresdefault.jpg`,
+      // Some older uploads have no maxresdefault; youtube-episodes.ts records the size that exists.
+      thumbnail:
+        YOUTUBE_VIDEOS.find((v) => v.videoId === known.videoId)?.thumbnail ??
+        `https://i.ytimg.com/vi/${known.videoId}/maxresdefault.jpg`,
       date: e.published,
       apple: null,
     };

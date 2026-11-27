@@ -34,7 +34,7 @@ export function PlatformLinks() {
       {/* Watercolor Texture Overlay */}
       <div className="absolute inset-0 opacity-40 pointer-events-none mix-blend-soft-light">
         <Image
-          src="/images/textures/watercolor.png"
+          src="/images/textures/watercolor.webp"
           alt="Watercolor Paper Texture"
           fill
           className="object-cover"

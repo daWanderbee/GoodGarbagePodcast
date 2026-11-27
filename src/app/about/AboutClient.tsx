@@ -98,7 +98,7 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
               className="relative aspect-[4/5] rounded-[36px] overflow-hidden bg-[#0d6e4e]/10 shadow-xl ring-1 ring-[#0d6e4e]/20 group mt-8 lg:mt-12"
             >
               <Image
-                src="/images/episodes/latest.png"
+                src="/images/episodes/latest.webp"
                 alt="Compostable Materials Artwork"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -125,7 +125,7 @@ export function AboutClient({ episodeCount }: { episodeCount: number }) {
             >
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/20">
                 <Image
-                  src="/images/hero/ved_dt.png"
+                  src="/images/hero/ved_dt.webp"
                   alt="Ved Krishna - Host of Good Garbage Podcast"
                   fill
                   sizes="(max-width: 768px) 90vw, 450px"

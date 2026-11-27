@@ -48,7 +48,7 @@ export function AboutPodcast() {
               <a href="/about" className="flex items-center gap-3 pt-2 group w-fit">
                 <div className="w-11 h-11 rounded-full bg-background overflow-hidden flex-shrink-0 border-2 border-[#038f90]/30 shadow-md">
                   <Image
-                    src="/images/hero/host_mobile.png"
+                    src="/images/hero/host_mobile.webp"
                     alt="Ved Krishna - Host"
                     width={44}
                     height={44}
